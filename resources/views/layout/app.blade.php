@@ -45,7 +45,7 @@
                                 <li>
                                     <a class="nav-link" href="{{route('profile')}}">Mi perfil</a>
                                 </li>
-                                <li><a class="nav-link" href="#">Cerrar Sesión</a></li>
+                                <li><a class="nav-link" href="{{route('logout')}}">Cerrar Sesión</a></li>
                             </div>
                         </div>
                     </div>
