@@ -55,7 +55,7 @@
                             <a href="{{route('register')}}" class="nav-link">Regístrate</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{url('/')}}" class="nav-link">Publica Gratis</a>
+                            <a href="{{route('post.create')}}" class="nav-link">Publica Gratis</a>
                         </li>
                     </ul>
                 @endif
