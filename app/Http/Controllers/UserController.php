@@ -32,6 +32,13 @@ class UserController extends Controller
         }
     }
 
+    public function logout(Request $request)
+    {
+        session()->flush();
+
+        return route('/');
+    }
+
     public function store(UserRegisterRequest $request)
     {
         $user = new User;
