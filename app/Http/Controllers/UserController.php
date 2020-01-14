@@ -36,7 +36,7 @@ class UserController extends Controller
     {
         session()->flush();
 
-        return view('home');
+        return redirect()->route('home');
     }
 
     public function store(UserRegisterRequest $request)
