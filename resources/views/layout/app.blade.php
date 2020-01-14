@@ -21,41 +21,50 @@
 </head>
 
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white">
-            <div class="container">
-                <a class="navbar-brand" href="{{url('/')}}">
-                    {{config('app.name', 'Bolsa de empleo')}}
-                </a>
+<div id="app">
+    <nav class="navbar navbar-expand-md navbar-light bg-white">
+        <div class="container">
+            <a class="navbar-brand" href="{{url('/')}}">
+                {{config('app.name', 'Bolsa de empleo')}}
+            </a>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div id="navbarSupportedContent" class="collapse navbar-collapse">
+            <div id="navbarSupportedContent" class="collapse navbar-collapse">
+                @if(session()->has('id'))
+                    <div class="navbar-nav ml-auto">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle ml-auto" type="button" id="dropDownUser"
+                                    data-toggle="dropdown" aria-expanded="false"
+                                    aria-haspopup="true">{{$user->name}}</button>
+                            <div class="dropdown-menu" aria-labelledby="dropDownUser">
+                                <li>
+                                    <a class="nav-link" href="{{route('profile')}}">Mi perfil</a>
+                                </li>
+                                <li><a class="nav-link" href="#">Cerrar Sesión</a></li>
+                            </div>
+                        </div>
+                    </div>
+                @else
                     <ul class="navbar-nav ml-auto">
-                        @if(session()->has('id'))
-                            <li>
-                                <a class="nav-link" href="{{route('profile')}}">Mi perfil</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Cerrar Sesión</a></li>
-                                </ul>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a href="{{route('register')}}" class="nav-link">Regístrate</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{url('/')}}" class="nav-link">Publica Gratis</a>
-                            </li>
-                        @endif
+                        <li class="nav-item">
+                            <a href="{{route('register')}}" class="nav-link">Regístrate</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('/')}}" class="nav-link">Publica Gratis</a>
+                        </li>
                     </ul>
-                </div>
+                @endif
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <main class="py-3">
-            @yield('content')
-        </main>
-    </div>
+    <main class="py-3">
+        @yield('content')
+    </main>
+</div>
 </body>
