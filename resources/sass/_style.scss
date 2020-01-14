@@ -6,6 +6,8 @@
 }
 
 .form {
+  display: none;
+  position: absolute;
   padding: 20px;
   background-color: #ffffff;
   border: 1px solid #e5e5e5;
@@ -13,4 +15,11 @@
   -webkit-box-shadow:  0px 5px 4px #9a9a9a;
   -moz-box-shadow:  0px 5px 4px #9a9a9a;
   box-shadow:  0px 5px 4px #9a9a9a;
+}
+
+.file {
+  padding: 20px;
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #e5e5e5;
 }

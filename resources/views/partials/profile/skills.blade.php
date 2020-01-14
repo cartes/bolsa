@@ -17,22 +17,22 @@
             <button type="submit" class="btn btn-primary">Guardar los Datos</button>
         </form>
     </div>
-</div>
+    @if($user->UserSkills)
+        <div class="file col-md-8 my-2">
+            <h3 class="text-center">Conocimientos</h3>
 
-<div class="row justify-content-center mt-3">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-body">
-                <div class="align-content-center">
-                    @if($user->UserSkills)
+            <div class="card my-3">
+                <div class="card-body">
+                    <div class="align-content-center">
                         @foreach($user->UserSkills as $skill)
                             <span class="badge-xl badge-pill badge-info">{{$skill->skill}}</span>
                         @endforeach
-                    @else
-                        <p>Aun no has cargado ningún idioma que domines.</p>
-                    @endif
+                        @else
+                            <p>Aun no has cargado ningún idioma que domines.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>
+

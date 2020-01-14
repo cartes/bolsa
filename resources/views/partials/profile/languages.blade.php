@@ -1,4 +1,4 @@
-<div class="row justify-content-center mt-3">
+<div class="row justify-content-center">
     <div class="col-md-8">
         <form class="form" method="post" action="{{ route('profile.languages') }}">
             <h3 class="text-center">Idiomas</h3>
@@ -48,30 +48,28 @@
             <button type="submit" class="btn btn-primary">Guardar los Datos</button>
         </form>
     </div>
-</div>
 
-@if($user->UserLanguage)
-    @foreach($user->UserLanguage as $lang)
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-8">
-                <div class="card">
+    @if($user->UserLanguage)
+        <div class="file col-md-8 my-2">
+            <h3 class="text-center">Dominio de idiomas</h3>
+            @foreach($user->UserLanguage as $lang)
+                <div class="card my-3">
                     <div class="card-body">
                         <h4>{{$lang->language}}</h4>
                         <h6>Escrito: {{$lang->level_written}} - Oral: {{$lang->level_spoken}}</h6>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-    @endforeach
 
-@else
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-8">
+    @else
+        <div class="file col-md-8">
             <div class="card">
                 <div class="card-body">
                     <p>Aun no has cargado ningún idioma que domines.</p>
                 </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
+</div>
+

@@ -37,6 +37,9 @@
                         @if(session()->has('id'))
                             <li>
                                 <a class="nav-link" href="{{route('profile')}}">Mi perfil</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Cerrar Sesión</a></li>
+                                </ul>
                             </li>
                         @else
                             <li class="nav-item">

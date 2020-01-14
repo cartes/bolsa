@@ -142,13 +142,12 @@
             <button type="submit" class="btn btn-primary">Guardar los Datos</button>
         </form>
     </div>
-</div>
 
-@if($user->userEducation)
-    @foreach($user->userEducation as $education)
-        <div class="row justify-content-center my-3">
-            <div class="col-md-8">
-                <div class="card">
+    @if($user->userEducation)
+        <div class="file col-md-8 my-2">
+            <h3 class="text-center">Educación</h3>
+            @foreach($user->userEducation as $education)
+                <div class="card my-3">
                     <div class="card-header">
                         <h4><strong>{{$education->title}}</strong> en {{$education->institution}}</h4>
                         <p>
@@ -161,7 +160,8 @@
                         <p>{{$education->condition}}</p>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-    @endforeach
-@endif
+    @endif
+</div>
+

@@ -17,15 +17,14 @@
             <button type="submit" class="btn btn-primary">Guardar los Datos</button>
         </form>
     </div>
-</div>
 
-@if($user->UserMeta->objectives)
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-8">
-            <h3 class="text-center">Objetivos Laboral</h3>
+    @if($user->UserMeta->objectives)
+        <div class="file col-md-8 my-2">
+            <h3 class="text-center">Objetivos Laborales</h3>
             <p>
                 {{$user->UserMeta->objectives}}
             </p>
         </div>
-    </div>
-@endif
+    @endif
+</div>
+

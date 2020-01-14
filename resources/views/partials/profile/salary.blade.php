@@ -17,13 +17,11 @@
             <button type="submit" class="btn btn-primary">Guardar los Datos</button>
         </form>
     </div>
-</div>
-
-@if($user->userMeta->pretentions)
-    <div class="row justify-content-center">
-        <div class="col-md-8 my-3">
+    @if($user->userMeta->pretentions)
+        <div class="file col-md-8 my-2">
             <h3 class="text-center">Pretensiones salariales</h3>
             <h6 class="text-center">Sueldo bruto pretendido: {{$user->userMeta->pretentions}}</h6>
         </div>
-    </div>
-@endif
+    @endif
+</div>
+

@@ -164,13 +164,11 @@
             <button type="submit" class="btn btn-primary">Guardar los Datos</button>
         </form>
     </div>
-</div>
-
-@if($user->userExperience)
-    @foreach($user->userExperience as $experience)
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-8">
-                <div class="card">
+    @if($user->userExperience)
+        <div class="file col-md-8 my-2">
+            <h3 class="text-center">Experiencia laboral</h3>
+            @foreach($user->userExperience as $experience)
+                <div class="card my-3">
                     <div class="card-header">
                         <h4>{{$experience->business_position}}</h4>
                         <p>
@@ -182,7 +180,8 @@
                         {{$experience->description}}
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-    @endforeach
-@endif
+    @endif
+</div>
+
