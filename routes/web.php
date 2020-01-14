@@ -18,13 +18,14 @@ Route::post('/home', function () {
     return view('home');
 })->name('home');
 
-Route::get('/register', function (){
+Route::get('/register', function () {
     return view('user.register');
 })->name('register');
-Route::post('/login','UserController@login')->name('login');
-Route::post('/store','UserController@store')->name('store');
+Route::post('/login', 'UserController@login')->name('login');
+Route::get('/logout', 'UserController@logout')->name('logout');
+Route::post('/store', 'UserController@store')->name('store');
 
-Route::group(["prefix" => "profile"], function() {
+Route::group(["prefix" => "profile"], function () {
     Route::get('/', 'ProfileController@index')->name('profile');
     Route::put('profile/update', 'ProfileController@update')->name('profile.update');
     Route::put('profile/salary', 'ProfileController@salary')->name('profile.salary');
