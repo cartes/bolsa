@@ -32,13 +32,13 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('id_user');
             $table->foreign('id_user')->references('id')->on('aquabe_users');
-            $table->string('pretentions');
-            $table->string('phone');
-            $table->string('address');
-            $table->string('comune');
-            $table->string('city');
-            $table->string('state');
-            $table->string('objectives');
+            $table->string('pretentions')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('comune')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('objectives')->nullable();
             $table->timestamps();
         });
 
@@ -50,14 +50,15 @@ class CreateUsersTable extends Migration
             $table->string('business_activity');
             $table->string('business_position');
             $table->string('experience_level');
-            $table->string('month_from');
-            $table->string('year_from');
-            $table->string('month_to');
-            $table->string('year_to');
+            $table->string('month_from')->nullable();
+            $table->string('year_from')->nullable();
+            $table->string('month_to')->nullable();
+            $table->string('year_to')->nullable();
+            $table->boolean('to_present')->nullable();
             $table->string('area');
             $table->string('sub_area');
             $table->string('description');
-            $table->integer('dependents');
+            $table->integer('dependents')->nullable();
             $table->timestamps();
         });
 
@@ -70,11 +71,12 @@ class CreateUsersTable extends Migration
             $table->string('condition');
             $table->string('title');
             $table->string('area');
-            $table->string('month_from');
-            $table->string('year_from');
-            $table->string('month_to');
-            $table->string('year_to');
-            $table->string('institution');
+            $table->string('month_from')->nullable();
+            $table->string('year_from')->nullable();
+            $table->string('month_to')->nullable();
+            $table->string('year_to')->nullable();
+            $table->boolean('to_present')->nullable();
+            $table->text('institution');
             $table->timestamps();
         });
 

@@ -22,6 +22,7 @@ class Offers extends Migration
             $table->boolean('handicapped');
             $table->string('area');
             $table->string('sub_area');
+            $table->string('country');
             $table->string('address');
             $table->string('city');
             $table->string('state');
@@ -30,6 +31,7 @@ class Offers extends Migration
             $table->string('benefits')->nullable();
             $table->string('requirements')->nullable();
             $table->integer('period');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
 
