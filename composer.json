@@ -13,7 +13,8 @@
         "fideloper/proxy": "^4.0",
         "freshwork/chilean-bundle": "^2.1",
         "laravel/framework": "^6.2",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "tinymce/tinymce": "^5.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
