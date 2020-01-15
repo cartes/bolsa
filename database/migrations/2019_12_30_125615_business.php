@@ -42,6 +42,7 @@ class Business extends Migration
             $table->string('entry')->comment('Este es el rubro')->nullable(); // RUBRO
             $table->integer('employees');
             $table->string('rotation')->nullable();
+            $table->timestamps();
         });
     }
 
