@@ -47,6 +47,7 @@ class BusinessMeta extends Model
 {
 
     protected $table = "aquabe_business_meta";
+    protected $fillable = ['id_business', 'rut_business', 'business_name', 'fantasy_name', 'activity', 'address', 'comune', 'city', 'state', 'phone', 'logo', 'entry', 'employees', 'rotation'];
 
     public function business()
     {
