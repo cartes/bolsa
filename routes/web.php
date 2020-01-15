@@ -39,5 +39,6 @@ Route::group(["prefix" => "profile"], function () {
 
 Route::prefix('posts')->group(function() {
     Route::get('create', 'PostController@postCreateForm')->name('post.create');
+    Route::put('register', 'PostController@register')->name('post.register');
 });
 
