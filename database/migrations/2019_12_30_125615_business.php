@@ -20,7 +20,7 @@ class Business extends Migration
             $table->string('firstname');
             $table->string('surname');
             $table->string('email')->unique();
-            $table->string('position');
+            $table->string('position')->nullable();
             $table->string('phone');
             $table->timestamps();
         });
