@@ -33,15 +33,15 @@ class Business extends Migration
             $table->string('business_name');
             $table->string('fantasy_name');
             $table->string('activity');
-            $table->string('address');
-            $table->string('comune');
-            $table->string('city');
-            $table->string('state');
+            $table->string('address')->nullable();
+            $table->string('comune')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
             $table->string('phone');
-            $table->string('logo');
-            $table->string('entry'); // RUBRO
+            $table->string('logo')->nullable();
+            $table->string('entry')->comment('Este es el rubro')->nullable(); // RUBRO
             $table->integer('employees');
-            $table->string('rotation');
+            $table->string('rotation')->nullable();
         });
     }
 
