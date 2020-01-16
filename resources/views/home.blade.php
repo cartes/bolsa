@@ -5,7 +5,7 @@
     <div class="container">
         @isset($code)
             <div class="row justify-content-center">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     @if($code == "200")
                         <div class="alert alert-success" role="alert">
                             {{$message}}
@@ -21,7 +21,7 @@
 
         <div class="row justify-content-center">
 
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <h1 class="text-center">Bienvenido</h1>
                 <h2 class="text-center">Ingresar a {{config('app.name')}}</h2>
                 @if(!session()->has('id'))
