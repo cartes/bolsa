@@ -52,6 +52,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Candidates[] $candidates
  * @property string|null $status
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereStatus($value)
+ * @property string $country
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereCountry($value)
  */
 class Offers extends Model
 {
