@@ -22,7 +22,11 @@ class UserController extends Controller
         $user = User::where('email', $usr)->first();
 
         if (Hash::check($request->password, $user->password)) {
-            session(['id' => $user->id, 'name' => $user->name . ' ' . $user->surname]);
+            session([
+                'id' => $user->id,
+                'role' => 'user',
+                'name' => $user->name . ' ' . $user->surname
+            ]);
             return view('home', compact('user'));
         } else {
             return view('home', [
