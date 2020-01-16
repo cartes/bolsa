@@ -1,5 +1,14 @@
 <form class="form-business" method="post" action="{{route('post.register')}}">
-    <h3 class="text-center mb-3">Crea tu cuenta</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="text-left mb-3">Crea tu cuenta</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="login-container text-right">
+                <a href="{{route('business.index')}}" class="btn btn-primary">Ya tengo Cuenta</a>
+            </div>
+        </div>
+    </div>
     @csrf
     @method("PUT")
     <div class="row">
@@ -65,7 +74,8 @@
     <div class="row">
         <div class="col-md-12 form-group">
             <label>Razón Social</label>
-            <input type="text" class="form-control {{$errors->has('business_name') ? 'is-invalid' : ''}}" name="business_name"
+            <input type="text" class="form-control {{$errors->has('business_name') ? 'is-invalid' : ''}}"
+                   name="business_name"
                    value="{{old('business_name')}}"/>
             @if($errors->has('business_name'))
                 <span class="invalid-feedback">{{$errors->first('business_name')}}</span>
