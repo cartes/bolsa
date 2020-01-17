@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $sub_area
  * @property string $address
  * @property string $city
+ * @property string $comune
  * @property string $state
  * @property int|null $salary
  * @property string $position
@@ -62,14 +64,21 @@ class Offers extends Model
      * @var string
      */
     protected $table = "aquabe_offers";
+    protected $fillable = ['id_business', 'title', 'description', 'handicapped', 'area', 'sub_area', 'address', 'country', 'city', 'state', 'salary', 'position', 'benefits', 'requirements', 'period', 'status'];
 
     public function business()
     {
-        return $this->belongsTo('App\Business');
+        return $this->belongsTo('App\Business', 'id_business', 'id');
     }
 
     public function candidates()
     {
         return $this->hasMany('App\Candidates', 'id_offer', 'id');
     }
+
+    public function businessMeta()
+    {
+        return $this->belongsTo('App\BusinessMeta', 'id_business', 'id_business');
+    }
+
 }
