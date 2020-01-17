@@ -25,6 +25,7 @@ class Offers extends Migration
             $table->string('country');
             $table->string('address');
             $table->string('city');
+            $table->string('comune');
             $table->string('state');
             $table->integer('salary')->nullable();
             $table->string('position');
