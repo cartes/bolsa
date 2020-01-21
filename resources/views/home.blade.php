@@ -6,15 +6,9 @@
         @isset($code)
             <div class="row justify-content-center">
                 <div class="col-md-5">
-                    @if($code == "200")
-                        <div class="alert alert-success" role="alert">
-                            {{$message}}
-                        </div>
-                    @else
-                        <div class="alert alert-danger" role="alert">
-                            {{$message}}
-                        </div>
-                    @endif
+                    <div class="alert alert-{{session('message')[0]}}" role="alert">
+                        {{session('message')[1]}}
+                    </div>
                 </div>
             </div>
         @endisset
@@ -43,6 +37,7 @@
 
         <div class="row justify-content-center my-3">
             <div class="col-md-8">
+                @isset($offers)
                 @forelse($offers as $offer)
                     <div class="card mb-3">
                         <div class="card-header py-2 px-3">
@@ -69,6 +64,7 @@
                         </div>
                     </div>
                 @endforelse
+                @endisset
             </div>
         </div>
     </div>

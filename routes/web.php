@@ -11,16 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+Route::get('/', 'Controller@index');
+Route::get('/home', 'Controller@index')->name('home');
 
 Route::get('/register', function () {
     return view('user.register');
 })->name('register');
+
 Route::post('/login', 'UserController@login')->name('login');
 Route::get('/logout', 'UserController@logout')->name('logout');
 Route::post('/store', 'UserController@store')->name('store');
@@ -42,3 +39,10 @@ Route::prefix('posts')->group(function() {
     Route::put('register', 'PostController@register')->name('post.register');
 });
 
+Route::prefix('business')->group(function () {
+    Route::get('index', 'BusinessController@index')->name('business.index');
+    Route::post('login', 'BusinessController@login')->name('business.login');
+    Route::put('create', 'BusinessController@createOffer')->name('create.offer');
+    Route::get('profile', 'BusinessController@profileIndex')->name('business.profile');
+    Route::put('update', 'BusinessController@updateProfile')->name('business.update');
+});
