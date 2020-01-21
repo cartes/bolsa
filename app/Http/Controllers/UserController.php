@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PersonalDataRequest;
 use App\Http\Requests\UserRegisterRequest;
+use App\Offers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +21,11 @@ class UserController extends Controller
     {
         $usr = $request->email;
         $user = User::where('email', $usr)->first();
+        $offers = Offers::withCount('candidates')
+            ->with('business')
+            ->with('businessMeta')
+            ->latest()
+            ->paginate(20);
 
         if (Hash::check($request->password, $user->password)) {
             session([
@@ -27,12 +33,9 @@ class UserController extends Controller
                 'role' => 'user',
                 'name' => $user->name . ' ' . $user->surname
             ]);
-            return view('home', compact('user'));
+            return view('home', compact('user', 'offers'));
         } else {
-            return view('home', [
-                'code' => 400,
-                'message' => 'Combinación email y clave no corresponden'
-            ]);
+            return back()->with('message', [ 'danger', 'Combinación email y clave no corresponden']);
         }
     }
 
