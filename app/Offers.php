@@ -64,7 +64,7 @@ class Offers extends Model
      * @var string
      */
     protected $table = "aquabe_offers";
-    protected $fillable = ['id_business', 'title', 'description', 'handicapped', 'area', 'sub_area', 'address', 'country', 'city', 'state', 'salary', 'position', 'benefits', 'requirements', 'period', 'status'];
+    protected $fillable = ['id_business', 'title', 'slug', 'description', 'handicapped', 'area', 'sub_area', 'address', 'country', 'city', 'state', 'salary', 'position', 'benefits', 'requirements', 'period', 'status'];
 
     public function business()
     {
