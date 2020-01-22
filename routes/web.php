@@ -34,7 +34,7 @@ Route::group(["prefix" => "profile"], function () {
     Route::put('profile/skills', 'ProfileController@skills')->name('profile.skills');
 });
 
-Route::prefix('posts')->group(function() {
+Route::prefix('posts')->group(function () {
     Route::get('create', 'PostController@postCreateForm')->name('post.create');
     Route::put('register', 'PostController@register')->name('post.register');
 });
@@ -42,7 +42,12 @@ Route::prefix('posts')->group(function() {
 Route::prefix('business')->group(function () {
     Route::get('index', 'BusinessController@index')->name('business.index');
     Route::post('login', 'BusinessController@login')->name('business.login');
-    Route::put('create', 'BusinessController@createOffer')->name('create.offer');
     Route::get('profile', 'BusinessController@profileIndex')->name('business.profile');
     Route::put('update', 'BusinessController@updateProfile')->name('business.update');
 });
+
+Route::prefix('offer')->group(function () {
+    Route::put('create', 'OfferController@create')->name('offer.create');
+});
+
+Route::post('/search', 'SearchController@result')->name('search');
