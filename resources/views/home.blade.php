@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="container">
-        @isset($code)
+        @if(null!==session('message'))
             <div class="row justify-content-center">
                 <div class="col-md-5">
                     <div class="alert alert-{{session('message')[0]}}" role="alert">
@@ -11,10 +11,9 @@
                     </div>
                 </div>
             </div>
-        @endisset
+        @endif
 
         <div class="row justify-content-center">
-
             <div class="col-md-5">
                 @if(!session()->has('id'))
                     <form class="form-login p-5 my-5" method="post" action="{{route('login')}}">
@@ -35,37 +34,26 @@
             </div>
         </div>
 
-        <div class="row justify-content-center my-3">
+        <div class="row justify-content-center">
             <div class="col-md-8">
-                @isset($offers)
-                @forelse($offers as $offer)
-                    <div class="card mb-3">
-                        <div class="card-header py-2 px-3">
-                            <h3 class="text-capitalize text-left m-0 p-0">
-                                {{$offer->title}} - <span class="small">{{$offer->comune ?? $offer->city}}
-                                    @if($offer->created_at->diffInHours() < 20)
-                                        <span class="badge badge-success">
-                                            {{'Nuevo'}}
-                                        </span>
-                                    @endif
-                                    </span>
-                            </h3>
-                        </div>
-                        <div class="card-body py-2 px-3">
-                            <p class="p-0 m-0">
-                                {{\Illuminate\Support\Str::limit(strip_tags($offer->description), 300)}}
-                            </p>
+                <form method="post" class="form-search" action="{{ route('search') }}">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Busqueda: </label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                            <input type="text" class="form-control" name="query" />
+                                <span class="input-group-btn input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                @empty
-                    <div class="card">
-                        <div class="card-body">
-                            <p>No hay ofertas de trabajo para mostrar!</p>
-                        </div>
-                    </div>
-                @endforelse
-                @endisset
+                </form>
             </div>
         </div>
+
+        @include('partials.offers.result')
     </div>
 @endsection
