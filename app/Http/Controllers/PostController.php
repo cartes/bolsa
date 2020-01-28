@@ -7,6 +7,7 @@ use App\BusinessMeta;
 use App\Http\Requests\BusinessRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -17,22 +18,30 @@ class PostController extends Controller
 
     public function register(BusinessRegisterRequest $request)
     {
+
         $business = new Business;
         $businessMeta = new BusinessMeta;
 
-        $business->rut_user = $request->rut;
+        $business->rut_user = $request->userRut;
         $business->password = Hash::make($request->password);
         $business->firstname = $request->firstname;
         $business->surname = $request->surname;
         $business->email = $request->email;
-        $business->phone = $request->phone;
+        $business->position = $request->position;
+        $business->phone = $request->userPhone;
 
         $business->save();
 
         $businessMeta->id_business = $business->id;
         $businessMeta->rut_business = $request->rut;
         $businessMeta->business_name = $request->business_name;
+        $businessMeta->fantasy_name = $request->fantasy_name;
         $businessMeta->activity = $request->activity;
+        $businessMeta->address = $request->address;
+        $businessMeta->country = $request->country;
+        $businessMeta->state = $request->state;
+        $businessMeta->city = $request->city;
+        $businessMeta->comune = $request->comune;
         $businessMeta->phone = $request->phone;
         $businessMeta->employees = $request->employees;
 

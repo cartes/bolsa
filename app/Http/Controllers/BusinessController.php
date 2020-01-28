@@ -49,30 +49,38 @@ class BusinessController extends Controller
 
     public function updateProfile(BusinessProfileRequest $request)
     {
+
         $id_meta = BusinessMeta::where('id_business', session()->get('id'))->select('id', 'id_business')->first();
 
         BusinessMeta::where('id', $id_meta->id)
             ->update([
                 'business_name' => $request->businessName,
                 'rut_business' => $request->rut_business,
+                'fantasy_name' => $request->fantasy_name,
                 'activity' => $request->activity,
                 'address' => $request->address,
                 'state' => $request->state,
                 'city' => $request->city,
                 'comune' => $request->comune,
                 'phone' => $request->phone,
+                'employees' => $request->employees,
                 'entry' => $request->entry
             ]);
         Business::where('id', session()->get('id'))
             ->update([
                 'email' => $request->email,
                 'firstname' => $request->userName,
-                'surname' => $request->userName,
-                'position' => $request->userName,
+                'surname' => $request->userSurname,
                 'position' => $request->userPosition,
                 'phone' => $request->userPhone,
             ]);
 
         return back()->with('message', ['success', 'Perfil editado correctamente']);
+    }
+
+    public function file($id) {
+        $business = Business::whereId($id)->withCount('offers')->with('business_meta')->first();
+
+        return view('business.file', compact('business'));
     }
 }

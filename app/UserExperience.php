@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -147,4 +148,16 @@ class UserExperience extends Model
         }
     }
 
+    public function getDateDiffAttribute()
+    {
+        $monthTo = $this->attributes['month_to'];
+        $yearTo = $this->attributes['year_to'];
+        $monthFrom = $this->attributes['month_from'];
+        $yearFrom = $this->attributes['year_from'];
+
+        $dateFrom = Carbon::createFromDate($yearFrom, $monthFrom, 1);
+        $dateTo = Carbon::createFromDate($yearTo, $monthTo, 1);
+
+        return $dateFrom->diff($dateTo)->format('%y Años');
+    }
 }

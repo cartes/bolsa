@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,14 +31,27 @@ class Candidates extends Model
 {
 
     protected $table = "aquabe_offers_candidates";
+    protected $filable = ['id_offer', 'id_user'];
 
     public function offers()
     {
-        return $this->belongsTo('App\Offers');
+        return $this->belongsTo('App\Offers', 'id_offer', 'id');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User',  'id_user', 'id');
+    }
+
+    public function getPostulatedAttribute($value)
+    {
+        $publication = $this->attributes['created_at'];
+
+        return Carbon::parse($publication)->diffForHumans();
+    }
+
+    public function getDateAttribute() {
+
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
 }

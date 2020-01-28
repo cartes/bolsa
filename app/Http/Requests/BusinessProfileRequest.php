@@ -30,6 +30,7 @@ class BusinessProfileRequest extends FormRequest
 
         return [
             'businessName' => 'required',
+            'fantasy_name' => 'required',
             'activity' => 'required',
             'email' => 'email|required',
             'address' => 'required',

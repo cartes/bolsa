@@ -1,11 +1,10 @@
 @extends('layout.app')
 
 @section('content')
-
     <div class="container">
         @if(session()->has('message'))
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div class="alert alert-{{session('message')[0]}}" role="alert">
                         {{session('message')[1]}}
                     </div>
@@ -13,6 +12,6 @@
             </div>
         @endif
 
-        @include('partials.business.meta')
+        @include('partials.business.candidates')
     </div>
 @endsection

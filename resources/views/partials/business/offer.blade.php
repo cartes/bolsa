@@ -1,4 +1,4 @@
-<form class="form-offer w-100 my-3 p-4" method="post" action="{{ route('create.offer') }}">
+<form class="form-offer w-100 my-3 p-4" method="post" action="{{ route('offer.create') }}">
     @csrf
     @method('PUT')
     <h3 class="text-center">Publica un Aviso</h3>
@@ -21,7 +21,6 @@
             @if($errors->has('description'))
                 <span class="invalid-feedback">{{$errors->first('description')}}</span>
             @endif
-
         </div>
     </div>
     <div class="row">

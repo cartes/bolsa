@@ -22,6 +22,7 @@ class Business extends Migration
             $table->string('email')->unique();
             $table->string('position')->nullable();
             $table->string('phone');
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -37,11 +38,13 @@ class Business extends Migration
             $table->string('comune')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
+            $table->string('country')->nullable();
             $table->string('phone');
             $table->string('logo')->nullable();
             $table->string('entry')->comment('Este es el rubro')->nullable(); // RUBRO
             $table->integer('employees');
             $table->string('rotation')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

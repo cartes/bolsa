@@ -8,7 +8,7 @@
                 <a class="nav-link" href="{{route('profile')}}">Mi perfil</a>
             </li>
             <li>
-                <a class="nav-link" href="#">Ofertas Postuladas</a>
+                <a class="nav-link" href="{{ route('user.offers') }}">Ofertas Postuladas</a>
             </li>
             <li><a class="nav-link" href="{{route('logout')}}">Cerrar Sesión</a></li>
         </div>

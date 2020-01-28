@@ -17,7 +17,7 @@ class Controller extends BaseController
             ->with('business')
             ->with('businessMeta')
             ->latest()
-            ->paginate(20);
+            ->paginate(10);
 
         return view('home', compact('offers'));
     }

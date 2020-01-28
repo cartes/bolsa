@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Offers
@@ -59,11 +60,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Offers extends Model
 {
-
+    use SoftDeletes;
     /**
      * @var string
      */
     protected $table = "aquabe_offers";
+    protected $withCount = ['candidates'];
     protected $fillable = ['id_business', 'title', 'slug', 'description', 'handicapped', 'area', 'sub_area', 'address', 'country', 'city', 'state', 'salary', 'position', 'benefits', 'requirements', 'period', 'status'];
 
     public function business()
@@ -76,9 +78,29 @@ class Offers extends Model
         return $this->hasMany('App\Candidates', 'id_offer', 'id');
     }
 
+    public function User() {
+        return $this->belongsToMany('App\User');
+    }
+
     public function businessMeta()
     {
         return $this->belongsTo('App\BusinessMeta', 'id_business', 'id_business');
     }
 
+    public function getPublicationAttribute()
+    {
+        $publication = $this->attributes['created_at'];
+
+        return Carbon::parse($publication)->diffForHumans();
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getDateAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
+    }
 }

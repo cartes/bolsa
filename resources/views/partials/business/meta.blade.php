@@ -1,5 +1,5 @@
 <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <form class="form-business" method="post" action="{{ route('business.update') }}">
             @csrf
             @method("PUT")
@@ -22,6 +22,17 @@
                            name="businessName"
                            value="{{old('businessName') ?: $business->business_meta->business_name}}"/>
                     @if($errors->has('business_name'))
+                        <span class="invalid-feedback">{{$errors->first('business_name')}}</span>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>Nombre de Fantasía</label>
+                    <input type="text" class="form-control {{$errors->has('fantasy_name') ? 'is-invalid' : ''}}"
+                           name="fantasy_name"
+                           value="{{old('fantasy_name') ?: $business->business_meta->fantasy_name}}"/>
+                    @if($errors->has('fantasy_name'))
                         <span class="invalid-feedback">{{$errors->first('business_name')}}</span>
                     @endif
                 </div>
@@ -115,6 +126,72 @@
                     @if($errors->has('employees'))
                         <span class="invalid-feedback">{{$errors->first('employees')}}</span>
                     @endif
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Perfil de usuario</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>Nombres</label>
+                    <input type="text" class="form-control {{$errors->has('userName') ? 'is-invalid' : ''}}"
+                           name="userName" value="{{old('userName') ?: $business->firstname}}"/>
+                    @if($errors->has('userName'))
+                        <span class="invalid-feedback">{{$errors->first('userName')}}</span>
+                    @endif
+
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Apellidos</label>
+                    <input type="text" class="form-control {{$errors->has('userSurname') ? 'is-invalid' : ''}}"
+                           name="userSurname" value="{{old('userSurname') ?: $business->surname}}"/>
+                    @if($errors->has('userSurname'))
+                        <span class="invalid-feedback">{{$errors->first('userSurname')}}</span>
+                    @endif
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>Rut Usuario</label>
+                    <input type="text" class="form-control {{$errors->has('userRut') ? 'is-invalid' : ''}}"
+                           name="userRut" value="{{old('rut_user') ?: $business->rut_user}}"/>
+                    @if($errors->has('userRut'))
+                        <span class="invalid-feedback">{{$errors->first('userRut')}}</span>
+                    @endif
+
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Email</label>
+                    <input type="text" class="form-control {{$errors->has('userEmail') ? 'is-invalid' : ''}}"
+                           name="userEmail" value="{{old('userEmail') ?: $business->email}}"/>
+                    @if($errors->has('userEmail'))
+                        <span class="invalid-feedback">{{$errors->first('userEmail')}}</span>
+                    @endif
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>Teléfono</label>
+                    <input type="text" class="form-control {{$errors->has('userPhone') ? 'is-invalid' : ''}}"
+                           name="userPhone" value="{{old('userPhone') ?: $business->phone}}"/>
+                    @if($errors->has('userPhone'))
+                        <span class="invalid-feedback">{{$errors->first('userPhone')}}</span>
+                    @endif
+
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Cargo</label>
+                    <input type="text" class="form-control {{$errors->has('userPosition') ? 'is-invalid' : ''}}"
+                           name="userPosition" value="{{old('userPosition') ?: $business->position}}"/>
+                    @if($errors->has('userPosition'))
+                        <span class="invalid-feedback">{{$errors->first('userPosition')}}</span>
+                    @endif
+
                 </div>
             </div>
 

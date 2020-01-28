@@ -92,9 +92,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function offers() {
+        return $this->belongsToMany('App\Offers');
+    }
+
     public function candidates()
     {
-        return $this->hasMany('App\Candidates', 'id_candidate', 'id');
+        return $this->hasMany('App\Candidates', 'id_user', 'id');
     }
 
     public function userMeta()

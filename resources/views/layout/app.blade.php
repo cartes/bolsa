@@ -42,17 +42,7 @@
                 @if(session()->has('role'))
                     @include('partials.navigation.' . session()->get('role'))
                 @else
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="{{route('register')}}" class="nav-link">Regístrate</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('business.index') }}" class="nav-link">Soy Empresa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('post.create')}}" class="nav-link">Publica Gratis</a>
-                        </li>
-                    </ul>
+                    @include('partials.navigation.guest')
                 @endif
             </div>
         </div>

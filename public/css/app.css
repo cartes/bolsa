@@ -18805,17 +18805,50 @@ a.text-dark:focus {
   }
 }
 
-.form-login {
-  background-color: #dee2e6;
-  border: 1px solid #c1c9d0;
-  border-radius: 10px;
-}
-
 .form {
+  /* display: none; */
+  /* position: absolute; */
   padding: 20px;
   background-color: #ffffff;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
   box-shadow: 0px 5px 4px #9a9a9a;
+}
+
+.file {
+  padding: 20px;
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #e5e5e5;
+}
+
+.offers-file {
+  border-radius: 5px;
+  box-shadow: 0px 5px 5px #e5e5e5;
+}
+
+.form-offer,
+.form-business,
+.form-login {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  box-shadow: 0px 5px 5px #e5e5e5;
+}
+
+.form-search {
+  padding: 10px;
+  background-color: #e5e5e5;
+}
+
+.form-search .form-group {
+  margin: 0px;
+  padding: 0px;
+}
+
+.date {
+  font-size: 0.85rem;
 }
 

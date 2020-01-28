@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Candidates;
 use App\Http\Requests\PersonalDataRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Offers;
@@ -35,7 +36,7 @@ class UserController extends Controller
             ]);
             return view('home', compact('user', 'offers'));
         } else {
-            return back()->with('message', [ 'danger', 'Combinación email y clave no corresponden']);
+            return back()->with('message', ['danger', 'Combinación email y clave no corresponden']);
         }
     }
 
@@ -72,4 +73,26 @@ class UserController extends Controller
         }
     }
 
+    public function showoffers()
+    {
+        $id = session()->get('id');
+        $user = User::where('id', $id)->select(['name', 'rut_user'])->first();
+
+        $candidates = Candidates::where('id_user', $id)
+            ->with(['offers', 'user', 'offers.businessMeta'])
+            ->paginate(10);
+
+        if ($user) {
+            return view('user.offers', compact('candidates', 'user'));
+        } else {
+            return back()->with('message', ['danger', 'No puedes acceder a esta página']);
+        }
+    }
+
+    public function file(User $id)
+    {
+        $user = $id->with('userMeta', 'userExperience', 'userLanguage', 'userSkills', 'userEducation')->first();
+
+        return view('user.file', compact('user'));
+    }
 }

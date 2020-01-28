@@ -34,7 +34,7 @@ Route::group(["prefix" => "profile"], function () {
     Route::put('profile/skills', 'ProfileController@skills')->name('profile.skills');
 });
 
-Route::prefix('posts')->group(function () {
+Route::prefix('posts')->group( function () {
     Route::get('create', 'PostController@postCreateForm')->name('post.create');
     Route::put('register', 'PostController@register')->name('post.register');
 });
@@ -44,10 +44,22 @@ Route::prefix('business')->group(function () {
     Route::post('login', 'BusinessController@login')->name('business.login');
     Route::get('profile', 'BusinessController@profileIndex')->name('business.profile');
     Route::put('update', 'BusinessController@updateProfile')->name('business.update');
+    Route::get('/{id}/file', 'BusinessController@file')->name("business.file");
 });
 
 Route::prefix('offer')->group(function () {
-    Route::put('create', 'OfferController@create')->name('offer.create');
+    Route::get('/{offer}/postulate', 'OfferController@postulate')->name('offer.postulate');
+    Route::get('/index', 'OfferController@index')->name('offer.admin');
+    Route::get('/{offer}/edit', 'OfferController@detail')->name('offer.detail');
+    Route::put('/create', 'OfferController@create')->name('offer.create');
+    Route::put("/{offer}/store", "OfferController@store")->name("offer.store");
+    Route::delete("/{offer}/destroy", "OfferController@destroy")->name("offer.delete");
+    Route::get("/{slug}", "OfferController@show")->name("offer.show");
+    Route::get('/{slug}/candidates', 'OfferController@candidates')->name('offer.candidates');
 });
 
+Route::prefix('user')->group(function() {
+    Route::get('/offers', "UserController@showoffers")->name('user.offers');
+    Route::get('{id}/file', "UserController@file")->name('user.file');
+});
 Route::post('/search', 'SearchController@result')->name('search');

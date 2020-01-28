@@ -18,6 +18,7 @@ class Offers extends Migration
             $table->unsignedInteger('id_business');
             $table->foreign('id_business')->references('id')->on('aquabe_business');
             $table->string('title');
+            $table->string('slug')->unique();
             $table->longText('description');
             $table->boolean('handicapped');
             $table->string('area');
@@ -28,11 +29,12 @@ class Offers extends Migration
             $table->string('comune');
             $table->string('state');
             $table->integer('salary')->nullable();
-            $table->string('position');
+            $table->string('position')->nullable();
             $table->string('benefits')->nullable();
             $table->string('requirements')->nullable();
             $table->integer('period');
             $table->string('status')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
 

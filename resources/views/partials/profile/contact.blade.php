@@ -74,7 +74,7 @@
 
     @if($user->UserMeta && $user->email)
         <div class="file col-md-8 my-2">
-            <h3 class="text-center">Datos Personales</h3>
+            <h3 class="text-center">Datos de Contacto</h3>
             <div class="row">
                 <div class="col-md-12">
                     <p>Teléfono celular: {{$user->UserMeta->phone}}</p>

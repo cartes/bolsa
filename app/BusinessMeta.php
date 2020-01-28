@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\BusinessMeta
@@ -49,6 +50,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BusinessMeta extends Model
 {
+    use SoftDeletes;
 
     protected $table = "aquabe_business_meta";
     protected $fillable = ['id_business', 'rut_business', 'business_name', 'fantasy_name', 'activity', 'address', 'comune', 'city', 'state', 'phone', 'logo', 'entry', 'employees', 'rotation'];

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Business
@@ -37,11 +38,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Business extends Model
 {
+    use SoftDeletes;
 
-    /**
-     * @var string
-     */
     protected $table = "aquabe_business";
+    protected $hidden = "password";
 
     public function business_meta()
     {

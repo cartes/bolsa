@@ -7,7 +7,7 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="dropDownUser">
             <a class="nav-link" href="{{ route('business.profile') }}">Perfil Empresa</a>
-            <a class="nav-link" href="#">Administrar Ofertas</a>
+            <a class="nav-link" href="{{ route('offer.admin') }}">Administrar Ofertas</a>
             <div class="dropdown-divider"></div>
             <a class="nav-link" href="{{ route('logout') }}">Cerrar Sesión</a>
         </div>
