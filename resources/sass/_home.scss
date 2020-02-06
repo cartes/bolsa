@@ -1,0 +1,66 @@
+#nav-bolsa {
+  height: 60px;
+  position: relative;
+  color: $white;
+  background: {
+    color: $gray-900;
+  }
+
+  a, button {
+    color: $white;
+  }
+
+  button.dropdown-toggle {
+    color: $aqOrange;
+  }
+
+  .dropdown-menu {
+    background: {
+      color: $gray-900;
+    }
+  ;
+  }
+}
+
+#home-main {
+  position: relative;
+  min-height: 700px;
+  background: {
+    image: url("/../images/background-activities-80.jpg");
+    size: cover;
+    repeat: no-repeat;
+    position: center center;
+  }
+
+  .position-absolute {
+    bottom: 0px;
+    left: 0px;
+  }
+}
+
+.form-search {
+  padding: 15px 10px;
+  background-color: $white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+  .input-group-append {
+    button.btn {
+      border: 1px solid #ced4da;
+      border-left: 1px solid white;
+      color: $aqOrange;
+    }
+  }
+
+  .form-group {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .btn-control {
+    background: {
+      color: $aqBlue;
+    }
+    color: $white
+  }
+}

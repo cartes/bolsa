@@ -18812,7 +18812,7 @@ a.text-dark:focus {
   background-color: #ffffff;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
-  box-shadow: 0px 5px 4px #9a9a9a;
+  box-shadow: 0px 5px 4px #797979;
 }
 
 .file {
@@ -18835,12 +18835,67 @@ a.text-dark:focus {
   padding: 20px;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
-  box-shadow: 0px 5px 5px #e5e5e5;
+  box-shadow: 0px 5px 5px #797979;
+}
+
+.date {
+  font-size: 0.85rem;
+}
+
+body {
+  background-color: #fff;
+}
+
+footer {
+  background-color: #323D7E;
+  padding: 20px 0px;
+}
+
+#nav-bolsa {
+  height: 60px;
+  position: relative;
+  color: #fff;
+  background-color: #212529;
+}
+
+#nav-bolsa a,
+#nav-bolsa button {
+  color: #fff;
+}
+
+#nav-bolsa button.dropdown-toggle {
+  color: #D88F32;
+}
+
+#nav-bolsa .dropdown-menu {
+  background-color: #212529;
+}
+
+#home-main {
+  position: relative;
+  min-height: 700px;
+  background-image: url("/../images/background-activities-80.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#home-main .position-absolute {
+  bottom: 0px;
+  left: 0px;
 }
 
 .form-search {
-  padding: 10px;
-  background-color: #e5e5e5;
+  padding: 15px 10px;
+  background-color: #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.form-search .input-group-append button.btn {
+  border: 1px solid #ced4da;
+  border-left: 1px solid white;
+  color: #D88F32;
 }
 
 .form-search .form-group {
@@ -18848,7 +18903,8 @@ a.text-dark:focus {
   padding: 0px;
 }
 
-.date {
-  font-size: 0.85rem;
+.form-search .btn-control {
+  background-color: #323D7E;
+  color: #fff;
 }
 

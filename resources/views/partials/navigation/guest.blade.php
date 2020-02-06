@@ -1,5 +1,8 @@
 <ul class="navbar-nav ml-auto">
     <li class="nav-item">
+        <button type="button" class="btn" data-toggle="modal" data-target="#loginUserModal">Ingresa</button>
+    </li>
+    <li class="nav-item">
         <a href="{{route('register')}}" class="nav-link">Regístrate</a>
     </li>
     <li>

@@ -28,7 +28,7 @@ class BusinessController extends Controller
                     'role' => 'business'
                 ]);
 
-                return redirect()->route('business.profile');
+                return redirect()->route('offer.admin');
             } else {
                 return back()->with('message', ['danger', 'Contraseña no coincide, inténtelo de nuevo']);
             }
@@ -79,7 +79,7 @@ class BusinessController extends Controller
     }
 
     public function file($id) {
-        $business = Business::whereId($id)->withCount('offers')->with('business_meta')->first();
+        $business = Business::whereId($id)->withCount('offers')->with('business_meta', 'offers')->first();
 
         return view('business.file', compact('business'));
     }

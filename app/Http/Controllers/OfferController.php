@@ -140,6 +140,12 @@ class OfferController extends Controller
 
     }
 
+    public function list()
+    {
+        $offers = Offers::orderBy('created_at', 'desc')->paginate(15);
+        return view('offers.list', compact('offers'));
+    }
+
     public function candidates($slug)
     {
 

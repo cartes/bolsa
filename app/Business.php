@@ -42,6 +42,7 @@ class Business extends Model
 
     protected $table = "aquabe_business";
     protected $hidden = "password";
+    protected $withCount = ['offers'];
 
     public function business_meta()
     {

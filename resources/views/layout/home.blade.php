@@ -48,8 +48,25 @@
         </div>
     </nav>
 
-    <main class="py-3">
+    <main id="home-main" class="py-3 mb-3">
         @yield('content')
     </main>
 </div>
+
+<footer class="container-fluid mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <img src="/../images/footer.png" class="d-inline-block pr-3 border-right">
+                <div class="d-inline-block align-middle pl-3">
+                    <p class="text-white small m-0">© 2013 Grupo Editorial Editec SPA ® Todos los derechos reservados</p>
+                    <p class="text-white small m-0">San Crescente 81, piso 5. Las Condes, Santiago de Chile. Tel:(56-2) 27574200</p>
+                    <p class="text-white small m-0">Freire 130, oficina 201, PuertoMontt, Chile. Tel: (56-65) 2348911</p>
+                </div>
+            </div>
+            <div class="col-4">
+            </div>
+        </div>
+    </div>
+</footer>
 </body>

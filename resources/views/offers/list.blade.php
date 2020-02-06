@@ -1,13 +1,10 @@
-@extends('layout.app')
+@extends("layout.app")
 
-@section('title', ' | ' . $offer->title)
-
-@section('content')
-
+@section("content")
     <div class="container">
-        @if(session()->has('message'))
+        @if(null!==session('message'))
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-5">
                     <div class="alert alert-{{session('message')[0]}}" role="alert">
                         {{session('message')[1]}}
                     </div>
@@ -15,10 +12,7 @@
             </div>
         @endif
 
-        @include("partials.modals.loginHome")
-
-        @include("partials.offers.postulate")
-
+        @include('partials.offers.result')
     </div>
 
 @endsection

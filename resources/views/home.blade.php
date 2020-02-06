@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.home')
 
 @section('content')
 
@@ -13,47 +13,51 @@
             </div>
         @endif
 
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                @if(!session()->has('id'))
-                    <form class="form-login p-5 my-5" method="post" action="{{route('login')}}">
-                        <h1 class="text-center">Bienvenido</h1>
-                        <h2 class="text-center">Ingresar a {{config('app.name')}}</h2>
-                        @csrf
-                        <div class="form-group">
-                            <input class="form-control" type="text" id="email" name="email" placeholder="Email"/>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" type="password" id="password" name="password"
-                                   placeholder="Password"/>
-                        </div>
+        @include('partials.modals.loginHome')
+    </div>
 
-                        <button type="submit" class="btn btn-primary">Enviar</button>
-                    </form>
-                @endif
-            </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <form method="post" class="form-search" action="{{ route('search') }}">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Busqueda: </label>
-                        <div class="col-sm-10">
-                            <div class="input-group">
-                            <input type="text" class="form-control" name="query" />
-                                <span class="input-group-btn input-group-append">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
+    <div class="position-absolute w-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 form-search">
+                    <div class="row ">
+                        <div class="col-12">
+                            <form method="post" action="{{ route('search') }}">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="query"
+                                               placeholder="Busca tu nuevo trabajo"/>
+                                        <span class="input-group-btn input-group-append">
+                                            <button class="btn" type="submit">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </form>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <a href="{{ route('offer.list') }}" class="btn btn-control d-inline-block">Todas las Ofertas</a>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <form method="get" action="{{ route('register') }}">
+                                <button class="w-100 btn btn-control" type="submit">Crea tu currículum</button>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <form method="get" action="{{ route('business.index') }}">
+                                <button class="w-100 btn btn-control" type="submit">Publica una oferta</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        @include('partials.offers.result')
     </div>
+
+    {{--@include('partials.offers.result')--}}
 @endsection

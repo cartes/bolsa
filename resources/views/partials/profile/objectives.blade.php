@@ -18,13 +18,11 @@
         </form>
     </div>
 
-    @if($user->UserMeta->objectives)
         <div class="file col-md-8 my-2">
             <h3 class="text-center">Objetivos Laborales</h3>
             <p>
-                {{$user->UserMeta->objectives}}
+                {{$user->UserMeta->objectives ?? ''}}
             </p>
         </div>
-    @endif
 </div>
 

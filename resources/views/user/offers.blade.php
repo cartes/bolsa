@@ -46,7 +46,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td>empty</td>
+                                        <td>No has postulado a ninguna oferta</td>
                                     </tr>
                                 @endforelse
                                 </tbody>

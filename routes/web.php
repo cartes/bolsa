@@ -50,6 +50,7 @@ Route::prefix('business')->group(function () {
 Route::prefix('offer')->group(function () {
     Route::get('/{offer}/postulate', 'OfferController@postulate')->name('offer.postulate');
     Route::get('/index', 'OfferController@index')->name('offer.admin');
+    Route::get('/list', 'OfferController@list')->name('offer.list');
     Route::get('/{offer}/edit', 'OfferController@detail')->name('offer.detail');
     Route::put('/create', 'OfferController@create')->name('offer.create');
     Route::put("/{offer}/store", "OfferController@store")->name("offer.store");

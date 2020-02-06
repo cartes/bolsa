@@ -26,17 +26,21 @@ class UserController extends Controller
             ->with('business')
             ->with('businessMeta')
             ->latest()
-            ->paginate(20);
+            ->paginate(10);
 
-        if (Hash::check($request->password, $user->password)) {
-            session([
-                'id' => $user->id,
-                'role' => 'user',
-                'name' => $user->name . ' ' . $user->surname
-            ]);
-            return view('home', compact('user', 'offers'));
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                session([
+                    'id' => $user->id,
+                    'role' => 'user',
+                    'name' => $user->name . ' ' . $user->surname
+                ]);
+                return back();
+            } else {
+                return redirect(route('home'))->with('message', ['danger', 'Combinación email y clave no corresponden']);
+            }
         } else {
-            return back()->with('message', ['danger', 'Combinación email y clave no corresponden']);
+            return back()->with('message', ['danger', 'Usuario no existe']);
         }
     }
 
@@ -56,15 +60,17 @@ class UserController extends Controller
         $user->rut_user = $request->rut;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $offers = Offers::withCount('candidates')
+            ->with('business')
+            ->with('businessMeta')
+            ->latest()
+            ->paginate(10);
 
         try {
             $user->save();
 
-            $data = [
-                'code' => 200,
-                'message' => __('Guardado con éxito')
-            ];
-            return view('home', $data);
+            session()->flash('message', ['success', 'El Usuario a sido registrado con éxito']);
+            return redirect(route('home', compact('offers')));
         } catch (\Exception $error) {
             $data = [
                 'code' => 400,
