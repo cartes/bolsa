@@ -74,7 +74,7 @@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label>Contraseña (*)</label>
-                                <input type="text"
+                                <input type="password"
                                        class="form-control{{ $errors->has('passbusiness') ? ' is-invalid' : '' }}"
                                        id="passbusiness" name="passbusiness" />
                                 @if ($errors->has('passbusiness'))
@@ -82,8 +82,8 @@
                                 @endif
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>Repetir Contraseña (*)</label>
-                                <input type="text"
+                                <label>Confirmar Contraseña (*)</label>
+                                <input type="password"
                                        class="form-control{{ $errors->has('passbusiness_confirmation') ? ' is-invalid' : '' }}"
                                        id="passbusiness_confirmation" name="passbusiness_confirmation" />
                                 @if ($errors->has('passbusiness_confirmation'))

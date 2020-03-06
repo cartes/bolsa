@@ -24,12 +24,8 @@ class BusinessProfileRequest extends FormRequest
      */
     public function rules()
     {
-        $id_user = session()->get('id');
-        $business = Business::where('id', $id_user)->with('business_meta')->first();
-        $id = $business->business_meta->id;
-
         return [
-            'businessName' => 'required',
+            'business_name' => 'required',
             'fantasy_name' => 'required',
             'activity' => 'required',
             'email' => 'email|required',
@@ -38,7 +34,7 @@ class BusinessProfileRequest extends FormRequest
             'city' => 'required',
             'comune' => 'required',
             'phone' => 'required',
-            'rut_business' => 'required|cl_rut|unique:aquabe_business_meta,rut_business,' . $id,
+            'rut_business' => 'required|cl_rut|unique:aquabe_business_meta,rut_business',
         ];
     }
 }

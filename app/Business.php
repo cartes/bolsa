@@ -47,6 +47,7 @@ class Business extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = ['rut_user', 'password', 'firstname', 'surname', 'email', 'position', 'phone'];
     protected $table = "aquabe_business";
     protected $hidden = "password";
     protected $withCount = ['offers'];
