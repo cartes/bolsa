@@ -1,66 +1,112 @@
-#nav-bolsa {
-  height: 60px;
-  position: relative;
-  color: $white;
-  background: {
-    color: $gray-900;
-  }
-
-  a, button {
-    color: $white;
-  }
-
-  button.dropdown-toggle {
-    color: $aqOrange;
-  }
-
-  .dropdown-menu {
-    background: {
-      color: $gray-900;
+.home {
+    #app {
+        background: {
+            image: url("/images/background-ungradient.jpg");
+            size: cover;
+            repeat: no-repeat;
+            position: left 30px;
+        }
+        main {
+            background-color: transparent;
+        }
     }
-  ;
-  }
+    #nav-bolsa {
+        background: rgb(29, 44, 104);
+        background: linear-gradient(180deg, rgba(29, 44, 104, 1) 0%, rgba(29, 44, 104, 1) 25%, rgba(29, 44, 104, 1) 31%, rgba(29, 44, 104, 0) 99%);
+        height: unset;
+        padding-bottom: 220px;
+    }
+}
+
+.app {
+    #nav-bolsa {
+        background-color: $aqBlue;
+    }
+}
+
+#nav-bolsa {
+    height: 86px;
+    position: relative;
+    color: $white;
+
+    a, button {
+        color: $white;
+        &:hover {
+            color: $aqOrange;
+        }
+    }
+
+    button.dropdown-toggle {
+        color: $aqOrange;
+    }
+
+    .dropdown-menu {
+        background: {
+            color: $gray-900;
+        }
+
+    }
+    .navbar-brand {
+        position: relative;
+        text-indent: -99999rem;
+        width: 205px;
+        height: 76px;
+        padding: {
+            top: 5px;
+            bottom: 5px;
+        }
+        background: {
+            image: url("/images/logo-EmpleosAqua.png");
+            repeat: no-repeat;
+        }
+    ;
+    }
 }
 
 #home-main {
-  position: relative;
-  min-height: 700px;
-  background: {
-    image: url("/../images/background-activities-80.jpg");
-    size: cover;
-    repeat: no-repeat;
-    position: center center;
-  }
+    position: relative;
+    min-height: 600px;
+    @media (min-width: 1440px) {
+        min-height: 550px;
+        margin-bottom: 85px;
+    }
 
-  .position-absolute {
-    bottom: 0px;
-    left: 0px;
-  }
+    .position-absolute {
+        bottom: 0px;
+        left: 0px;
+        @media (min-width: 1280px) {
+            bottom: 80px;
+            left: 0px;
+        }
+    }
+    @media (max-width: 424px) {
+        min-height: 370px;
+    }
 }
 
 .form-search {
-  padding: 15px 10px;
-  background-color: $white;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+    padding: 15px 10px;
+    background-color: rgba(216, 216, 216, 0.8);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 
-  .input-group-append {
-    button.btn {
-      border: 1px solid #ced4da;
-      border-left: 1px solid white;
-      color: $aqOrange;
+    .input-group-append {
+        button.btn {
+            border: 1px solid #ced4da;
+            border-left: 1px solid white;
+            color: $aqOrange;
+        }
     }
-  }
 
-  .form-group {
-    margin: 0px;
-    padding: 0px;
-  }
-
-  .btn-control {
-    background: {
-      color: $aqBlue;
+    .form-group {
+        margin: 0px;
+        padding: 0px;
     }
-    color: $white
-  }
+
+    .btn-control {
+        background: {
+            color: $aqBlue;
+        }
+        color: $white
+    }
 }

@@ -26,6 +26,10 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \App\Offers $offers
  * @property-read \App\User $user
+ * @property int $id_user
+ * @property-read mixed $date
+ * @property-read mixed $postulated
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Candidates whereIdUser($value)
  */
 class Candidates extends Model
 {

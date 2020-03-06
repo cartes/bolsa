@@ -35,6 +35,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Business whereSurname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Business whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Business onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Business whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Business withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Business withoutTrashed()
  */
 class Business extends Model
 {

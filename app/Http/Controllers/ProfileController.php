@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\ContactRequest;
 use App\Http\Requests\EducationRequest;
 use App\Http\Requests\ExperienceRequest;
 use App\Http\Requests\PersonalDataRequest;
+use App\Http\Requests\ReferencesRequest;
+use App\Http\Requests\ResumeRequest;
+use App\Reference;
 use App\User;
 use App\UserEducation;
 use App\UserExperience;
@@ -23,7 +27,7 @@ class ProfileController extends Controller
         $id = session()->get('id');
         $user = User::where('id', $id)
             ->first()
-            ->load('userMeta', 'userExperience', 'userLanguage', 'userSkills', 'userEducation');
+            ->load('userMeta', 'userExperience', 'userLanguage', 'userSkills', 'userEducation', 'userReferences');
 
         return view('user.profile', compact('user'));
     }
@@ -35,24 +39,20 @@ class ProfileController extends Controller
         try {
             User::where('id', $id)
                 ->update([
-                    'name' => $request->get('name'),
-                    'surname' => $request->get('surname'),
                     'birthday' => $request->get('birthday'),
                     'gender' => $request->get('gender'),
                     'nacionality' => $request->get('nacionality'),
-                    'marital_status' => $request->get('marital_status'),
-                    'rut_user' => $request->get('rut_user'),
                 ]);
-
-            $success = true;
-        } catch (\Exception $exc) {
-
-            $success = $exc->getMessage();
-        }
-
-        if ($success) {
+            UserMeta::updateOrCreate(['id_user' => $id], [
+                'pretentions' => $request->pretentions,
+                'objectives' => $request->objectives,
+                'city' => $request->city
+            ]);
             return back()->with('message', ['success', 'Datos actualizados']);
+        } catch (\Exception $exc) {
+            return back()->with('message', ['danger', $exc->getMessage()]);
         }
+
     }
 
     public function salary(Request $request)
@@ -238,5 +238,31 @@ class ProfileController extends Controller
             return back()->with('message', ['success', 'Conocimientos actualizados']);
         }
 
+    }
+
+    public function references(ReferencesRequest $request)
+    {
+        if (session()->get('id')) {
+            $id = session()->get('id');
+            $request->merge(['id_user' => $id]);
+
+            Reference::create(['id_user' => $id], $request->input());
+        }
+
+        return back()->with('message', ['success', 'Referencia agregada']);
+    }
+
+    public function resume(ResumeRequest $request)
+    {
+        $file = Helper::uploadFile('file', 'resume');
+
+        $id = session()->get('id');
+
+        UserMeta::updateOrCreate(['id_user' => $id], [
+            'path' => $file['hashName'],
+            'filename' => $file['fileName'],
+        ]);
+
+        return redirect(route('profile'))->with('message', ['success', 'Curriculum Subido'])->with(compact('file'));
     }
 }

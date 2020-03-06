@@ -6,6 +6,7 @@ use App\Business;
 use App\BusinessMeta;
 use App\Http\Requests\BusinessLoginRequest;
 use App\Http\Requests\BusinessProfileRequest;
+use App\Http\Requests\BusinessRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -47,6 +48,11 @@ class BusinessController extends Controller
         return view('business.profile', compact('business'));
     }
 
+    public function register(BusinessRegisterRequest $request)
+    {
+        dd($request);
+    }
+
     public function updateProfile(BusinessProfileRequest $request)
     {
 
@@ -78,7 +84,8 @@ class BusinessController extends Controller
         return back()->with('message', ['success', 'Perfil editado correctamente']);
     }
 
-    public function file($id) {
+    public function file($id)
+    {
         $business = Business::whereId($id)->withCount('offers')->with('business_meta', 'offers')->first();
 
         return view('business.file', compact('business'));

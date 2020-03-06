@@ -47,6 +47,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\BusinessMeta whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\BusinessMeta whereUpdatedAt($value)
+ * @property string|null $country
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Offers[] $offers
+ * @property-read int|null $offers_count
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\BusinessMeta onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BusinessMeta whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BusinessMeta whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\BusinessMeta withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\BusinessMeta withoutTrashed()
  */
 class BusinessMeta extends Model
 {

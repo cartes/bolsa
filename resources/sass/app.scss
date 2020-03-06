@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Nunito|Roboto&display=swap');
 
 // Font-awesome
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
@@ -18,3 +18,4 @@
 //App
 @import "style";
 @import "home";
+@import "modals";

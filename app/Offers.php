@@ -57,6 +57,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereStatus($value)
  * @property string $country
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereCountry($value)
+ * @property string|null $slug
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $User
+ * @property-read int|null $user_count
+ * @property-read \App\BusinessMeta $businessMeta
+ * @property-read mixed $date
+ * @property-read mixed $publication
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Offers onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereComune($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereSlug($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Offers withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Offers withoutTrashed()
  */
 class Offers extends Model
 {

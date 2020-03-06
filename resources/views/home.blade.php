@@ -14,6 +14,9 @@
         @endif
 
         @include('partials.modals.loginHome')
+        @include('partials.modals.loginBusiness')
+        @include("partials.modals.register")
+        @include('partials.modals.registerBusiness')
     </div>
 
     <div class="position-absolute w-100">

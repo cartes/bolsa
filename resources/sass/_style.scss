@@ -1,13 +1,11 @@
+html, body {
+  height: 100%;
+}
 .form {
-  /* display: none; */
-  /* position: absolute; */
   padding: 20px;
   background-color: #ffffff;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  -webkit-box-shadow: 0px 5px 4px #9a9a9a;
-  -moz-box-shadow: 0px 5px 4px #9a9a9a;
-  box-shadow: 0px 5px 4px #797979;
+  border-bottom: 1px solid #e5e5e5;
+  border-radius: 0px;
 }
 
 .file {
@@ -29,16 +27,47 @@
   box-shadow: 0px 5px 5px #797979;
 }
 
+.app {
+  #app {
+    margin-bottom: 105px;
+  }
+}
+
+#app {
+  background-color: $white;
+  main {
+    background-color: $white;
+  }
+}
 
 .date {
   font-size: 0.85rem;
 }
+
 body {
+  position: relative;
   background-color: $white;
+  .page-container {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 110px;
+  }
 }
 footer {
+  padding: {
+    top: 80px;
+    bottom: 20px;
+    left: 0px;
+  };
+  position: absolute;
+  bottom: 0px;
   background: {
-    color: #323D7E;
+    image: url("/images/footer-back.png");
+    size: cover;
+    position: bottom center;
+    color: transparent;
+  };
+  @media (min-width: 1440px) {
+    min-height: 191px;
   }
-  padding: 20px 0px;
 }

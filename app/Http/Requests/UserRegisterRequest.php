@@ -30,6 +30,7 @@ class UserRegisterRequest extends FormRequest
             'lastName' => 'required|min:2',
             'email' => 'required|email',
             'password' => 'required|min:4',
+            'phone' => 'required',
             'rut' => 'required|unique:aquabe_users,rut_user|cl_rut',
         ];
     }

@@ -58,6 +58,10 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereSurname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @property-read mixed $age
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Offers[] $offers
+ * @property-read int|null $offers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Reference[] $userReferences
+ * @property-read int|null $user_references_count
  */
 class User extends Authenticatable
 {
@@ -124,6 +128,10 @@ class User extends Authenticatable
     public function userEducation()
     {
         return $this->hasMany('App\UserEducation', 'id_user', 'id');
+    }
+
+    public function userReferences() {
+        return $this->hasMany(Reference::class, 'id_user', 'id');
     }
 
     public function getMaritalStatusAttribute($value)

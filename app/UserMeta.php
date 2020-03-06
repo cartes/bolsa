@@ -37,11 +37,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\User $user
  * @property string|null $country
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserMeta whereCountry($value)
+ * @property string|null $path
+ * @property string|null $filename
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserMeta whereFilename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserMeta wherePath($value)
  */
 class UserMeta extends Model
 {
     protected $table = "aquabe_users_meta";
-    protected $fillable = ['id_user', 'pretentions', 'phone', 'address', 'country', 'comune', 'city', 'state', 'objectives'];
+    protected $fillable = ['id_user', 'pretentions', 'phone', 'address', 'country', 'comune', 'city', 'state', 'objectives', 'path', 'filename'];
 
     public function user()
     {

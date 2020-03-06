@@ -1,5 +1,3 @@
-<div class="row justify-content-center">
-    <div class="col-md-8">
         <form class="form" action="{{route('profile.contact')}}" method="post">
             <h3 class="text-center">Datos de Contacto</h3>
             @method('PUT')
@@ -70,20 +68,17 @@
             </div>
             <button type="submit" class="btn btn-primary">Guardar los Datos</button>
         </form>
-    </div>
 
-    @if($user->UserMeta && $user->email)
-        <div class="file col-md-8 my-2">
-            <h3 class="text-center">Datos de Contacto</h3>
-            <div class="row">
-                <div class="col-md-12">
-                    <p>Teléfono celular: {{$user->UserMeta->phone}}</p>
-                    <p>Email: {{$user->email}}</p>
-                    <p>Dirección: {{$user->UserMeta->address}}, {{$user->UserMeta->comune}}, {{$user->UserMeta->city}}
-                        , {{$user->UserMeta->state}}</p>
-                </div>
-            </div>
-        </div>
-    @endif
-</div>
-
+    {{--@if($user->UserMeta && $user->email)--}}
+        {{--<div class="file col-md-8 my-2">--}}
+            {{--<h3 class="text-center">Datos de Contacto</h3>--}}
+            {{--<div class="row">--}}
+                {{--<div class="col-md-12">--}}
+                    {{--<p>Teléfono celular: {{$user->UserMeta->phone}}</p>--}}
+                    {{--<p>Email: {{$user->email}}</p>--}}
+                    {{--<p>Dirección: {{$user->UserMeta->address}}, {{$user->UserMeta->comune}}, {{$user->UserMeta->city}}--}}
+                        {{--, {{$user->UserMeta->state}}</p>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--@endif--}}

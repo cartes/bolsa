@@ -14,10 +14,6 @@ use Validator;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-    }
-
     public function login(Request $request)
     {
         $usr = $request->email;
@@ -53,24 +49,25 @@ class UserController extends Controller
 
     public function store(UserRegisterRequest $request)
     {
-        $user = new User;
-
         $user->name = $request->firstName;
         $user->surname = $request->lastName;
         $user->rut_user = $request->rut;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $offers = Offers::withCount('candidates')
-            ->with('business')
-            ->with('businessMeta')
-            ->latest()
-            ->paginate(10);
+
+        $pass = Hash::make($request->password);
 
         try {
-            $user->save();
 
-            session()->flash('message', ['success', 'El Usuario a sido registrado con éxito']);
-            return redirect(route('home', compact('offers')));
+        User::create([
+            'name' => $request->firstname,
+            'surname' => $request->lastName,
+            'rut_user' => $request->rut,
+            'email' => $request->email,
+            'password' => $pass
+        ]);
+
+            return back()->with('message', ['success', 'El Usuario a sido registrado con éxito']);
         } catch (\Exception $error) {
             $data = [
                 'code' => 400,

@@ -26,20 +26,11 @@ class BusinessRegisterRequest extends FormRequest
         return [
             'firstname' => 'required|min:2',
             'surname' => 'required|min:2',
-            'email' => 'required|email',
-            'userPhone' => 'required',
-            'userRut' => 'required|cl_rut',
+            'email_business' => 'required|email',
+            'phone_business' => 'required',
+            'rut_user' => 'required|cl_rut',
             'position' => 'required',
-            'password' => 'required|confirmed|min:4',
-            'rut' => 'required|cl_rut|unique:aquabe_business_meta,rut_business',
-            'business_name' => 'required',
-            'fantasy_name' => 'required',
-            'phone' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'comune' => 'required',
-            'address' => 'required|min:5',
+            'passbusiness' => 'required|confirmed|min:4',
         ];
     }
 
@@ -49,6 +40,7 @@ class BusinessRegisterRequest extends FormRequest
             'firstname.required' => "El campo Nombre es obligatorio",
             'firstname.min' => "El campo Nombre debe contener al menos 2 caracteres",
             'surname.required' => "El campo Apellido es obligatorio",
+            'rut_user.cl_rut' => "Debe ingresar un rut válido",
             'surname.min' => "El campo Apellido debe contener al menos 2 caracteres",
             'email.required' => "El campo Email es obligatorio",
         ];
