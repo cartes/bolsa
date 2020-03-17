@@ -17,6 +17,7 @@
         @include('partials.modals.loginBusiness')
         @include("partials.modals.register")
         @include('partials.modals.registerBusiness')
+        @include('partials.modals.loginBusinessToPost')
     </div>
 
     <div class="position-absolute w-100">
@@ -42,19 +43,31 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <a href="{{ route('offer.list') }}" class="btn btn-control d-inline-block">Todas las Ofertas</a>
+                            <a href="{{ route('offer.list') }}" class="btn btn-control d-inline-block">Todas las
+                                Ofertas</a>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-6">
-                            <form method="get" action="{{ route('register') }}">
-                                <button class="w-100 btn btn-control" type="submit">Crea tu currículum</button>
-                            </form>
+                            @if (session()->get('id'))
+                                <a href="{{ route('profile') }}" class="w-100 btn btn-control" type="submit">Crea tu
+                                    currículum</a>
+                            @else
+                                <button type="button" class="w-100 btn btn-control" data-toggle="modal" data-target="#loginUserModal">Crea
+                                    tu currículum
+                                </button>
+                            @endif
                         </div>
                         <div class="col-6">
-                            <form method="get" action="{{ route('business.index') }}">
-                                <button class="w-100 btn btn-control" type="submit">Publica una oferta</button>
-                            </form>
+                            @if (session()->get('role') == 'business')
+                                <a href="{{ route('post.create') }}" class="w-100 btn-control btn">
+                                    Publica una oferta
+                                </a>
+                            @else
+                                <button type="button" class="w-100 btn btn-control" data-toggle="modal" data-target="#loginBusinessToPost">
+                                    Publica una oferta
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -64,3 +77,13 @@
 
     {{--@include('partials.offers.result')--}}
 @endsection
+
+@push('scripts')
+    <script>
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                $(this).remove();
+            })
+        }, 2000)
+    </script>
+@endpush

@@ -39,8 +39,8 @@
         </div>
         <div class="form-group col-md-4">
             <label>Nivel de experiencia</label>
-            <select class="form-control {{$errors->has('business_activity') ? 'is-invalid' : ''}}"
-                    name="experience_level" value="{{old('experience_level')}}">
+            <select class="form-control {{$errors->has('experience_level') ? 'is-invalid' : ''}}"
+                    name="experience_level">
                 <option value="" {{old('experience_level') == '' ? 'selected' : ''}}>Seleccionar</option>
                 <option value="01" {{old('experience_level') == '01' ? 'selected' : ''}}>Training</option>
                 <option value="02" {{old('experience_level') == '02' ? 'selected' : ''}}>Junior</option>

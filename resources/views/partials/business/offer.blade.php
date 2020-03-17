@@ -1,21 +1,75 @@
 <form class="form-offer w-100 my-3 p-4" method="post" action="{{ route('offer.create') }}">
     @csrf
     @method('PUT')
-    <h3 class="text-center">Publica un Aviso</h3>
+    <h4 class="text-left">Completa la información de la oferta que quieres publicar.</h4>
     <div class="row">
-        <div class="col-md-12 form-group">
-            <label>Puesto ofrecido</label>
+        <div class="col-md-6 form-group">
+            <label>Cargo (*)</label>
             <input type="text" class="form-control {{$errors->has('title') ? 'is-invalid' : ''}}" name="title"
                    value="{{old('title')}}"/>
             @if($errors->has('title'))
                 <span class="invalid-feedback">{{$errors->first('title')}}</span>
             @endif
+        </div>
+        <div class="col-md-6 form-group">
+            <label>Tipo de puesto (*)</label>
+            <input type="text" class="form-control {{$errors->has('position') ? 'is-invalid' : ''}}" name="position"
+                   value="{{old('position')}}"/>
+            @if($errors->has('position'))
+                <span class="invalid-feedback">{{$errors->first('position')}}</span>
+            @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label>Area Implementación (*)</label>
+            <input type="text" name="area" class="form-control {{$errors->has('area') ? 'is-invalid' : ''}}"
+                   value="{{old('area')}}"/>
+            @if($errors->has('area'))
+                <span class="invalid-feedback">{{$errors->first('area')}}</span>
+            @endif
+        </div>
+        <div class="col-md-6 form-group">
+            <label>Sub-área (*)</label>
+            <input type="text" name="sub_area" class="form-control {{$errors->has('sub_area') ? 'is-invalid' : ''}}"
+                   value="{{old('sub_area')}}"/>
+            @if($errors->has('sub_area'))
+                <span class="invalid-feedback">{{$errors->first('sub_area')}}</span>
+            @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label>Nivel de experiencia</label>
+            <select class="form-control" name="experience">
+                <option value="">Seleccione un nivel</option>
+                <option value="0">Indiferente</option>
+                <option value="1">Junior</option>
+                <option value="2">Semi-senior</option>
+                <option value="3">Senior</option>
+            </select>
+        </div>
+        <div class="col-md-4 form-group">
+            <label>La oferta es inclusiva <i class="fas fa-wheelchair"></i></label>
+            <select class="form-control" name="handicapped">
+                <option value="">Seleccione</option>
+                <option value="0">No</option>
+                <option value="1">Si</option>
+            </select>
+        </div>
+        <div class="col-md-4 form-group">
+            <label>Renta ofrecida</label>
+            <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
+                   type="text" name="salary" value="{{ old('salary') }}"/>
 
+            @if ($errors->has('salary'))
+                <span class="invalid-feedback">{{ $errors->first('salary') }}</span>
+            @endif
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 form-group">
-            <label>Descripción</label>
+            <label>Descripción (*)</label>
             <textarea id="contents" type="text" class="form-control {{$errors->has('description') ? 'is-invalid' : ''}}"
                       name="description">{{old('description')}}</textarea>
             @if($errors->has('description'))
@@ -24,78 +78,41 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 form-group">
-            <label>Área del puesto</label>
-            <input type="text" name="area" class="form-control {{$errors->has('area') ? 'is-invalid' : ''}}"
-                   value="{{old('area')}}"/>
-            @if($errors->has('area'))
-                <span class="invalid-feedback">{{$errors->first('area')}}</span>
-            @endif
-        </div>
-        <div class="col-md-6 form-group">
-            <label>Subárea del puesto</label>
-            <input type="text" name="subarea" class="form-control {{$errors->has('subarea') ? 'is-invalid' : ''}}"
-                   value="{{old('subarea')}}"/>
-            @if($errors->has('subarea'))
-                <span class="invalid-feedback">{{$errors->first('subarea')}}</span>
+        <div class="col-12 form-group">
+            <label>Requisitos</label>
+            <textarea type="text" class="form-control{{ $errors->has('requirements') ? ' is-invalid' : '' }}"
+                      name="requirements">{{ old('requirements') }}</textarea>
+            @if ($errors->has('requirements'))
+                <span class="invalid-feedback">{{ $errors->first('requirements') }}</span>
             @endif
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 form-group">
-            <label>País</label>
-            <input type="text" name="country" class="form-control {{$errors->has('country') ? 'is-invalid' : ''}}"
-                   value="{{old('country')}}"/>
-            @if($errors->has('country'))
-                <span class="invalid-feedback">{{$errors->first('country')}}</span>
-            @endif
-        </div>
-        <div class="col-md-6 form-group">
-            <label>Provincia</label>
-            <input type="text" name="state" class="form-control {{$errors->has('state') ? 'is-invalid' : ''}}"
-                   value="{{old('state')}}"/>
-            @if($errors->has('state'))
-                <span class="invalid-feedback">{{$errors->first('state')}}</span>
-            @endif
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 form-group">
-            <label>Ciudad</label>
-            <input type="text" name="city" class="form-control {{$errors->has('city') ? 'is-invalid' : ''}}"
-                   value="{{old('city')}}"/>
-            @if($errors->has('city'))
-                <span class="invalid-feedback">{{$errors->first('city')}}</span>
-            @endif
-        </div>
-        <div class="col-md-6 form-group">
-            <label>Comuna</label>
-            <input type="text" name="comune" class="form-control {{$errors->has('comune') ? 'is-invalid' : ''}}"
-                   value="{{old('comune')}}"/>
-            @if($errors->has('comune'))
-                <span class="invalid-feedback">{{$errors->first('comune')}}</span>
-            @endif
+        <div class="col-12 form-group">
+            <label>Beneficios</label>
+            <div class="row">
+                <div id="listBenefits" class="col-12">
+                    <div class="btn-benefit" id="div_0"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-inline col-md-5">
+                    <input class="form-control{{ $errors->has('benefit') ? ' is-invalid' : '' }}" name="benefit"/>
+                </div>
+                <div class="d-inline col-md-3">
+                    <a id="addBenefit" href="#">Agregar Beneficio</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 my-0 py-0">
+                    <small>Cuando agregue beneficios, los puede borrar si les da click en la etiqueta</small>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 form-group">
-            <label>Dirección</label>
-            <input type="text" name="address" class="form-control {{$errors->has('address') ? 'is-invalid' : ''}}"
-                   value="{{old('address')}}"/>
-            @if($errors->has('address'))
-                <span class="invalid-feedback">{{$errors->first('address')}}</span>
-            @endif
+        <div class="col-12 my-2">
+            <button class="btn btn-primary" type="submit">Publicar Aviso</button>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6 form-group">
-            <label>Renta Ofrecida</label>
-            <input type="text" name="salary" class="form-control {{$errors->has('salary') ? 'is-invalid' : ''}}"
-                   value="{{old('salary')}}"/>
-            @if($errors->has('salary'))
-                <span class="invalid-feedback">{{$errors->first('salary')}}</span>
-            @endif
-        </div>
-    </div>
-    <button class="btn btn-primary" type="submit">Publicar Aviso</button>
 </form>

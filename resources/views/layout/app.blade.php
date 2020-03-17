@@ -73,5 +73,6 @@
             </div>
         </div>
     </footer>
+    @stack('footer')
 </div>
 </body>

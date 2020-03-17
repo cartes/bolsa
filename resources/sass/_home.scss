@@ -65,7 +65,7 @@
 
 #home-main {
     position: relative;
-    min-height: 600px;
+    min-height: 300px;
     @media (min-width: 1440px) {
         min-height: 550px;
         margin-bottom: 85px;
@@ -108,5 +108,18 @@
             color: $aqBlue;
         }
         color: $white
+    }
+}
+
+.container-offer {
+    cursor: pointer;
+    &:hover {
+        background-color: rgba($aqOrange, 0.4);
+    }
+    &.back-orange {
+        background-color: $aqOrange;
+        & * {
+            color: $white;
+        }
     }
 }

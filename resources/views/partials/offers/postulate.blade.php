@@ -1,55 +1,94 @@
 <div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="text-left">
-                    {{ $offer->title }}
-                </h3>
-                <h5>
-                    <a href="{{ route('business.file', $offer->business->id) }}">
-                        {{ $offer->businessMeta->fantasy_name }}
-                    </a>
-                </h5>
+    @isset($search)
+        <div class="col-md-10">
+            <h4>Resultados para: {{$search}}</h4>
+        </div>
+    @endisset
+    <div class="col-md-3 pr-0 mr-0">
+        @if ($featured != '[]')
+            <div class="container-featured-offer mb-0 border">
+                <div class="row p-2">
+                </div>
             </div>
-            <div class="card-body">
-                <p>Lugar de trabajo: <strong>{{$offer->comune}}, {{$offer->city}}</strong></p>
-                <p>Publicado: <strong>{{ $offer->publication }}</strong></p>
-                <p>Salario: <strong>{{ $offer->salary ? $offer->salary : 'No especificado' }}</strong></p>
-                <p>Área: <strong>{{ $offer->area }}</strong></p>
-                <hr/>
-                {!! $offer->description !!}
-                <hr/>
-                <form id="postulation-form" method="get" action="{{ route('offer.postulate', $offer->slug) }}">
-                    @csrf
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <p><strong>Sueldo Bruto pretendido</strong></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-group col-sm-6">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">$</span>
+        @endif
+
+        @if (!isset($search))
+            @php($search = '')
+        @endif
+
+        @forelse($offers as $off)
+            <div class="container-offer mb-0 border{{ $slug == $off->slug ? ' back-orange' : '' }}">
+                <a href="{{ route("offer.show", ['slug' => $off->slug, 'search' => $search]) }}">
+                    <div class="py-2 px-3">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5 class="text-capitalize text-left m-0 p-0">
+                                    {{$off->title}}{{ $off->salary ? ' | ' . $off->salary : '' }}
+                                    @if ($off->is_new)
+                                        <span class="badge badge-success">
+                                            {{'Nuevo'}}
+                                        </span>
+                                    @endif
+                                </h5>
                             </div>
-                            <input class="form-control" type="text" placeholder="Salario"/>
-                        </div>
-                        <div class="form-group col-sm-6 m-0">
-                            @if( session()->get('id') && session()->get('role') !== 'business' )
-                                @if($postulate)
-                                    <p class="btn m-0">Ya postulaste a esta
-                                        oferta {{ $postulate->postulated }}</p>
-                                @else
-                                    <button type="submit" class="btn btn-primary">Postularme</button>
-                                @endif
-                            @elseif(session()->get('role') == 'business' && session()->get('id') == $offer->id_business)
-                                <a href="{{ route('offer.detail', $offer->slug) }}" class="btn btn-primary">Editar</a>
-                            @elseif(!session()->get('id'))
-                                <a href="{{ route('home') }}" class="d-inline-block btn btn-primary" data-toggle="modal" data-target="#loginUserModal">Iniciar sesión</a>
-                                <small class="d-inline-block">Debes Iniciar sesión para postular</small>
-                            @endif
+                            <div class="col-md-3">
+                                <p class="date text-right">
+                                    {{ $off->publication }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </form>
+                    <div class="py-2 px-3">
+                        <p class="p-0 m-0">
+                            {{\Illuminate\Support\Str::limit(strip_tags(html_entity_decode($off->description)), 50)}}
+                        </p>
+                    </div>
+                </a>
+            </div>
+        @empty
+            <div class="card">
+                <div class="card-body">
+                    <p>No hay ofertas de trabajo para mostrar!</p>
+                </div>
+            </div>
+        @endforelse
+    </div>
+    <div id="container-offer-display" class="col-md-7 pl-0 border">
+        <div class="row p-3 px-5">
+            <div class="col-12">
+                <small id="container-offer-title-created-at">{{ $offer->created_at }}</small>
+            </div>
+            <div class="col-12">
+                <h2 id="container-offer-title"> {{ $offer->title }}{{ $offer->salary ? ' | ' . $offer->salary : '' }}</h2>
+            </div>
+            <div class="col-12">
+                <p id="container-business-name" class="m-0 p-0">
+                    <strong>{{ $offer->businessMeta->business_name }}</strong></p>
+                <p id="container-business-comune" class="m-0 p-0">{{ $offer->businessMeta->comune }}</p>
+            </div>
+            <div class="col-12 mt-2">
+                <div id="container-offer-description">{!! $offer->description !!}</div>
+            </div>
+            <div class="col-12">
+                <div id="container-offer-requirements">{{ $offer->requirements }}</div>
+            </div>
+            @if ( $offer->benefits )
+                <div class="col-12">
+                    <div id="container-offer-benefits">
+                        @foreach( $offer->benefits as $benefit )
+                            <div class='btn-benefit mr-3 mb-2 btn btn-secondary'>{{ $benefit->benefit }}</div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+            <div class="col-12 text-right">
+                @if ($postuled)
+                    <p>Ya postulaste a esta oferta</p>
+                @elseif(session()->get('id'))
+                    <a data-toggle="modal" data-target="#postuleModal" href="#" class="btn btn-primary">Postula Acá</a>
+                @else
+                    <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#loginUserModal">Inicie sesión para postular</a>
+                @endif
             </div>
         </div>
     </div>

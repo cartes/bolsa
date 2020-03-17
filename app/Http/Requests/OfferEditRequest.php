@@ -27,12 +27,7 @@ class OfferEditRequest extends FormRequest
             'title' => 'required|min:2',
             'description' => 'required|min:10|max:3500',
             'area' => 'required',
-            'subarea' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'comune' => 'required',
-            'address' => 'required',
+            'sub_area' => 'required',
         ];
     }
 }

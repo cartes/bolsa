@@ -7,6 +7,7 @@ use App\BusinessMeta;
 use App\Http\Requests\BusinessLoginRequest;
 use App\Http\Requests\BusinessProfileRequest;
 use App\Http\Requests\BusinessRegisterRequest;
+use App\Offers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,7 +20,10 @@ class BusinessController extends Controller
 
     public function login(BusinessLoginRequest $request)
     {
-        $business = Business::where('email', $request->email)->with('business_meta')->first();
+        $business = Business::where('email', $request->email)
+            ->with('business_meta')
+            ->withCount('offers')
+            ->first();
 
         if ($business) {
             if (Hash::check($request->password, $business->password)) {
@@ -29,13 +33,18 @@ class BusinessController extends Controller
                         'name' => $business->business_meta->business_name,
                         'role' => 'business'
                     ]);
-                    return redirect()->route('offer.admin');
-
+                    if (!is_null($request->redirect)) {
+                        return redirect()->route($request->redirect);
+                    } else {
+                        return redirect()->route('offer.admin');
+                    }
                 } else {
                     session([
-                        'id' => $business->id
+                        'id' => $business->id,
+                        'name' => $business->firstname . ' ' . $business->surname,
+                        'role' => 'business'
                     ]);
-                    return redirect()->route('business.profile')->with('message', ['light', 'Ingese los datos de su empresa o negocio']);
+                    return redirect()->route('business.profile')->with('message', ['secondary', 'Ingrese los datos de su empresa o negocio']);
                 }
             } else {
                 return back()->with('message', ['danger', 'Contraseña no coincide, inténtelo de nuevo']);
@@ -64,7 +73,7 @@ class BusinessController extends Controller
 
         $business = Business::create($request->input());
 
-        return back()->with('message', ['success', 'Empresa creada con éxito']);
+        return back()->with('message', ['success', 'Registro exitoso']);
     }
 
     public function updateProfile(BusinessProfileRequest $request)
@@ -72,22 +81,7 @@ class BusinessController extends Controller
         $id = session()->get('id');
         BusinessMeta::updateOrCreate(['id_business' => $id], $request->input());
 
-//        BusinessMeta::where('id', $id_meta->id)
-//            ->update([
-//                'business_name' => $request->businessName,
-//                'rut_business' => $request->rut_business,
-//                'fantasy_name' => $request->fantasy_name,
-//                'activity' => $request->activity,
-//                'address' => $request->address,
-//                'state' => $request->state,
-//                'city' => $request->city,
-//                'comune' => $request->comune,
-//                'phone' => $request->phone,
-//                'employees' => $request->employees,
-//                'entry' => $request->entry
-//            ]);
-
-        return back()->with('message', ['success', 'Perfil editado correctamente']);
+        return back()->with('message', ['success', 'Perfil editado correctamente'])->with(compact('offers'));
     }
 
     public function file($id)

@@ -1,0 +1,30 @@
+.job-alert-file {
+    & > div {
+        background-color: $gray-200;
+    }
+
+    & > div.border-orange {
+        border-color: $aqOrange !important;
+        border-width: 10px !important;
+    }
+}
+
+.table-post {
+    tbody tr {
+        padding: 5px 0px !important;
+        &:nth-child(2n - 1) {
+            td {
+                padding-top: 12px !important;
+            }
+        }
+        &:nth-child(2n) {
+            border-bottom: 1px solid $gray-300;
+            td {
+                padding-bottom: 12px !important;
+            }
+        }
+        td {
+            padding: 0px !important;
+        }
+    }
+}

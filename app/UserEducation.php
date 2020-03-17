@@ -45,6 +45,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserEducation extends Model
 {
+    const COURSE = 1;
+    const GRADUATE = 2;
+    const ABANDONED = 3;
 
     protected $table = "aquabe_users_education";
     protected $fillable = ['country', 'studies', 'condition', 'title', 'area', 'month_from',

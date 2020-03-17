@@ -15,8 +15,7 @@ html, body {
   border: 1px solid #e5e5e5;
 }
 .offers-file {
-  border-radius: 5px;
-  box-shadow: 0px 5px 5px #e5e5e5;
+    margin: 20px 0px;
 }
 
 .app {
@@ -62,4 +61,8 @@ footer {
   @media (min-width: 1440px) {
     min-height: 191px;
   }
+}
+
+.table-offers th, .table-offers td {
+    padding: 5px;
 }

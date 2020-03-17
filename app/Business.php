@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\DatesTranslator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -42,10 +43,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Business whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Business withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Business withoutTrashed()
+ * @property-read mixed $expirated_at
  */
 class Business extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, DatesTranslator;
 
     protected $fillable = ['rut_user', 'password', 'firstname', 'surname', 'email', 'position', 'phone'];
     protected $table = "aquabe_business";

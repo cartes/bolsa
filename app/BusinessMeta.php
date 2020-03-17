@@ -58,13 +58,31 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\BusinessMeta whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\BusinessMeta withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\BusinessMeta withoutTrashed()
+ * @property string|null $email
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BusinessMeta whereEmail($value)
  */
 class BusinessMeta extends Model
 {
     use SoftDeletes;
 
     protected $table = "aquabe_business_meta";
-    protected $fillable = ['id_business', 'rut_business', 'business_name', 'fantasy_name', 'activity', 'address', 'comune', 'city', 'state', 'phone', 'logo', 'entry', 'employees', 'rotation'];
+    protected $fillable = [
+        'id_business',
+        'rut_business',
+        'business_name',
+        'fantasy_name',
+        'email',
+        'activity',
+        'address',
+        'comune',
+        'city',
+        'state',
+        'phone',
+        'logo',
+        'entry',
+        'employees',
+        'rotation'
+    ];
 
     public function business()
     {

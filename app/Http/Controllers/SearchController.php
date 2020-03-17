@@ -23,6 +23,11 @@ class SearchController extends Controller
             ['search_term' => $search, 'user_id' => $id, 'quantity' => $added]
         );
 
-        return view('search.results', compact('offers', 'search'));
+        return view('search.results')
+            ->with([
+                'offers' => $offers,
+                'search' => $search,
+                'featured' => null
+            ]);
     }
 }

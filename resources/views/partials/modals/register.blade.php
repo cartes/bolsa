@@ -6,7 +6,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Crea tu Perfil y únete a <strong>{{config('app.name')}}</strong></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true"><i class="far fa-times-circle"></i></span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -16,18 +16,18 @@
                             <div class="col-md-6">
                                 <label>Nombres(*)</label>
                                 <input type="text"
-                                       class="form-control {{$errors->has('firstName') ? 'is-invalid' : ''}}"
-                                       id="firstName" name="firstName" value="{{old('firstName')}}"/>
-                                @if($errors->has('firstName'))
-                                    <span class="invalid-feedback">{{$errors->first('firstName')}}</span>
+                                       class="form-control {{$errors->has('name') ? 'is-invalid' : ''}}"
+                                       id="name" name="name" value="{{old('name')}}"/>
+                                @if($errors->has('name'))
+                                    <span class="invalid-feedback">{{$errors->first('name')}}</span>
                                 @endif
                             </div>
                             <div class="col-md-6">
                                 <label>Apellidos(*)</label>
-                                <input type="text" class="form-control {{$errors->has('lastName') ? 'is-invalid' : ''}}"
-                                       id="lastName" name="lastName" value="{{old('lastName')}}"/>
-                                @if($errors->has('firstName'))
-                                    <span class="invalid-feedback">{{$errors->first('lastName')}}</span>
+                                <input type="text" class="form-control {{$errors->has('surname') ? 'is-invalid' : ''}}"
+                                       id="surname" name="surname" value="{{old('surname')}}"/>
+                                @if($errors->has('surname'))
+                                    <span class="invalid-feedback">{{$errors->first('surname')}}</span>
                                 @endif
 
                             </div>
@@ -54,21 +54,21 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label>Rut(*)</label>
-                                <input type="text" class="form-control {{$errors->has('rut') ? 'is-invalid' : ''}}"
-                                       id="rut"
-                                       name="rut" value="{{old('rut')}}"/>
-                                @if($errors->has('rut'))
-                                    <span class="invalid-feedback">{{$errors->first('rut')}}</span>
+                                <input type="text" class="form-control {{$errors->has('rut_candidate') ? 'is-invalid' : ''}}"
+                                       id="rut_candidate"
+                                       name="rut_candidate" value="{{old('rut_candidate')}}"/>
+                                @if($errors->has('rut_candidate'))
+                                    <span class="invalid-feedback">{{$errors->first('rut_candidate')}}</span>
                                 @endif
 
                             </div>
                             <div class="col-md-6">
                                 <label>Contraseña(*)</label>
                                 <input type="password"
-                                       class="form-control {{$errors->has('password') ? 'is-invalid' : ''}}"
-                                       id="password" name="password" value="{{old('password')}}"/>
-                                @if($errors->has('password'))
-                                    <span class="invalid-feedback">{{$errors->first('password')}}</span>
+                                       class="form-control {{$errors->has('passwordUser') ? 'is-invalid' : ''}}"
+                                       id="passwordUser" name="passwordUser" value="{{old('passwordUser')}}"/>
+                                @if($errors->has('passwordUser'))
+                                    <span class="invalid-feedback">{{$errors->first('passwordUser')}}</span>
                                 @endif
 
                             </div>
@@ -105,7 +105,7 @@
     </div>
 </div>
 
-@if (!empty($errors->hasAny(['firstName', 'lastName', 'email', 'phone', 'rut', 'password'])))
+@if (!empty($errors->hasAny(['name', 'surnam', 'email', 'phone', 'rut_candidate', 'passwordUser'])))
     <script>
         jQuery(document).ready(function ($) {
             $('#registerModal').modal('show');

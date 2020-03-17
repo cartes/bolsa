@@ -1,24 +1,31 @@
-<div class="modal fade" id="loginUserModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginBusinessToPost" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             @if(!session()->has('id'))
                 <div class="modal-header">
-                    <h4 class="modal-title">Ingreso a <strong>{{config('app.name')}}</strong></h4>
+                    <h4 class="modal-title">Ingresa con tu usuario de empresa, para publicar tu aviso</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="far fa-times-circle"></i></span>
+                        <i class="far fa-times-circle"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="my-3" method="post" action="{{route('login')}}">
+                    <form class="my-3" method="post" action="{{ route('business.login') }}">
                         @csrf
+                        <input type="hidden" name="redirect" value="post.create">
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <label>Email usuario</label>
-                                <input class="form-control" type="text" id="email" name="email" required/>
+                                <input type="email" class="form-control {{$errors->has('email') ? 'is-invalid' : ''}}"
+                                       name="email" placeholder="Email usuario" value="{{old('email')}}"/>
+                                @if($errors->has('email'))
+                                    <span class="invalid-feedback">{{$errors->first('email')}}</span>
+                                @endif
                             </div>
-                            <div class="col-md-6 form-group">
-                                <label>Contraseña</label>
-                                <input class="form-control" type="password" id="password" name="password" required/>
+                            <div class="col-md-6">
+                                <input type="password" class="form-control {{$errors->has('password') ? 'is-invalid' : ''}}"
+                                       name="password" placeholder="Clave" value="{{old('password')}}"/>
+                                @if($errors->has('password'))
+                                    <span class="invalid-feedback">{{$errors->first('password')}}</span>
+                                @endif
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -39,16 +46,20 @@
                             </div>
                         </div>
                     </form>
-                    <hr/>
+
+                    <hr />
+
                     <div class="row justify-content-center">
                         <div class="col-12 text-center">
-                            <p class="m-0 p-0">¿No estás registrado?</p>
-                            <p><a data-toggle="modal" data-target="#registerModal" href="#" data-dismiss="modal">Registrate
-                                    Aquí</a></p>
+                            <p class="m-0 p-0">¿Tú empresa no estas registrada?</p>
+                            <p>
+                                <a data-toggle="modal" data-target="#registerBusiness" href="#" data-dismiss="modal">
+                                    Registrala Aquí
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
-
             @endif
         </div>
     </div>

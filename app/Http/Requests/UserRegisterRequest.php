@@ -26,24 +26,24 @@ class UserRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstName' => 'required|min:2',
-            'lastName' => 'required|min:2',
-            'email' => 'required|email',
-            'password' => 'required|min:4',
+            'name' => 'required|min:2',
+            'surname' => 'required|min:2',
+            'email' => 'required|email|unique:aquabe_users',
+            'passwordUser' => 'required|min:4',
             'phone' => 'required',
-            'rut' => 'required|unique:aquabe_users,rut_user|cl_rut',
+            'rut_candidate' => 'required|unique:aquabe_users,rut_user|cl_rut',
         ];
     }
 
     public function messages()
     {
         return [
-            'rut.cl_rut' => "El Rut no es válido, digito verificador no corresponde",
-            'rut.required' => "El campo Rut es obligatorio",
+            'rut_candidate.cl_rut' => "El Rut no es válido, digito verificador no corresponde",
+            'rut_candidate.required' => "El campo Rut es obligatorio",
             "firstName.required" => "El campo Nombres es obligatorio",
             "lastName.required" => "El campo Apellidos es obligatorio",
             "email.required" => "El campo Email es obligatorio",
-            "password.required" => "El campo Clave es obligatorio",
+            "passwordUser.required" => "El campo Clave es obligatorio",
         ];
     }
 }

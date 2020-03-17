@@ -20,7 +20,7 @@
                     <label>Razón Social</label>
                     <input type="text" class="form-control {{$errors->has('business_name') ? 'is-invalid' : ''}}"
                            name="business_name"
-                           value="{{old('business_name') ?? $business->business_meta->business_name ?? ''}}"/>
+                           value="{{ old('business_name') ?? $business->business_meta->business_name ?? '' }}"/>
                     @if($errors->has('business_name'))
                         <span class="invalid-feedback">{{$errors->first('business_name')}}</span>
                     @endif
@@ -91,7 +91,7 @@
                     <label>Email</label>
                     <input type="text" class="form-control {{$errors->has('email') ? 'is-invalid' : ''}}"
                            name="email"
-                           value="{{old('email') ?? $business->email ?? ''}}"/>
+                           value="{{old('email') ?? $business->business_meta->email ?? ''}}"/>
                     @if($errors->has('email'))
                         <span class="invalid-feedback">{{$errors->first('email')}}</span>
                     @endif

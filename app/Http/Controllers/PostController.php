@@ -13,7 +13,12 @@ class PostController extends Controller
 {
     public function postCreateForm()
     {
-        return view('posts.create');
+        $id = session()->get('id');
+
+        $business = Business::where('id', $id)->with('business_meta')->first();
+        if (session()->get('id')) {
+            return view('posts.create')->with(compact('business'));
+        }
     }
 
     public function register(BusinessRegisterRequest $request)

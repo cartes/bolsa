@@ -62,6 +62,10 @@ use Illuminate\Notifications\Notifiable;
  * @property-read int|null $offers_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Reference[] $userReferences
  * @property-read int|null $user_references_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $messages
+ * @property-read int|null $messages_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Search[] $searches
+ * @property-read int|null $searches_count
  */
 class User extends Authenticatable
 {
@@ -96,7 +100,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function offers() {
+    public function offers()
+    {
         return $this->belongsToMany('App\Offers');
     }
 
@@ -130,8 +135,19 @@ class User extends Authenticatable
         return $this->hasMany('App\UserEducation', 'id_user', 'id');
     }
 
-    public function userReferences() {
+    public function userReferences()
+    {
         return $this->hasMany(Reference::class, 'id_user', 'id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function searches()
+    {
+        return $this->belongsToMany(Search::class);
     }
 
     public function getMaritalStatusAttribute($value)

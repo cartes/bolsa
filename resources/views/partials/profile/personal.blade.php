@@ -6,7 +6,7 @@
         <div class="form-group col-md-6">
             <label>Ciudad (*)</label>
             <input class="form-control {{$errors->has('city') ? 'is-invalid' : ''}}"
-                   name="city" value="{{$user->userMeta->city}}"/>
+                   name="city" value="{{old('city') ?? $user->userMeta->city ?? ''}}"/>
             @if($errors->has('city'))
                 <span class="invalid-feedback">{{$errors->first('city')}}</span>
             @endif
@@ -14,7 +14,7 @@
         <div class="form-group col-md-6">
             <label>Nacionalidad(*)</label>
             <input class="form-control {{$errors->has('nacionality') ? 'is-invalid' : ''}}"
-                   name="nacionality" value="{{$user->nacionality}}">
+                   name="nacionality" value="{{old('nacionality') ?? $user->nacionality ?? ''}}">
             @if($errors->has('nacionality'))
                 <span class="invalid-feedback">{{$errors->first('nacionality')}}</span>
             @endif
@@ -45,7 +45,7 @@
         <div class="form-group col-md-4">
             <label>Fecha de Nacimiento (*)</label>
             <input class="form-control datepicker {{$errors->has('birthday') ? 'is-invalid' : ''}}"
-                   name="birthday" value="{{old('birthday') ?: $user->birthday}}">
+                   name="birthday" value="{{old('birthday') ?? $user->birthday ?? ''}}">
             @if($errors->has('birthday'))
                 <span class="invalid-feedback">{{$errors->first('birthday')}}</span>
             @endif
@@ -53,7 +53,7 @@
         <div class="form-group col-md-4">
             <label>preferencia salarial (*)</label>
             <input class="form-control {{$errors->has('pretentions') ? 'is-invalid' : ''}}"
-                   name="pretentions" value="{{$user->userMeta->pretentions ?? ''}}">
+                   name="pretentions" value="{{old('pretentions') ?? $user->userMeta->pretentions ?? ''}}">
             @if($errors->has('pretentions'))
                 <span class="invalid-feedback">{{$errors->first('pretentions')}}</span>
             @endif
@@ -63,7 +63,7 @@
         <div class="form-group col-md-8">
             <label>Objetivos laborales (*)</label>
             <textarea name="objectives"
-                      class="form-control{{$errors->has('objectives') ? " is-invalid" : ""}}">{{old('objectives') ?? $user->UserMeta->objectives}}</textarea>
+                      class="form-control{{$errors->has('objectives') ? " is-invalid" : ""}}">{{old('objectives') ?? $user->UserMeta->objectives ?? ''}}</textarea>
             @if($errors->has('objectives'))
                 <span class="invalid-feedback">{{$errors->first('objectives')}}</span>
             @endif
@@ -75,26 +75,3 @@
         </div>
     </div>
 </form>
-
-{{--<div class="file col-md-8 my-2">--}}
-{{--<div class="row">--}}
-{{--<div class="col-md-12">--}}
-{{--<h3 class="text-center">{{$user->name}} {{$user->surname}}</h3>--}}
-{{--<h5 class="text-center">{{$user->age}}</h5>--}}
-{{--</div>--}}
-{{--</div>--}}
-{{--<div class="row mt-4 py-4">--}}
-{{--<div class="col-md-4">--}}
-{{--<h6 class="text-center my-0">Nacionalidad</h6>--}}
-{{--<h5 class="text-center my-0"><strong>{{$user->nacionality}}</strong></h5>--}}
-{{--</div>--}}
-{{--<div class="col-md-4">--}}
-{{--<h6 class="text-center my-0">Estado Civil</h6>--}}
-{{--<h5 class="text-center my-0"><strong>{{$user->marital_status}}</strong></h5>--}}
-{{--</div>--}}
-{{--<div class="col-md-4">--}}
-{{--<h6 class="text-center my-0">Documento</h6>--}}
-{{--<h5 class="text-center my-0"><strong>{{$user->rut_user}}</strong></h5>--}}
-{{--</div>--}}
-{{--</div>--}}
-{{--</div>--}}

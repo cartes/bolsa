@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'Controller@index');
+Route::get('/', 'Controller@index')->name('/');
 Route::get('/home', 'Controller@index')->name('home');
 
 Route::get('/register', function () {
@@ -39,14 +39,14 @@ Route::group(["prefix" => "profile"], function () {
     Route::put('profile/resume', 'ProfileController@resume')->name('profile.resume');
 });
 
-Route::prefix('posts')->group( function () {
+Route::prefix('posts')->group(function () {
     Route::get('create', 'PostController@postCreateForm')->name('post.create');
     Route::put('register', 'PostController@register')->name('post.register');
 });
 
 Route::prefix('business')->group(function () {
     Route::get('index', 'BusinessController@index')->name('business.index');
-    Route::post('login', 'BusinessController@login')->name('business.login');
+    Route::post('/login', 'BusinessController@login')->name('business.login');
     Route::post('register', 'BusinessController@register')->name('business.register');
     Route::get('profile', 'BusinessController@profileIndex')->name('business.profile');
     Route::put('update', 'BusinessController@updateProfile')->name('business.update');
@@ -61,12 +61,19 @@ Route::prefix('offer')->group(function () {
     Route::put('/create', 'OfferController@create')->name('offer.create');
     Route::put("/{offer}/store", "OfferController@store")->name("offer.store");
     Route::delete("/{offer}/destroy", "OfferController@destroy")->name("offer.delete");
-    Route::get("/{slug}", "OfferController@show")->name("offer.show");
+    Route::get("/show/{slug}/{search?}", "OfferController@show")->name("offer.show");
     Route::get('/{slug}/candidates', 'OfferController@candidates')->name('offer.candidates');
+    Route::put('/{slug}/republish', 'OfferController@republish')->name('offer.republish');
+    Route::get('/{slug}/getajax', 'OfferController@ajax')->name('offer.ajax');
 });
 
-Route::prefix('user')->group(function() {
-    Route::get('/offers', "UserController@showoffers")->name('user.offers');
-    Route::get('{id}/file', "UserController@file")->name('user.file');
+Route::prefix('user')->group(function () {
+    Route::get('/offers', "UserController@showoffers")->name('user.offers')->middleware(['redhome']);
+    Route::get('/alerts', 'UserController@alerts')->name("user.alerts")->middleware(['redhome']);
+    Route::get('{id}/{offer?}/file', "UserController@file")->name('user.file');
+});
+
+Route::prefix('message')->group(function () {
+    Route::get('show/{user}/{offer}', "MessageController@show")->name("message.show")->middleware(['redhome']);
 });
 Route::post('/search', 'SearchController@result')->name('search');

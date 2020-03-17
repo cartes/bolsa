@@ -18,30 +18,45 @@
                             <table class="table my-4">
                                 <thead>
                                 <tr>
-                                    <th scope="col"><p class="m-0 text-center">Id</p></th>
                                     <th scope="col"><p class="m-0 text-center">Oferta</p></th>
                                     <th scope="col"><p class="m-0 text-center">F. Postulación</p></th>
-                                    <th scope="col"><p class="m-0 text-center">Empresa</p></th>
+                                    <th></th>
+                                    <th scope="col"><p class="m-0 text-center">Estado de la publicación</p></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @forelse($candidates as $candidate)
                                     <tr>
-                                        <td><p class="m-0 text-right">{{$candidate->offers->id}}</p></td>
+
                                         <td>
                                             <p class="m-0 text-left">
-                                                <a href="{{ route('offer.show', $candidate->offers->slug) }}">
-                                                    {{$candidate->offers->title}}
-                                                </a>
+                                                {{$candidate->title}}
+                                            </p>
+                                            <p class="m-0 text-left">
+                                                {{ $candidate->fantasy_name }}
+                                            </p>
+                                            <p class="m-0 text-left">
+                                                {{ $candidate->comune }}
                                             </p>
                                         </td>
-                                        <td><p class="m-0 text-center">{{$candidate->offers->date}}</p></td>
-                                        <td>
-                                            <p class="m-0 text-left">
-                                                <a href="{{ route('business.file', $candidate->offers->businessMeta->id_business) }}">
-                                                {{ $candidate->offers->businessMeta->fantasy_name }}
-                                                </a>
+                                        <td class="align-middle">
+                                            <p class="m-0 text-center">
+                                                {{ \Carbon\Carbon::parse($candidate->created_at)->format("d \\d\\e F \\d\\e Y") }}
                                             </p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="{{ route('offer.show', $candidate->slug) }}">
+                                                Ver oferta
+                                            </a>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="m-0 text-center">
+                                                {{ $candidate->status['text'] }}
+                                            </p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <i class="fas fa-comment-alt"></i>
                                         </td>
                                     </tr>
                                 @empty
@@ -51,9 +66,6 @@
                                 @endforelse
                                 </tbody>
                             </table>
-                            <div class="row justify-content-center">
-                                    {{ $candidates->links() }}
-                            </div>
                         </div>
                     </div>
                 </div>

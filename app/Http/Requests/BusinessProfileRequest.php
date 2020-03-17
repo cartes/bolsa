@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Business;
+use App\BusinessMeta;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BusinessProfileRequest extends FormRequest
@@ -24,17 +25,37 @@ class BusinessProfileRequest extends FormRequest
      */
     public function rules()
     {
+        $id_business = session()->get('id');
+        $id = BusinessMeta::where('id_business', $id_business)->select('id')->first();
+        $business = !empty($id) ? $id->id : '';
         return [
+            'rut_business' => 'required|cl_rut|unique:aquabe_business_meta,rut_business,' . $business,
             'business_name' => 'required',
             'fantasy_name' => 'required',
             'activity' => 'required',
-            'email' => 'email|required',
             'address' => 'required',
-            'state' => 'required',
-            'city' => 'required',
             'comune' => 'required',
-            'phone' => 'required',
-            'rut_business' => 'required|cl_rut|unique:aquabe_business_meta,rut_business',
+            'city' => 'required',
+            'state' => 'required',
+//            'email' => 'email|required',
+//            'phone' => 'required',
+            'employees' => 'required'
+        ];
+    }
+
+    public function messages() {
+        return [
+            'rut_business.required' => "El Rut es obligatorio",
+            'rut_business.cl_rut' => 'El rut no es válido',
+            'business_name.required' => 'La razón social es obligatoria',
+            'fantasy_name.required' => 'El nombre de fantasía es obligatorio',
+            'activity.required' => 'El giro es obligatorio',
+            'address.required' => 'La dirección es obligatoria',
+            'commune.required' => 'La comuna es obligatoria',
+            'city.required' => 'La ciudad es obligatoria',
+            'state.required' => 'La región es obligatoria',
+            'phone.required' => 'El teléfono es obligatorio',
+            'employees.required' => 'La cantidad de empleados es obligatoria',
         ];
     }
 }

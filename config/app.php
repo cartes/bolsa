@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Freshwork\ChileanBundle\Laravel\ChileanBundleServiceProvider::class,
+        Jenssegers\Date\DateServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -227,6 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Rut'   => Freshwork\ChileanBundle\Laravel\Facades\Rut::class,
+        'Date' => Jenssegers\Date\Date::class,
     ],
 
 ];

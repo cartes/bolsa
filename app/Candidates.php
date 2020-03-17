@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\DatesTranslator;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,9 +31,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $date
  * @property-read mixed $postulated
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Candidates whereIdUser($value)
+ * @property int|null $status
+ * @property-read mixed $deleted_at
+ * @property-read mixed $expirated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Candidates whereStatus($value)
  */
 class Candidates extends Model
 {
+    use DatesTranslator;
+
+    public const REVIEWED = 1;
+    public const SCHEDULED = 2;
 
     protected $table = "aquabe_offers_candidates";
     protected $filable = ['id_offer', 'id_user'];
@@ -44,7 +53,7 @@ class Candidates extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User',  'id_user', 'id');
+        return $this->belongsTo('App\User', 'id_user', 'id');
     }
 
     public function getPostulatedAttribute($value)
@@ -54,8 +63,36 @@ class Candidates extends Model
         return Carbon::parse($publication)->diffForHumans();
     }
 
-    public function getDateAttribute() {
+    public function getStatusAttribute() {
+        $status = $this->attributes['status'];
 
+        switch ($status) {
+            case null:
+                return [
+                    'class' => "w-0",
+                    "text" => "Sin cambio"
+                ];
+            case "1":
+                return [
+                    "class" => "w-50",
+                    "text" => "CV visto"
+                ];
+            case "2":
+                return [
+                    "class" => "w-75",
+                    "text" => "Entrevista agendada"
+                ];
+            case "3":
+                return [
+                    "class" => "w-100",
+                    "text" => "xx xxx"
+                ];
+        }
+    }
+
+    public function getDateAttribute()
+    {
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
+
 }

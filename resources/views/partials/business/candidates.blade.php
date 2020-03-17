@@ -5,6 +5,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h3>Candidatos para oferta {{ $offer->title }}</h3>
+                        <small>Id: {{ $offer->id }}</small>
                     </div>
                 </div>
                 <hr>
@@ -15,9 +16,13 @@
                             <tr>
                                 <th scope="col"><p class="m-0 text-center">Nombre Postulante</p></th>
                                 <th scope="col"><p class="m-0 text-center">Edad</p></th>
-                                <th scope="col"><p class="m-0 text-center">Comuna</p></th>
+                                <th scope="col"><p class="m-0 text-center">Género</p></th>
+                                <th scope="col"><p class="m-0 text-center">Estado Civil</p></th>
+                                <th scope="col"><p class="m-0 text-center">Nacionalidad</p></th>
                                 <th scope="col"><p class="m-0 text-center">Email</p></th>
                                 <th scope="col"><p class="m-0 text-center">Teléfono</p></th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -31,10 +36,26 @@
                                             </a>
                                         </p>
                                     </td>
-                                    <td><p class="m-0 text-center">{{ $candidate->user->age }}</p></td>
-                                    <td><p class="m-0 text-left">{{ $candidate->user->userMeta->comune }}</p></td>
-                                    <td><p class="m-0 text-left">{{ $candidate->user->email }}</p></td>
-                                    <td><p class="m-0 text-right">{{ $candidate->user->userMeta->phone }}</p></td>
+                                    <td><p class="m-0 text-center">{{ $candidate->user->age ?? '' }}</p></td>
+                                    <td><p class="m-0 text-left">{{ $candidate->user->gender ?? '' }}</p></td>
+                                    <td><p class="m-0 text-left">{{ $candidate->user->marital_status ?? '' }}</p></td>
+                                    <td><p class="m-0 text-left">{{ $candidate->user->nacionality ?? '' }}</p></td>
+                                    <td><p class="m-0 text-left">{{ $candidate->user->email ?? '' }}</p></td>
+                                    <td><p class="m-0 text-right">{{ $candidate->user->userMeta->phone ?? '' }}</p></td>
+                                    <td>
+                                        <p>
+                                            <a href="{{ route("user.file", ['id' => $candidate->user->id, 'offer' => $offer->id]) }}">
+                                                <i style="font-size: 20px;" class="far fa-file-alt"></i>
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <a href="{{ route("message.show", ['user' => $candidate->user->id, 'offer' => $offer->id ]) }}">
+                                                <i style="font-size: 20px;" class="far fa-comment-alt"></i>
+                                            </a>
+                                        </p>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

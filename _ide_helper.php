@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 6.9.0 on 2020-03-06 12:28:46.
+ * Generated for Laravel 6.9.0 on 2020-03-17 15:18:04.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -15030,6 +15030,18 @@ namespace Freshwork\ChileanBundle\Facades {
  
 }
 
+namespace Jenssegers\Date { 
+
+    /**
+     * 
+     *
+     */ 
+    class Date {
+         
+    }
+ 
+}
+
 namespace Facade\Ignition\Facades { 
 
     /**
@@ -18158,6 +18170,8 @@ namespace  {
     class View extends \Illuminate\Support\Facades\View {}
 
     class Rut extends \Freshwork\ChileanBundle\Facades\Rut {}
+
+    class Date extends \Jenssegers\Date\Date {}
 
     class Flare extends \Facade\Ignition\Facades\Flare {}
  

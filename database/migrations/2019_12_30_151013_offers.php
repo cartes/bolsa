@@ -20,21 +20,23 @@ class Offers extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('description');
-            $table->boolean('handicapped');
+            $table->boolean('handicapped')->nullable();
             $table->string('area');
             $table->string('sub_area');
-            $table->string('country');
-            $table->string('address');
-            $table->string('city');
-            $table->string('comune');
-            $table->string('state');
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('comune')->nullable();
+            $table->string('country')->nullable();
             $table->integer('salary')->nullable();
             $table->string('position')->nullable();
-            $table->string('benefits')->nullable();
-            $table->string('requirements')->nullable();
+            $table->string('experience')->nullable();
+            $table->string('views')->nullable()->default(0);
+            $table->longText('requirements')->nullable();
             $table->integer('period');
             $table->string('status')->nullable();
             $table->softDeletes();
+            $table->timestamp('expirated_at')->nullable();
             $table->timestamps();
         });
 
@@ -44,8 +46,10 @@ class Offers extends Migration
             $table->foreign('id_offer')->references('id')->on('aquabe_offers');
             $table->unsignedInteger('id_candidate');
             $table->foreign('id_candidate')->references('id')->on('aquabe_users');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
+
     }
 
     /**

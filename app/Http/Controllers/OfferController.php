@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Benefit;
+use App\Business;
 use App\Candidates;
 use App\Http\Requests\CreateOfferRequest;
 use App\Http\Requests\OfferEditRequest;
 use App\Offers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -18,9 +21,26 @@ class OfferController extends Controller
         if (!$id) {
             return redirect()->route('home');
         }
-        $offers = Offers::where('id_business', $id)->paginate(25);
+        $offers = Offers::where('id_business', $id)
+            ->whereDate('expirated_at', '>=', Carbon::now())
+            ->with(['businessMeta', 'Benefits'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(25);
 
-        return view('offers.index', compact('offers'));
+        $expired = Offers::where('id_business', $id)
+            ->whereDate('expirated_at', '<', Carbon::now())
+            ->orderBy('created_at')
+            ->paginate(25);
+
+        $business = Business::where('id', '=', $id)
+            ->with('business_meta')
+            ->withcount('offers')
+            ->first();
+
+        return view('offers.index')
+            ->with('expired', $expired)
+            ->with('business', $business)
+            ->with('offers', $offers);
     }
 
     public function detail(Offers $offer)
@@ -28,7 +48,12 @@ class OfferController extends Controller
         $id = session()->get('id');
 
         if ($offer->id_business == $id) {
-            return view('offers.detail', compact('offer'));
+            $business = Business::whereId($id)->with('business_meta')->first();
+            $benefits = Benefit::whereOfferId($offer->id)->get();
+            return view('offers.detail')
+                ->with('business', $business)
+                ->with('benefits', $benefits)
+                ->with('offer', $offer);
         } else {
             $offers = Offers::where('id_business', $id)->paginate(25);
 
@@ -38,25 +63,32 @@ class OfferController extends Controller
 
     public function create(CreateOfferRequest $request)
     {
-        $offer = new Offers;
+        $last_id = \DB::table('aquabe_offers')->latest()->first();
         $business_id = session()->get('id');
+        $slug = Str::slug($request->get('title') . '-' . $last_id->id);
 
-        $slug = $this->generateSlug($request->title);
+        $expiration = Carbon::now()->addDays(30);
 
-        $offer->id_business = $business_id;
-        $offer->title = $request->title;
-        $offer->slug = $slug;
-        $offer->description = $request->description;
-        $offer->area = $request->area;
-        $offer->sub_area = $request->subarea;
-        $offer->country = $request->country;
-        $offer->state = $request->state;
-        $offer->city = $request->city;
-        $offer->comune = $request->comune;
-        $offer->address = $request->address;
-        $offer->salary = $request->salary;
+        $request->merge(['id_business' => $business_id]);
+        $request->merge(['slug' => $slug]);
+        $request->merge(['expirated_at' => $expiration]);
 
-        $offer->save();
+        $benefits = null;
+        if (is_array($request->benefits)) {
+            $benefits = $request->benefits;
+            $request->request->remove('benefits');
+        }
+        $offer = Offers::create($request->input());
+        $offer_id = $offer->id;
+
+        if (!is_null($benefits)) {
+            foreach ($benefits as $benefit) {
+                Benefit::create([
+                    'offer_id' => $offer_id,
+                    'benefit' => $benefit
+                ]);
+            }
+        }
 
         return redirect()->route('offer.admin')->with('message', ['success', 'Publicación de nueva oferta exitosa']);
     }
@@ -66,12 +98,25 @@ class OfferController extends Controller
         $id = session()->get('id');
 
         if ($id == $offer->id_business) {
-            if ($request->title !== $offer->title) {
-                $newSlug = $this->generateSlug($request->title);
+            $offer_id = $offer->id;
+            if (is_array($request->benefits)) {
+                $benefits = $request->benefits;
+                $request->request->remove('benefits');
+                Benefit::where('offer_id', $offer_id)->delete();
+            }
 
+            if ($request->title !== $offer->title) {
+                $newSlug = Str::slug($request->title . '-' . $offer_id);
                 $request->merge(['slug' => $newSlug]);
             }
             $offer->fill($request->input())->save();
+            foreach ($benefits as $benefit) {
+                Benefit::create([
+                    'offer_id' => $offer_id,
+                    'benefit' => $benefit
+                ]);
+            }
+
             return redirect()->route('offer.admin')->with('message', ['success', 'Datos actualizados']);
         } else {
             return redirect()->route('offer.admin')->with('message', ['danger', 'No estás autorizado para corregir estos datos']);
@@ -79,19 +124,46 @@ class OfferController extends Controller
 
     }
 
-    public function show($slug)
+    public function show($slug, $search = null)
     {
-        $offer = Offers::with(['business', 'businessMeta', 'candidates'])
-            ->withCount('candidates')
-            ->whereSlug($slug)
-            ->first();
+        $id = session()->get('id');
 
-        $postulate = Candidates::where([
-            'id_offer' => $offer->id,
-            'id_user' => session()->get('id')
-        ])->first();
+        if (is_null($search)) {
+            $query = Offers::whereDate('expirated_at', '>=', Carbon::now())
+                ->where('featured', '!=', '1')
+                ->orWhereNull('featured')
+                ->with(['businessMeta', 'Benefits', 'candidates'])
+                ->latest()->paginate(15);
+        } else {
+            $query = Offers::where(function($q) use ($search) {
+                $q->where('title', 'LIKE', '%' . $search . '%')
+                    ->orWhere('description', 'LIKE', '%' . $search . '%');
+            })
+                ->whereDate('expirated_at', '>=', Carbon::now())
+                ->with(['businessMeta', 'Benefits', 'candidates'])
+                ->get();
+        }
+        $offer = Offers::whereSlug($slug)->with('candidates')->first();
 
-        return view('offers.postulate', compact('offer', 'postulate'));
+        $offer_id = $offer->id;
+
+        $featured = Offers::whereDate('expirated_at', '>=', Carbon::now())
+            ->where('featured', '=', '1')
+            ->with(['businessMeta', 'Benefits'])
+            ->latest()->get();
+
+        $candidate = Candidates::whereIdUser($id)->where('id_offer', '=', $offer_id)->first();
+        $postuled = is_null($candidate) ? false : true;
+
+        return view('offers.postulate')
+            ->with([
+                'search' => $search,
+                'offer' => $offer,
+                'slug' => $slug,
+                'offers' => $query,
+                'postuled' => $postuled,
+                'featured' => $featured
+            ]);
     }
 
     public function postulate(Offers $offer)
@@ -119,36 +191,60 @@ class OfferController extends Controller
         }
     }
 
-    public function generateSlug($title, $id = 0)
+    public function republish($slug)
     {
-        $slug = Str::slug($title);
-        $allSlugs = $this->getRelatedSlugs($slug, $id);
-        $offersCount = Offers::count();
+        $id = session()->get('id');
 
-        if (!$allSlugs->contains('slug', $slug)) {
-            return $slug;
+        if ($id) {
+            $new_exp = Carbon::now()->addDays(30);
+            Offers::whereSlug($slug)->update([
+                'expirated_at' => $new_exp
+            ]);
         }
 
-        for ($i = 1; $i <= $offersCount; $i++) {
-            $newSlug = $slug . '-' . $i;
-            if (!$allSlugs->contains('slug', $newSlug)) {
-                return $newSlug;
-            }
-        }
+        return redirect()->route('offer.admin');
+    }
 
-        throw new \Exception('No se puede crear un único slug');
+    public function ajax($slug)
+    {
+        $offer = Offers::whereSlug($slug)
+            ->with(['businessMeta', 'Benefits'])
+            ->first();
 
+        return response()->json($offer);
     }
 
     public function list()
     {
-        $offers = Offers::orderBy('created_at', 'desc')->paginate(15);
-        return view('offers.list', compact('offers'));
+        $id = session()->get('id');
+
+        $featured = Offers::whereDate('expirated_at', '>', Carbon::now())
+            ->where('featured', '=', '1')
+            ->with(['business', 'businessMeta', 'candidates'])
+            ->orderBy('created_at')
+            ->get();
+
+        $offers = Offers::whereDate('expirated_at', '>', Carbon::now())
+            ->where('featured', '!=', '1')
+            ->orWhereNull('featured')
+            ->orderBy('created_at', 'desc')
+            ->with(['business', 'businessMeta', 'candidates'])
+            ->paginate(15);
+        $offer_id = $offers[0]->id;
+
+        $candidate = Candidates::whereIdUser($id)->where('id_offer', '=', $offer_id)->first();
+        $postuled = is_null($candidate) ? false : true;
+
+        return view('offers.list')
+            ->with([
+                'offers' => $offers,
+                'featured'=> $featured,
+                'postuled' => $postuled
+            ]);
     }
 
     public function candidates($slug)
     {
-
         $offer = Offers::whereSlug($slug)->with('candidates', 'candidates.user', 'candidates.user.userMeta')->first();
 
         return view('business.candidates', compact('offer'));

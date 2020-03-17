@@ -12,8 +12,11 @@
             </div>
         @endif
 
-        @include('partials.modals.loginHome')
-        @include("partials.modals.register")
+            @include('partials.modals.loginHome')
+            @include('partials.modals.loginBusiness')
+            @include("partials.modals.register")
+            @include('partials.modals.registerBusiness')
+            @include('partials.modals.loginBusinessToPost')
     </div>
 
     <div class="container">
@@ -127,7 +130,6 @@
                         </div>
                         <div class="row">
                             <div class="col-12 text-center">
-                                <a href="#" class="btn btn-primary w-100 py-3 text-white">CONTRATAR</a>
                             </div>
                         </div>
                     </div>
@@ -179,7 +181,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 text-center">
-                                <a href="#" class="btn btn-primary w-100 py-3 text-white">CONTRATAR</a>
+                                <a target="_blank" href="https://www.editec.cl/comercio/tienda/sin-categoria/bolsa-empleo-aviso-basico/" class="btn btn-primary w-100 py-3 text-white">CONTRATAR</a>
                             </div>
                         </div>
                     </div>
@@ -231,7 +233,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 text-center">
-                                <a href="#" class="btn btn-primary w-100 py-3 text-white">CONTRATAR</a>
+                                <a target="_blank" href="https://www.editec.cl/comercio/tienda/sin-categoria/bolsa-empleo-aviso-premium/" class="btn btn-primary w-100 py-3 text-white">CONTRATAR</a>
                             </div>
                         </div>
                     </div>
@@ -283,7 +285,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 text-center">
-                                <a href="#" class="btn btn-primary w-100 py-3 text-white">CONTRATAR</a>
+                                <a target="_blank" href="https://www.editec.cl/comercio/tienda/sin-categoria/bolsa-empleo-aviso-corporativo/" class="btn btn-primary w-100 py-3 text-white">CONTRATAR</a>
                             </div>
                         </div>
                     </div>

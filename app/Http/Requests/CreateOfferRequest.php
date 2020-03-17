@@ -25,14 +25,18 @@ class CreateOfferRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'position' => 'required',
             'description' => 'required|min:15|max:3500',
             'area' => 'required',
-            'subarea' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'comune' => 'required',
-            'address' => 'required',
+            'sub_area' => 'required',
+            'salary' => 'numeric'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'salary.numeric' => 'Renta ofrecida debe ser un valor numérico'
         ];
     }
 }

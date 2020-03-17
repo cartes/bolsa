@@ -72,34 +72,84 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereSlug($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Offers withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Offers withoutTrashed()
+ * @property string|null $experience
+ * @property string|null $views
+ * @property string|null $expirated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Benefit[] $Benefits
+ * @property-read int|null $benefits_count
+ * @property-read mixed $expiration_date
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereExperience($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereExpiratedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereViews($value)
+ * @property int|null $featured
+ * @property-read mixed $is_new
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $messages
+ * @property-read int|null $messages_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereFeatured($value)
  */
 class Offers extends Model
 {
     use SoftDeletes;
+
+    const REVIEWED = 1;
+    const INTERVIEW = 2;
+
     /**
      * @var string
      */
     protected $table = "aquabe_offers";
     protected $withCount = ['candidates'];
-    protected $fillable = ['id_business', 'title', 'slug', 'description', 'handicapped', 'area', 'sub_area', 'address', 'country', 'city', 'state', 'salary', 'position', 'benefits', 'requirements', 'period', 'status'];
+    protected $fillable = [
+        'id_business',
+        'title',
+        'slug',
+        'description',
+        'handicapped',
+        'area',
+        'sub_area',
+        'address',
+        'country',
+        'city',
+        'state',
+        'commune',
+        'salary',
+        'position',
+        'experience',
+        'views',
+        'requirements',
+        'period',
+        'status',
+        'expirated_at'
+    ];
 
     public function business()
     {
-        return $this->belongsTo('App\Business', 'id_business', 'id');
+        return $this->belongsTo(Business::class, 'id_business', 'id');
     }
 
     public function candidates()
     {
-        return $this->hasMany('App\Candidates', 'id_offer', 'id');
+        return $this->hasMany(Candidates::class, 'id_offer', 'id');
     }
 
-    public function User() {
+    public function User()
+    {
         return $this->belongsToMany('App\User');
+    }
+
+    public function Benefits()
+    {
+        return $this->hasMany(Benefit::class, 'offer_id', 'id');
     }
 
     public function businessMeta()
     {
-        return $this->belongsTo('App\BusinessMeta', 'id_business', 'id_business');
+        return $this->belongsTo(BusinessMeta::class, 'id_business', 'id_business');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany( Message::class );
     }
 
     public function getPublicationAttribute()
@@ -109,6 +159,22 @@ class Offers extends Model
         return Carbon::parse($publication)->diffForHumans();
     }
 
+    public function getIsNewAttribute() {
+        $publication = $this->attributes['created_at'];
+        if (Carbon::parse($publication)->diffInHours() < 20) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        $publication = $this->attributes['created_at'];
+        return Carbon::parse($publication)->format("d F Y");
+    }
+
+
     public function getRouteKeyName()
     {
         return 'slug';
@@ -117,5 +183,26 @@ class Offers extends Model
     public function getDateAttribute()
     {
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
+    }
+
+    public function getExpirationDateAttribute()
+    {
+        $starts = Carbon::parse($this->attributes['expirated_at']);
+        return $starts->format('d/m/Y');
+    }
+
+    public function getStatusAttribute()
+    {
+        $expiration = Carbon::parse($this->attributes['expirated_at']);
+
+        if ($expiration < Carbon::now()) {
+            return '<i class="fas fa-minus-circle text-danger" data-toggle="popover" data-content="Oferta expirada" data-trigger="hover"></i>';
+        } elseif ($expiration <= Carbon::now()->addDays(2)) {
+            return '<i class="fas fa-minus-circle text-danger" data-toggle="popover" data-content="Oferta a punto de expirar" data-trigger="hover"></i>';
+        } elseif ($expiration <= Carbon::now()->addDays(7)) {
+            return '<i class="fas fa-exclamation-circle text-warning" data-toggle="popover" data-content="Oferta expira en menos de 7 días" data-trigger="hover"></i>';
+        } else {
+            return '<i class="fas fa-check-circle text-success"></i>';
+        }
     }
 }

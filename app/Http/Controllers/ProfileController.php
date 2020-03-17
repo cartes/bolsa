@@ -110,9 +110,10 @@ class ProfileController extends Controller
 
     }
 
-    public function experience(ExperienceRequest $request)
+    public function experience(Request $request)
     {
         $id = session()->get('id');
+
         $experience = new UserExperience;
         try {
             $experience->id_user = $id;
@@ -133,14 +134,11 @@ class ProfileController extends Controller
             $experience->save();
 
             $success = true;
-        } catch (\Exception $exc) {
-            $success = $exc->getMessage();
-        }
-
-        if ($success) {
             return back()->with('message', ['success', 'Experiencia Laboral Actualizada']);
-        }
 
+        } catch (\Exception $exc) {
+            return back()->with('message', ['error', $exc->getMessage()]);
+        }
     }
 
     public function education(EducationRequest $request)

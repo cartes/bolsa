@@ -1,5 +1,5 @@
 <div class="navbar-nav ml-auto">
-    <a class="btn" href="{{ route('post.create') }}" type="button">Agregar Aviso</a>
+    <a class="btn" href="{{ route('post.create') }}" type="button">Publicar oferta</a>
     <div class="dropdown">
         <button class="btn dropdown-toggle" type="button" id="dropDownUser"
                 data-toggle="dropdown" aria-expanded="false"

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AuthBackHome;
 use App\Http\Middleware\BusinessRegisterMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -62,6 +63,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'redhome' => AuthBackHome::class,
     ];
 
     /**
