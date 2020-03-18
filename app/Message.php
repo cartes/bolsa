@@ -32,6 +32,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Message extends Model
 {
+    const SENDED = 0;
+    const UNREAD = 1;
+    const READED = 2;
+    const REPLYED = 3;
+    const FINISHED = 4;
+
     protected $table = "aquabe_messages";
     protected $fillable = [
         'subject',

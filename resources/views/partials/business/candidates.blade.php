@@ -50,11 +50,13 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <p>
-                                            <a href="{{ route("message.show", ['user' => $candidate->user->id, 'offer' => $offer->id ]) }}">
+                                        <form class="sendMessage">
+                                            <input type="hidden" name="user" value="{{ $candidate->user->id }}" />
+                                            <input type="hidden" name="offer" value="{{ $offer->id }}" />
+                                            <button type="submit" class="submitSendMessage" style="background: none; padding: 0; border: none;">
                                                 <i style="font-size: 20px;" class="far fa-comment-alt"></i>
-                                            </a>
-                                        </p>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

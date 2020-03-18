@@ -74,6 +74,7 @@ Route::prefix('user')->group(function () {
 });
 
 Route::prefix('message')->group(function () {
-    Route::get('show/{user}/{offer}', "MessageController@show")->name("message.show")->middleware(['redhome']);
+    Route::post('/show', "MessageController@show")->name("message.show")->middleware(['redhome']);
+    Route::post('/send', "MessageController@send")->name("message.send")->middleware(['redhome']);
 });
 Route::post('/search', 'SearchController@result')->name('search');

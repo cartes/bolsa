@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Business;
-use App\BusinessMeta;
-use App\Offers;
+use App\Message;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -13,21 +11,33 @@ class MessageController extends Controller
     /**
      * Mostrar modal con mensaje de la empresa
      */
-    public function show($user, $offer)
+    public function show(Request $request)
     {
-        $candidate = User::whereId($user)
-            ->select(['id', 'name', 'surname'])
+        $user = User::whereId($request->input('user'))
+            ->select(['name', 'surname'])
             ->first();
-        $offer = Offers::whereId($offer)->first();
 
-        $offers = Offers::whereSlug($offer->slug)->with('candidates', 'candidates.user', 'candidates.user.userMeta')->first();
+        $messages = Message::where([
+            "offer_id" => $request->input('offer'),
+            "user_id" => $request->input('user')
+        ])->get();
 
-        return back()->with(['modal' => ['true']]);
+        $response = [
+            "user" => $user,
+            "messages" => $messages
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
      * Enviar el mensaje al usuario
      */
+    public function send(Request $request)
+    {
+        $request->merge(['status' => Message::SENDED]);
+        dd($request);
+    }
 
     /**
      * Usuario puede leer el mensaje
