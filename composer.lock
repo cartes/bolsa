@@ -3080,16 +3080,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "5.1.5",
+            "version": "5.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "26d9f929904015cc5c269418e0b86c522a8f8846"
+                "reference": "7a479e525582d09f315c2cf2a99075d6a798b535"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/26d9f929904015cc5c269418e0b86c522a8f8846",
-                "reference": "26d9f929904015cc5c269418e0b86c522a8f8846",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/7a479e525582d09f315c2cf2a99075d6a798b535",
+                "reference": "7a479e525582d09f315c2cf2a99075d6a798b535",
                 "shasum": ""
             },
             "type": "component",
@@ -3098,13 +3098,15 @@
                     "scripts": [
                         "tinymce.js",
                         "plugins/*/plugin.js",
-                        "themes/*/theme.js"
+                        "themes/*/theme.js",
+                        "themes/*/icons.js"
                     ],
                     "files": [
                         "tinymce.min.js",
                         "plugins/*/plugin.min.js",
                         "themes/*/theme.min.js",
-                        "skins/**"
+                        "skins/**",
+                        "icons/*/icons.min.js"
                     ]
                 }
             },
@@ -3113,16 +3115,25 @@
                 "LGPL-2.1-only"
             ],
             "description": "Web based JavaScript HTML WYSIWYG editor control.",
-            "homepage": "http://www.tinymce.com",
+            "homepage": "https://www.tiny.cloud/",
             "keywords": [
-                "editor",
+                "contenteditable",
+                "editing",
                 "html",
                 "javascript",
+                "rich editor",
+                "rich text",
+                "rich text editor",
                 "richtext",
+                "rte",
+                "text",
                 "tinymce",
                 "wysiwyg"
             ],
-            "time": "2019-12-19T06:21:48+00:00"
+            "support": {
+                "source": "https://github.com/tinymce/tinymce-dist/tree/5.9.0"
+            },
+            "time": "2021-08-26T05:43:13+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -6055,5 +6066,6 @@
     "platform": {
         "php": "^7.2"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }
