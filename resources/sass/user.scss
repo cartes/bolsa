@@ -28,3 +28,33 @@
         }
     }
 }
+
+#side_profile {
+    .img-profile-container {
+        display: block;
+        overflow: hidden;
+        border-radius: 40px;
+        width: 80px;
+        height: 80px;
+        border: 4px solid $aqOrange;
+
+        img {
+            width: auto;
+            height: 100%;
+        }
+    }
+}
+
+.container-img-profile {
+    margin: 0 auto;
+    border: 4px solid $aqBlue;
+    overflow: hidden;
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+
+    .img-profile {
+        width: 100%;
+        height: auto;
+    }
+}

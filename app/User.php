@@ -66,6 +66,11 @@ use Illuminate\Notifications\Notifiable;
  * @property-read int|null $messages_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Search[] $searches
  * @property-read int|null $searches_count
+ * @property string|null $path
+ * @property string|null $picture
+ * @property-read mixed $experience
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePicture($value)
  */
 class User extends Authenticatable
 {
@@ -79,7 +84,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'rut_user', 'name', 'surname', 'email', 'password', 'nacionality', 'marital_status', 'gender', 'birthday'
+        'rut_user',
+        'name',
+        'surname',
+        'email',
+        'password',
+        'nacionality',
+        'marital_status',
+        'gender',
+        'birthday',
+        'picture'
     ];
 
     /**
@@ -100,9 +114,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function profileAttachment() {
+        return asset( "storage/profile/" . $this->path);
+    }
+
     public function offers()
     {
-        return $this->belongsToMany('App\Offers');
+        return $this->belongsToMany(Offers::class, 'aquabe_offers_candidates', 'id_user', 'id_offer')
+            ->withPivot('status');
     }
 
     public function candidates()
@@ -132,7 +151,7 @@ class User extends Authenticatable
 
     public function userEducation()
     {
-        return $this->hasMany('App\UserEducation', 'id_user', 'id');
+        return $this->hasMany('App\UserEducation', 'id_user', 'id')->orderBy('year_from', 'asc');
     }
 
     public function userReferences()
@@ -154,22 +173,22 @@ class User extends Authenticatable
     {
         switch ($value) {
             case "1":
-                return "Soltero/a";
+                return "Soltero";
                 break;
             case "2":
-                return "Casado/a";
+                return "Casado";
                 break;
             case "3":
                 return "Unión Libre";
                 break;
             case "4":
-                return "Divorciado/a";
+                return "Divorciado";
                 break;
             case "5":
                 return "Pareja de Hecho";
                 break;
             case "6":
-                return "Viudo/a";
+                return "Viuda";
                 break;
         }
     }
@@ -198,4 +217,17 @@ class User extends Authenticatable
 
         return $age;
     }
+
+    public function getExperienceAttribute()
+    {
+        $experiences = UserExperience::whereIdUser($this->id)->get();
+
+        $sum = 0;
+        foreach ($experiences as $exp) {
+            $year = (int) $exp->year_to - (int) $exp->year_from;
+            $sum = $sum + $year;
+        }
+        return $sum;
+    }
+
 }

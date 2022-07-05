@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\DatesTranslator;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -44,23 +45,35 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Business withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Business withoutTrashed()
  * @property-read mixed $expirated_at
+ * @property string $email_user
+ * @property string $phone_user
+ * @property int|null $migrated
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Business whereEmailUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Business whereMigrated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Business wherePhoneUser($value)
+ * @property-read \App\Role|null $roles
  */
 class Business extends Model
 {
     use SoftDeletes, DatesTranslator;
 
-    protected $fillable = ['rut_user', 'password', 'firstname', 'surname', 'email', 'position', 'phone'];
+    protected $fillable = ['rut_user', 'password', 'firstname', 'surname', 'email_user', 'position', 'phone_user'];
     protected $table = "aquabe_business";
     protected $hidden = "password";
-    protected $withCount = ['offers'];
 
     public function business_meta()
     {
-        return $this->hasOne('App\BusinessMeta', 'id_business', 'id');
+        return $this->hasOne(BusinessMeta::class, 'id_business', 'id');
     }
 
     public function offers()
     {
-        return $this->hasMany('App\Offers', 'id_business', 'id');
+        return $this->hasMany(Offers::class, 'id_business', 'id')->withCount(['candidates' => function($q) {
+            $q->whereDate('created_at', '>=', Carbon::now()->subDays(7));
+        }]);
+    }
+
+    public function roles() {
+        return $this->hasOne(Role::class, 'id_business', 'id');
     }
 }

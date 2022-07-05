@@ -24,7 +24,7 @@ class ResumeRequest extends FormRequest
     public function rules()
     {
         return [
-            "file" => "required|mimes:pdf,doc,docx|max:5120"
+            "resume" => "required|mimes:pdf,doc,docx|max:5120"
         ];
     }
 }

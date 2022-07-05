@@ -27,8 +27,7 @@
                         <div class="row">
                             <div class="col-12 text-center">
                                 <h4 class="text-uppercase text-center">{{$business->business_meta->business_name}}</h4>
-                                <a class="btn btn-outline-primary" href="{{ route('business.profile') }}">Editar
-                                    perfil</a>
+                                <a class="btn btn-outline-primary" href="{{ route('business.profile') }}">Editar perfil</a>
                             </div>
                         </div>
                         <hr/>
@@ -36,8 +35,8 @@
                             <div class="col-12">
                                 <h5>Información de contacto</h5>
                                 <p class="py-0 my-0">Nombre: {{ $business->firstname }} {{ $business->surname }}</p>
-                                <p class="py-0 my-0">Email: {{ $business->email }}</p>
-                                <p class="pt-0 my-0">Teléfono: {{ $business->phone }}</p>
+                                <p class="py-0 my-0">Email: {{ $business->email_user }}</p>
+                                <p class="pt-0 my-0">Teléfono: {{ $business->phone_user }}</p>
                             </div>
                         </div>
                         <div class="row mt-4">
@@ -85,10 +84,13 @@
                             @endif
                         </div>
                         <div class="col-md-6">
-                            <label>Tipo de puesto</label>
-                            <input type="text" class="form-control {{$errors->has('position') ? 'is-invalid' : ''}}"
-                                   name="position"
-                                   value="{{old('position') ?? $offer->position}}"/>
+                            <label>Jornada (*)</label>
+                            <select class="form-control" name="position">
+                                <option value="">Seleccione un tipo de puesto</option>
+                                <option value="1"{{ $offer->position == "Full-time" ? ' selected' : '' }}>Full-time</option>
+                                <option value="2"{{ $offer->position == "Part-time" ? ' selected' : '' }}>Part-time</option>
+                                <option value="3"{{ $offer->position == "Turnos" ? ' selected' : '' }}>Turnos</option>
+                            </select>
                             @if($errors->has('position'))
                                 <span class="invalid-feedback">{{$errors->first('position')}}</span>
                             @endif
@@ -106,24 +108,20 @@
                             @endif
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Sub-área</label>
-                            <input type="text" name="sub_area"
-                                   class="form-control {{$errors->has('sub_area') ? 'is-invalid' : ''}}"
-                                   value="{{old('sub_area') ?? $offer->sub_area}}"/>
-                            @if($errors->has('sub_area'))
-                                <span class="invalid-feedback">{{$errors->first('sub_area')}}</span>
-                            @endif
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 form-group">
-                            <label>Nivel de experiencia</label>
+                            <label>Tipo de contrato</label>
+                            <!--
+                            {{ $offer->position }}
+                            -->
                             <select class="form-control" name="experience">
-                                <option value="">Seleccione un nivel</option>
-                                <option value="0"{{ $offer->experience == 0 ? ' selected' : ''}}>Indiferente</option>
-                                <option value="1"{{ $offer->experience == 1 ? ' selected' : ''}}>Junior</option>
-                                <option value="2"{{ $offer->experience == 2 ? ' selected' : ''}}>Semi-senior</option>
-                                <option value="3"{{ $offer->experience == 3 ? ' selected' : ''}}>Senior</option>
+                                <option value="">Seleccione un tipo de contratosss</option>
+                                <option value="0"{{ $offer->experience == "Prestación Servicios" ? ' selected' : ''}}>Prestación Servicios</option>
+                                <option value="1"{{ $offer->experience == "Indefinido" ? ' selected' : ''}}>Indefinido</option>
+                                <option value="2"{{ $offer->experience == "Plazo Fijo" ? ' selected' : ''}}>Plazo Fijo</option>
+                                <option value="3"{{ $offer->experience == "Honorarios" ? ' selected' : ''}}>Honorarios</option>
                             </select>
                         </div>
                         <div class="col-md-4 form-group">
@@ -131,9 +129,73 @@
                             <select class="form-control" name="handicapped">
                                 <option value="">Seleccione</option>
                                 <option value="0"{{ $offer->handicapped == 0 ? ' selected' : ''}}>No</option>
-                                <option value="1"{{ $offer->handicapped == 0 ? ' selected' : ''}}>Si</option>
+                                <option value="1"{{ $offer->handicapped == 1 ? ' selected' : ''}}>Si</option>
                             </select>
                         </div>
+                        <div class="col-md-4 form-group">
+                            <label>Renta ofrecida</label>
+                            <select id="selectSalary" class="form-control{{ $errors->has('salary_opt') ? ' is-invalid' : ''}}" name="salary_opt">
+                                <option value="">Seleccione una opción de Salario</option>
+                                <option value="0" {{$offer->salary_array == "0" ? 'selected' : ''}}>A convenir</option>
+                                <option value="1" {{$offer->salary_array == "1" ? 'selected' : ''}}>Exacto</option>
+                                <option value="2" {{$offer->salary_array == "2" ? 'selected' : ''}}>Por Rango</option>
+                            </select> 
+                            <!-- <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
+                                   type="text" name="salary" value="{{ old('salary') }}"/> -->
+                            @if($errors->has('salary_opt'))
+                                <span class="invalid-feedback">{{$errors->first('salary_opt')}}</span>
+                            @endif
+                
+                           <div id="salary-0" class="salary-input salary-exacto form-group" style="display: none;">
+                                <label>A convenir</label>
+                                <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
+                                    type="hidden" name="salary" value="0" />
+                                
+                            </div>
+                
+                
+                            <div id="salary-1" class="salary-input salary-exacto form-group" style="display: none;">
+                                <label>Escriba la renta exacto ofrecida</label>
+                                <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
+                                    type="text" name="salary" value="{{ old('salary') }}" />
+                                
+                            </div>
+                            
+                            <div id="salary-2" class="salary-input row salary-rango form-group" style="display: none;">
+                                <div class='col-12'>
+                                <label>Escriba el rango de renta ofrecida</label>
+                                </div>
+                
+                                <div class="col-6">
+                                    <label>Mínimo</label>
+                
+                                    <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
+                                        type="text" name="salaryMin" value="{{ old('salary') }}" />
+                                </div>
+                                <div class="col-6">
+                                    <label>Máximo</label>
+                
+                                    <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
+                                        type="text" name="salaryMax" value="{{ old('salary') }}" />
+                                </div>
+                            </div>
+                
+                            <script>
+                                jQuery(document).ready(function ($) {
+                                    $('#selectSalary').change(function() {
+                                        let value = $(this).val();
+                                        $('.salary-input').hide();
+                                        $('#salary-' + value).show();
+                                        console.log(value);
+                                    });
+                                })
+                            </script>
+                
+                            @if ($errors->has('salary'))
+                                <span class="invalid-feedback">{{ $errors->first('salary') }}</span>
+                            @endif
+                        </div>
+<!--                        
                         <div class="col-md-4 form-group">
                             <label>Renta ofrecida</label>
                             <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
@@ -143,6 +205,8 @@
                                 <span class="invalid-feedback">{{ $errors->first('salary') }}</span>
                             @endif
                         </div>
+                        
+                        -->
                     </div>
                     <div class="form-group row">
                         <div class="col-md-12">
@@ -160,7 +224,7 @@
                             <label>Requisitos</label>
                             <textarea type="text"
                                       class="form-control{{ $errors->has('requirements') ? ' is-invalid' : '' }}"
-                                      name="requirements">{{ old('requirements') }}</textarea>
+                                      name="requirements">{{ old('requirements') ?? $offer->requirements ?? '' }}</textarea>
                             @if ($errors->has('requirements'))
                                 <span class="invalid-feedback">{{ $errors->first('requirements') }}</span>
                             @endif
@@ -182,7 +246,7 @@
                                             <input name='benefits[]' type='hidden' value='{{ $benefit->benefit }}'/>
                                         </div>
                                     @empty
-                                        <div class="btn-benefit" id="div_0"></div>
+                                        <div class="btn-benefit" id="div_0">No hay beneficios</div>
                                     @endforelse
                                 </div>
                             </div>
@@ -199,6 +263,18 @@
                                 <div class="col-12 my-0 py-0">
                                     <small>Cuando agregue beneficios, los puede borrar si les da click en la etiqueta
                                     </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            <label>Vacantes</label>
+                            <div class="row">
+                                <div class="d-inline col-md-5">
+                                    <input class="form-control{{ $errors->has('benefit') ? ' is-invalid' : '' }}"
+                                           value="{{old('vacancy') ?? $offer->vacancy}}" name="vacancy"/>
                                 </div>
                             </div>
                         </div>

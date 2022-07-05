@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\DatesTranslator;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -86,10 +87,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $messages
  * @property-read int|null $messages_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereFeatured($value)
+ * @property string|null $visit
+ * @property int|null $vacancy
+ * @property-read mixed $suma
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereVacancy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereVisit($value)
  */
 class Offers extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, DatesTranslator;
 
     const REVIEWED = 1;
     const INTERVIEW = 2;
@@ -115,10 +121,11 @@ class Offers extends Model
         'salary',
         'position',
         'experience',
-        'views',
+        'visit',
         'requirements',
         'period',
         'status',
+        'vacancy',
         'expirated_at'
     ];
 
@@ -134,7 +141,8 @@ class Offers extends Model
 
     public function User()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany(User::class, 'aquabe_offers_candidates', 'id_offer', 'id_user')
+            ->withPivot('status');
     }
 
     public function Benefits()
@@ -149,7 +157,7 @@ class Offers extends Model
 
     public function messages()
     {
-        return $this->hasMany( Message::class );
+        return $this->hasMany(Message::class);
     }
 
     public function getPublicationAttribute()
@@ -159,7 +167,8 @@ class Offers extends Model
         return Carbon::parse($publication)->diffForHumans();
     }
 
-    public function getIsNewAttribute() {
+    public function getIsNewAttribute()
+    {
         $publication = $this->attributes['created_at'];
         if (Carbon::parse($publication)->diffInHours() < 20) {
             return true;
@@ -168,12 +177,18 @@ class Offers extends Model
         }
     }
 
-    public function getCreatedAtAttribute()
+    public function getSalaryAttribute()
     {
-        $publication = $this->attributes['created_at'];
-        return Carbon::parse($publication)->format("d F Y");
+        $salary = new \NumberFormatter("es_CL", \NumberFormatter::DECIMAL);
+        return $salary->format($this->attributes['salary']);
     }
 
+    public function getSumaAttribute()
+    {
+        $candidates = $this->withCount('candidates');
+
+        return $candidates;
+    }
 
     public function getRouteKeyName()
     {
@@ -204,5 +219,47 @@ class Offers extends Model
         } else {
             return '<i class="fas fa-check-circle text-success"></i>';
         }
+    }
+
+    public function getViewsAttribute()
+    {
+        $id = session()->get('id');
+        $offers = Offers::whereIdBusiness($id)->select('visit')->get();
+        $sum = 0;
+
+        foreach ($offers as $view) {
+            $sum += (int) $view->view;
+        }
+
+        return $sum;
+    }
+
+    public function getPositionAttribute()
+    {
+        $position = $this->attributes['position'];
+
+        switch ($position) {
+
+            case 0: $txt = ''; break;
+            case 1: $txt = 'Full-time'; break;
+            case 2: $txt = 'Part-time'; break;
+            case 3: $txt = 'Turnos'; break;
+        }
+
+        return $txt;
+    }
+    public function getExperienceAttribute()
+    {
+        $experience = $this->attributes['experience'];
+
+        switch ($experience) {
+
+            case 0: $txt = ''; break;
+            case 1: $txt = 'Junior'; break;
+            case 2: $txt = 'Semi-senior'; break;
+            case 3: $txt = 'Senior'; break;
+        }
+
+        return $txt;
     }
 }

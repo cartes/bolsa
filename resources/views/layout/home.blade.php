@@ -8,7 +8,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }} @yield('title')</title>
-
+    <meta name="description"
+          content="Ofertas de trabajo. Publique sus ofertas laborales con nosotros. Busque el puesto de trabajo que necesita. Tenemos experiencia como Bolsa de Empleos Aqua"/>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
@@ -16,8 +17,37 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-184220893-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-184220893-1');
+    </script>
+
     <!-- Styles -->
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+
+
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8544975266159001"
+        crossorigin="anonymous"></script>
+
+    
+    <script type="text/javascript">
+      var onloadCallback = function() {
+        grecaptcha.render('html_element', {
+          'sitekey' : '6Lc5wGwcAAAAAMgqHGq8JHvZ-bZCLEnAFS1Ppxkf'
+        });
+      };
+    </script>
+
 
     @stack('scripts')
 
@@ -26,7 +56,7 @@
 
 <body class="home">
 <div class="page-container">
-    <div id="app">
+    <div id="app" style="max-width: 100%;">
         <nav id="nav-bolsa" class="navbar navbar-expand-md navbar-light">
             <div class="container">
                 <a class="navbar-brand" href="{{url('/')}}">
@@ -50,23 +80,21 @@
             </div>
         </nav>
 
-        <main id="home-main" class="py-3">
+        <main id="home-main">
             @yield('content')
         </main>
     </div>
 
     <footer class="container-fluid">
-        <div class="container">
+        <div class="container container-app">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <img src="/../images/footer.png" class="d-inline-block pr-3 border-right">
+                    <img src="/../images/footer-b2b.png" class="d-inline-block pr-3 border-right">
                     <div class="d-none d-md-inline-block align-middle pl-3">
-                        <p class="text-white small m-0">© 2013 Grupo Editorial Editec SPA ® Todos los derechos
+                        <p class="text-white small m-0">© 2013 B2Bmg ® Todos los derechos
                             reservados</p>
-                        <p class="text-white small m-0">San Crescente 81, piso 5. Las Condes, Santiago de Chile.
-                            Tel:(56-2) 27574200</p>
-                        <p class="text-white small m-0">Freire 130, oficina 201, PuertoMontt, Chile. Tel: (56-65)
-                            2348911</p>
+                        <p class="text-white small m-0">Benavente 550 oficina 305, Edificio Campanario, Puerto Montt, Chile. Tel: (56) 65 2470107</p>
+                        <p class="text-white small m-0">Magnere 1540 oficina 801, Providencia, Santiago de Chile. Tel: (56-2) 27574200</p>
                     </div>
                 </div>
                 <div class="col-md-4">

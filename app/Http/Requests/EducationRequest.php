@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EducationRequest extends FormRequest
 {
@@ -24,17 +25,18 @@ class EducationRequest extends FormRequest
     public function rules()
     {
         return [
-            'country_st' => 'required',
             'studies' => 'required',
-            'condition' => 'required',
             'title' => 'required|min:3',
-            'area_st' => 'required',
-            'month_from_st' => 'required',
-            'year_from_st' => 'numeric|required|min:1950|max:2020',
-            'to_present_st' => 'sometimes',
-            'month_to_st' => 'required_without:to_present_st',
-            'year_to_st' => 'numeric|required_without:to_present_st|max:2020',
-            'institution' => 'required'
+            'institution' => 'required',
+            'condition' => 'required',
+            'year_to_st' => 'required_unless:condition,3|nullable|integer|max:' . (date('Y') + 1),
+        ];
+    }
+
+    public function messages() {
+        return [
+            'year_to_st.required_unless' => "Campo obligatorio",
+            'year_to_st.required' => "Campo obligatorio",
         ];
     }
 }

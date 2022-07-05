@@ -28,15 +28,16 @@ class CreateOfferRequest extends FormRequest
             'position' => 'required',
             'description' => 'required|min:15|max:3500',
             'area' => 'required',
-            'sub_area' => 'required',
-            'salary' => 'numeric'
+            'salary' => 'integer|min:1'
         ];
     }
 
     public function messages()
     {
         return [
-            'salary.numeric' => 'Renta ofrecida debe ser un valor numérico'
+            'salary.integer' => "Renta ofrecida no puede contener puntos ni comas",
+            'salary.numeric' => 'Renta ofrecida debe ser un valor numérico',
+            'salary.min' => 'Renta ofrecida debe tener un valor de al menos 1'
         ];
     }
 }

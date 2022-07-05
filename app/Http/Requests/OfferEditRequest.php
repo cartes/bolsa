@@ -23,11 +23,11 @@ class OfferEditRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'title' => 'required|min:2',
+            'title' => 'required',
             'description' => 'required|min:10|max:3500',
             'area' => 'required',
-            'sub_area' => 'required',
         ];
     }
 }

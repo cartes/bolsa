@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Business;
 use App\Candidates;
 use App\Http\Requests\PersonalDataRequest;
 use App\Http\Requests\UserRegisterRequest;
+use App\Message;
 use App\Offers;
 use App\Search;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Validator;
@@ -23,20 +26,18 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $usr = $request->email;
-        $user = User::where('email', $usr)->first();
-        $offers = Offers::withCount('candidates')
-            ->with('business')
-            ->with('businessMeta')
-            ->latest()
-            ->paginate(10);
+        $user = User::where('email', $usr)
+            ->with(['messages'])
+            ->first();
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                session([
+                $array = [
                     'id' => $user->id,
                     'role' => 'user',
-                    'name' => $user->name . ' ' . $user->surname
-                ]);
+                    'name' => $user->name . ' ' . $user->surname,
+                ];
+                session($array);
                 return back();
             } else {
                 return redirect(route('home'))->with('message', ['danger', 'Combinación email y clave no corresponden']);
@@ -59,15 +60,20 @@ class UserController extends Controller
      */
     public function store(UserRegisterRequest $request)
     {
-
         $pass = Hash::make($request->passwordUser);
 
         $request->merge(['password' => $pass]);
         $request->merge(['rut_user' => $request->rut_candidate]);
 
-        User::create($request->input());
+        $user = User::create($request->input());
 
-        return back()->with('message', ['success', 'Registro exitoso']);
+        session([
+            'id' => $user->id,
+            'role' => 'user',
+            'name' => $user->name . ' ' . $user->surname
+        ]);
+
+        return redirect()->route('profile')->with('message', ['success', 'Registro exitoso']);
     }
 
     public function alerts()
@@ -95,7 +101,9 @@ class UserController extends Controller
                 'aquabe_offers_candidates.id',
                 'aquabe_offers_candidates.status',
                 'aquabe_offers.title',
-                'aquabe_business_meta.business_name',
+                'aquabe_offers.slug as slug',
+                'aquabe_business_meta.fantasy_name as fantasy_name',
+                'aquabe_business_meta.comune as comune',
                 'aquabe_offers.created_at',
                 'aquabe_offers_candidates.status'])
             ->leftJoin('aquabe_offers', 'aquabe_offers_candidates.id_offer', '=', 'aquabe_offers.id')
@@ -117,27 +125,19 @@ class UserController extends Controller
     public function showoffers()
     {
         $id = session()->get('id');
-        $user = User::where('id', $id)->select(['name', 'rut_user'])->first();
+        $user = User::where('id', $id)->first();
+        $candidates = User::where('id', $id)
+            ->first()
+            ->offers
+            ->where('expirated_at', '>=', Carbon::now());
 
-        $candidates = Candidates::whereIdUser($id)
-            ->select([
-                'aquabe_offers_candidates.id',
-                'aquabe_offers_candidates.status',
-                'aquabe_offers.slug',
-                'aquabe_offers.title',
-                'aquabe_business_meta.fantasy_name',
-                'aquabe_business_meta.comune',
-                'aquabe_business_meta.id_business',
-                'aquabe_offers.created_at',
-                'aquabe_offers_candidates.status'])
-            ->leftJoin('aquabe_offers', 'aquabe_offers_candidates.id_offer', '=', 'aquabe_offers.id')
-            ->leftJoin('aquabe_business_meta', 'aquabe_offers.id_business', '=', 'aquabe_business_meta.id_business')
-            ->whereDate('aquabe_offers.expirated_at', '>=', Carbon::now())
-            ->get();
+        $messages = Message::whereUserId($id)->get();
 
-//        dd($candidates);
-
-        return view('user.offers', compact('candidates', 'user'));
+        return view('user.offers')->with([
+            'user' => $user,
+            'candidates' => $candidates,
+            'messages' => $messages
+        ]);
     }
 
     public function file(User $id, $offer = null)
@@ -147,8 +147,9 @@ class UserController extends Controller
                 ->where('id_offer', '=', $offer)
                 ->update(['status' => Candidates::REVIEWED]);
         }
-        $user = $id->with('userMeta', 'userExperience', 'userLanguage', 'userSkills', 'userEducation')->first();
+        $user = User::whereId($id->id)->with('userMeta', 'userExperience', 'userLanguage', 'userSkills', 'userEducation')->first();
 
-        return view('user.file', compact('user'));
+        return view('user.file')->with(['user' => $user]);
     }
+
 }

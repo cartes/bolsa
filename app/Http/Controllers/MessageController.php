@@ -20,11 +20,12 @@ class MessageController extends Controller
         $messages = Message::where([
             "offer_id" => $request->input('offer'),
             "user_id" => $request->input('user')
-        ])->get();
+        ])->with('children')->get();
 
         $response = [
             "user" => $user,
-            "messages" => $messages
+            "messages" => $messages,
+            "reader" => session()->get("id"),
         ];
 
         return response()->json($response, 200);
@@ -36,7 +37,11 @@ class MessageController extends Controller
     public function send(Request $request)
     {
         $request->merge(['status' => Message::SENDED]);
-        dd($request);
+        $request->merge(['sender_id' => session()->get('id')]);
+
+        Message::create($request->input());
+
+        return back()->with('message', ['success', 'Mensaje enviado al usuario']);
     }
 
     /**
@@ -46,4 +51,17 @@ class MessageController extends Controller
     /**
      * Respueta del usuario al mensaje
      */
+    public function reply(Request $request)
+    {
+        $message_to_reply = $request->message_id;
+        Message::where('id', $message_to_reply)->update(['status' => Message::READED]);
+
+        $request->merge(['sender_id' => session()->get('id')]);
+        $request->merge(['status' => Message::REPLYED]);
+
+        Message::create($request->input());
+
+        return back()->with('message', ['success', 'Mensaje respondido']);
+
+    }
 }

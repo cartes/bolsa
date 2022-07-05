@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Offers;
 use App\Search;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SearchController extends Controller
 {
@@ -14,8 +15,8 @@ class SearchController extends Controller
         $quantity = Search::where('search_term', $search)->select('quantity')->get();
         $added = isset($quantity[0]) ? (int)$quantity[0]->quantity + 1 : 1;
 
-        $offers = Offers::where('description', 'LIKE', "%{$search}%")
-            ->orWhere('title', 'LIKE', "%{$search}%")
+        $offers = Offers::where('title', 'LIKE', "%{$search}%")
+            ->whereDate('expirated_at', '>=', Carbon::now())
             ->paginate(25);
 
         Search::updateOrCreate(

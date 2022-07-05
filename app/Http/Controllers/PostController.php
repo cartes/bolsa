@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Business;
 use App\BusinessMeta;
 use App\Http\Requests\BusinessRegisterRequest;
+use App\Offers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +18,18 @@ class PostController extends Controller
         $id = session()->get('id');
 
         $business = Business::where('id', $id)->with('business_meta')->first();
+
+        if (session()->get('role_id') == '90' || is_null(session()->get('role_id'))) {
+            $offers = Offers::whereIdBusiness($id)
+                ->where('expirated_at', '>=', Carbon::now())
+                ->get();
+
+            $count = count($offers);
+
+            if ($count >= 1) {
+                return back()->with('message', ['danger', 'Sessión gratís. Usted tiene ' . $count . ' avisos']);
+            }
+        }
         if (session()->get('id')) {
             return view('posts.create')->with(compact('business'));
         }

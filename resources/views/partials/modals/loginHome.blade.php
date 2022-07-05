@@ -23,19 +23,19 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-12 text-right">
-                                <a class="forgot-password" href="#">
+                                <a class="forgot-password" href="{{ route('resetPasswordForm') }}">
                                     Olvidaste tu contraseña
                                 </a>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 text-right">
-                                <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal"
+                            <div class="col-6 col-md-6 text-right">
+                                <button type="button" class="w-100 w-50 btn btn-secondary" data-dismiss="modal"
                                         aria-label="Close">Cancelar
                                 </button>
                             </div>
-                            <div class="col-md-6">
-                                <button type="submit" class="w-50 btn btn-primary">Enviar</button>
+                            <div class="col-6 col-md-6">
+                                <button type="submit" class="w-100 w-50 btn btn-primary">Enviar</button>
                             </div>
                         </div>
                     </form>

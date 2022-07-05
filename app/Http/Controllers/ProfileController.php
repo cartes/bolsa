@@ -27,32 +27,56 @@ class ProfileController extends Controller
         $id = session()->get('id');
         $user = User::where('id', $id)
             ->first()
-            ->load('userMeta', 'userExperience', 'userLanguage', 'userSkills', 'userEducation', 'userReferences');
+            ->load('userMeta', 'userLanguage', 'userSkills', 'userReferences');
 
-        return view('user.profile', compact('user'));
+        $experiences = UserExperience::whereIdUser($id)->orderBy('year_to', 'DESC')->orderBy('month_to', 'DESC')->get();
+        $education = UserEducation::whereIdUser($id)->orderBy('year_to')->get();
+
+        return view('user.profile')->with([
+            'user' => $user,
+            'experiences' => $experiences,
+            'education' => $education,
+        ]);
     }
 
     public function update(PersonalDataRequest $request)
     {
         $id = session()->get('id');
 
-        try {
+        $date = str_replace('/', '-', $request->get('birthday'));
+
+        if (!is_null($request->picture)) {
+            $picture = Helper::uploadFile('picture', 'profile');
+
             User::where('id', $id)
                 ->update([
-                    'birthday' => $request->get('birthday'),
+                    'birthday' => $date,
                     'gender' => $request->get('gender'),
                     'nacionality' => $request->get('nacionality'),
+                    'path' => $picture->hashName(),
+                    'picture' => $picture->getClientOriginalName(),
                 ]);
-            UserMeta::updateOrCreate(['id_user' => $id], [
-                'pretentions' => $request->pretentions,
-                'objectives' => $request->objectives,
-                'city' => $request->city
-            ]);
-            return back()->with('message', ['success', 'Datos actualizados']);
-        } catch (\Exception $exc) {
-            return back()->with('message', ['danger', $exc->getMessage()]);
+
+        } else {
+            User::where('id', $id)
+                ->update([
+                    'birthday' => $date,
+                    'gender' => $request->get('gender'),
+                    'nacionality' => $request->get('nacionality'),
+                    'marital_status' => $request->get('marital_status'),
+                ]);
         }
 
+        UserMeta::updateOrCreate(['id_user' => $id], [
+            'pretentions' => $request->pretentions,
+            'objectives' => $request->objectives,
+            'city' => $request->city,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'comune' => $request->comune,
+        ]);
+
+        return back()->with('message', ['success', 'Datos actualizados']);
     }
 
     public function salary(Request $request)
@@ -110,7 +134,7 @@ class ProfileController extends Controller
 
     }
 
-    public function experience(Request $request)
+    public function experience(ExperienceRequest $request)
     {
         $id = session()->get('id');
 
@@ -164,11 +188,11 @@ class ProfileController extends Controller
 
             $success = true;
         } catch (\Exception $exc) {
-            $success = $exc->getMessage();
+            return back()->with('message', ['error', $exc->getMessage()]);
         }
 
         if ($success) {
-            return back()->with('message', ['success', 'Experiencia Laboral Actualizada']);
+            return back()->with('message', ['success', 'Información académica']);
         }
 
     }
@@ -234,33 +258,50 @@ class ProfileController extends Controller
 
         if ($success) {
             return back()->with('message', ['success', 'Conocimientos actualizados']);
+        } else {
+            return back()->with('message', ['error', $success]);
         }
 
     }
 
     public function references(ReferencesRequest $request)
     {
-        if (session()->get('id')) {
-            $id = session()->get('id');
-            $request->merge(['id_user' => $id]);
+        $request->merge(['id_user' => session()->get('id')]);
 
-            Reference::create(['id_user' => $id], $request->input());
-        }
+        Reference::create($request->input());
 
         return back()->with('message', ['success', 'Referencia agregada']);
     }
 
     public function resume(ResumeRequest $request)
     {
-        $file = Helper::uploadFile('file', 'resume');
-
         $id = session()->get('id');
+        $file = Helper::uploadFile('resume', 'resume');
+        $reference = $request->files;
 
-        UserMeta::updateOrCreate(['id_user' => $id], [
-            'path' => $file['hashName'],
-            'filename' => $file['fileName'],
+        //dd($reference);
+
+        UserMeta::where('id_user', '=', $id)->update([
+            'path' => $file->hashName(),
+            'filename' => $file->getClientOriginalName(),
         ]);
 
-        return redirect(route('profile'))->with('message', ['success', 'Curriculum Subido'])->with(compact('file'));
+        return back()->with('message', ['success', 'Curriculum Subido']);
+    }
+
+    public function view()
+    {
+        $id = session()->get('id');
+        $user = User::where('id', $id)
+            ->first()
+            ->load('userMeta', 'userLanguage', 'userSkills', 'userEducation', 'userReferences');
+
+        $experiences = UserExperience::whereIdUser($id)->orderBy('year_to', 'DESC')->orderBy('month_to', 'DESC')->get();
+
+        return view("user.view")->with([
+            "user" => $user,
+            "experiences" => $experiences,
+        ]);
+
     }
 }

@@ -42,19 +42,36 @@
                                     <td><p class="m-0 text-left">{{ $candidate->user->nacionality ?? '' }}</p></td>
                                     <td><p class="m-0 text-left">{{ $candidate->user->email ?? '' }}</p></td>
                                     <td><p class="m-0 text-right">{{ $candidate->user->userMeta->phone ?? '' }}</p></td>
+                                    @if($candidate->user->userMeta)
                                     <td>
                                         <p>
-                                            <a href="{{ route("user.file", ['id' => $candidate->user->id, 'offer' => $offer->id]) }}">
+                                            <a href="{{asset( 'storage/resume/' . $candidate->user->userMeta->path )}}">
                                                 <i style="font-size: 20px;" class="far fa-file-alt"></i>
                                             </a>
                                         </p>
                                     </td>
+                                    @else
+                                        <td>
+                                            <p>Sin CV</p>
+                                        </td>
+                                    @endif
                                     <td>
                                         <form class="sendMessage">
-                                            <input type="hidden" name="user" value="{{ $candidate->user->id }}" />
-                                            <input type="hidden" name="offer" value="{{ $offer->id }}" />
-                                            <button type="submit" class="submitSendMessage" style="background: none; padding: 0; border: none;">
+                                            @php(
+                                                $lastMessage = \App\Message::where([
+                                                    'user_id' => $candidate->user->id,
+                                                    'offer_id' => $offer->id
+                                                ])->where('sender_id', '!=', session()->get('id') )->latest()->first()
+                                            )
+                                            <input type="hidden" name="user" value="{{ $candidate->user->id }}"/>
+                                            <input type="hidden" name="offer" value="{{ $offer->id }}"/>
+                                            <button type="submit" class="submitSendMessage"
+                                                    style="background: none; padding: 0; border: none;">
                                                 <i style="font-size: 20px;" class="far fa-comment-alt"></i>
+                                                @isset ($lastMessage->status)
+                                                    {!! $lastMessage->status == 3 ? "<span class='badge badge-pill badge-success'>1</span>" : ""  !!}
+
+                                                @endisset
                                             </button>
                                         </form>
                                     </td>

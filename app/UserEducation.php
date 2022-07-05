@@ -42,6 +42,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserEducation whereYearTo($value)
  * @property int|null $to_present
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserEducation whereToPresent($value)
+ * @property-read mixed $studies_level
  */
 class UserEducation extends Model
 {
@@ -53,9 +54,30 @@ class UserEducation extends Model
     protected $fillable = ['country', 'studies', 'condition', 'title', 'area', 'month_from',
         'year_from', 'month_to', 'year_to', 'institution'];
 
+
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
+    }
+
+    public function getStudiesLevelAttribute()
+    {
+        $studies = $this->attributes['studies'];
+
+        switch ($studies) {
+            case "1":
+                return "Secundario"; break;
+            case "2":
+                return "Terciario"; break;
+            case "3":
+                return "Universitario"; break;
+            case "4":
+                return "Posgrado"; break;
+            case "5":
+                return "Doctorado"; break;
+            case "6":
+                return "Otro"; break;
+        }
     }
 
     public function getConditionAttribute($value)

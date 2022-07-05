@@ -20,8 +20,10 @@ class CreateMessagesTable extends Migration
             $table->foreign('offer_id')->references('id')->on('aquabe_offers');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('aquabe_users');
+            $table->integer('sender_id');
             $table->text('content');
             $table->text('message_id')->nullable();
+            $table->tinyInteger('staus');
             $table->timestamps();
         });
     }

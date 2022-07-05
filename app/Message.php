@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Traits\DatesTranslator;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,9 +31,19 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereUserId($value)
  * @mixin \Eloquent
+ * @property int|null $sender_id
+ * @property int|null $status
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $children
+ * @property-read int|null $children_count
+ * @property-read mixed $deleted_at
+ * @property-read mixed $expirated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereSenderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereStatus($value)
  */
 class Message extends Model
 {
+    use DatesTranslator;
+
     const SENDED = 0;
     const UNREAD = 1;
     const READED = 2;
@@ -44,7 +56,9 @@ class Message extends Model
         'offer_id',
         'user_id',
         'content',
-        'message_id'
+        'message_id',
+        'status',
+        'sender_id'
     ];
 
     public function offer()
@@ -55,5 +69,16 @@ class Message extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Message::class, 'message_id');
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        $date = Carbon::parse($this->attributes['created_at'])->format("H\\:i d M");
+        return $date;
     }
 }

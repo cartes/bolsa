@@ -12,45 +12,9 @@
             </div>
         @endif
 
-        @include('partials.business.candidates')
+        @include('partials.business.candidatedetail')
 
-        <div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
-             aria-labelledby="messageModal">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 id="titleModal" class="modal-title"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="sendMessageForm" class="form" method="post" action="{{ route("message.send") }}">
-                            @csrf
-                            <input id="user_id_input" type="hidden" name="user_id">
-                            <input id="offer_id_input" type="hidden" name="offer_id">
-                            <div class="row form-group">
-                                <label>Mensajes</label>
-                                <textarea id="messages_log" class="form-control w-100"></textarea>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-md-2 text-right">
-                                    <label>Mensaje: </label>
-                                </div>
-                                <input class="form-control col-md-8" type="text" id="message_content"
-                                       name="content"/>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary" type="submit">
-                                        Enviar
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        @include('partials.modals.message')
     </div>
 @endsection
 
@@ -67,10 +31,13 @@
 @push('scripts')
     <script>
         jQuery(document).ready(function ($) {
+            $('.alert').stop();
             $('.submitSendMessage').click(function (e) {
                 e.preventDefault();
-                var user = $("input[name='user']").val();
-                var offer = $("input[name='offer']").val();
+                var user = $(this).parent().find("input[name='user']").val();
+                var offer = $(this).parent().find("input[name='offer']").val();
+
+                console.log(user);
 
                 $.ajaxSetup({
                     headers: {
@@ -86,11 +53,24 @@
                         'offer': offer
                     },
                     success: function (resp) {
-                        var titleModal = "Mensaje a " + resp.user.name + " " + resp.user.surname;
+                        var titleModal = "Mensaje";
                         $("#titleModal").empty().append(titleModal);
+
                         $("#messageModal").modal("show");
                         $("#user_id_input").val(user);
                         $("#offer_id_input").val(offer);
+                        $("#messages_log").empty();
+                        let messages = resp.messages;
+                        for (var i = 0; i < messages.length; i++) {
+                            let tag;
+                            if (resp.messages[i].sender_id == resp.reader) {
+                                tag = "<li class='clearfix'><p class='message message-send float-left alert-success d-block'>";
+                            } else {
+                                tag = "<li class='clearfix'><p class='message message-reply float-right alert-secondary'>";
+                            }
+                            var html = tag + messages[i].content + "<small class='message-time'>" + messages[i].created_at + "</small>" + "</p></div>";
+                            $("#messages_log").append(html);
+                        }
                     },
                     error: function (resp) {
                         console.error(resp)

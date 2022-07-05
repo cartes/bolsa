@@ -51,6 +51,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserExperience whereBusinessCountry($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserExperience whereToPresent($value)
  * @property-read mixed $date_diff
+ * @property-read mixed $level_experience
  */
 class UserExperience extends Model
 {
@@ -146,6 +147,21 @@ class UserExperience extends Model
             case '12':
                 return "Dic";
                 break;
+        }
+    }
+
+    public function getLevelExperienceAttribute() {
+        $level = $this->attributes['experience_level'];
+
+        switch ($level) {
+            case '01':
+                return 'Training'; break;
+            case '02':
+                return 'Junior'; break;
+            case '03':
+                return 'Semisenior'; break;
+            case '04':
+                return 'Senior'; break;
         }
     }
 

@@ -60,6 +60,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\BusinessMeta withoutTrashed()
  * @property string|null $email
  * @method static \Illuminate\Database\Eloquent\Builder|\App\BusinessMeta whereEmail($value)
+ * @property string|null $path
+ * @property string|null $picture
+ * @method static \Illuminate\Database\Eloquent\Builder|BusinessMeta wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusinessMeta wherePicture($value)
  */
 class BusinessMeta extends Model
 {
@@ -80,9 +84,20 @@ class BusinessMeta extends Model
         'phone',
         'logo',
         'entry',
+        'path',
+        'picture',
         'employees',
         'rotation'
     ];
+
+    public function pathAttachment()
+    {
+        if (!empty($this->path)) {
+            return asset("storage/business/" . $this->path);
+        } else {
+            return ' ';
+        }
+    }
 
     public function business()
     {

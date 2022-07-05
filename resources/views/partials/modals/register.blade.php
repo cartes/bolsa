@@ -73,6 +73,17 @@
 
                             </div>
                         </div>
+                        <div class="row mt-2">
+                            <div class="col col-md-12">
+                                recaptcha
+                              <div id="html_element"></div>
+                            </div>
+                            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+                                async defer>
+                            </script>
+
+                        </div>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <small>

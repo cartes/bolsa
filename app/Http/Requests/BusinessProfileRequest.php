@@ -32,13 +32,15 @@ class BusinessProfileRequest extends FormRequest
             'rut_business' => 'required|cl_rut|unique:aquabe_business_meta,rut_business,' . $business,
             'business_name' => 'required',
             'fantasy_name' => 'required',
+            'surname' => 'required',
+            'phone_user' => 'required',
             'activity' => 'required',
             'address' => 'required',
             'comune' => 'required',
             'city' => 'required',
             'state' => 'required',
-//            'email' => 'email|required',
-//            'phone' => 'required',
+//           'email' => 'email|unique:aquabe_business_meta,email',
+//           'phone' => 'required',
             'employees' => 'required'
         ];
     }
@@ -55,6 +57,9 @@ class BusinessProfileRequest extends FormRequest
             'city.required' => 'La ciudad es obligatoria',
             'state.required' => 'La región es obligatoria',
             'phone.required' => 'El teléfono es obligatorio',
+            'phone_user.required' => 'El teléfono del adinistrador es obligatorio',
+            'surname.required' => 'El apellido es obligatorio',
+            'name.required' => 'El nombre es obligatorio',
             'employees.required' => 'La cantidad de empleados es obligatoria',
         ];
     }
