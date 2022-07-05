@@ -9,26 +9,26 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "caouecs/laravel-lang": "~6.0.1",
-        "fideloper/proxy": "^4.0",
+        "caouecs/laravel-lang": "~6.0.3",
+        "fideloper/proxy": "^4.4.1",
         "freshwork/chilean-bundle": "^2.1.3",
-        "guzzlehttp/guzzle": "^7.2",
-        "intervention/image": "^2.5.1",
-        "jenssegers/date": "^3.5",
-        "laravel/framework": "^6.2",
-        "laravel/tinker": "^2.0",
-        "phpmailer/phpmailer": "^6.1",
-        "tinymce/tinymce": "^5.1",
-        "yajra/laravel-datatables-oracle": "^9.15"
+        "guzzlehttp/guzzle": "^7.4.5",
+        "intervention/image": "^2.7.2",
+        "jenssegers/date": "^3.5.0",
+        "laravel/framework": "^6.20.44",
+        "laravel/tinker": "^2.7.2",
+        "phpmailer/phpmailer": "^6.6.3",
+        "tinymce/tinymce": "^5.10.5",
+        "yajra/laravel-datatables-oracle": "^9.21.1"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.6",
-        "facade/ignition": "^1.4",
-        "fzaninotto/faker": "^1.4",
-        "laravel/homestead": "^11.1",
-        "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^8.0"
+        "barryvdh/laravel-ide-helper": "^2.8.2",
+        "facade/ignition": "^1.18.1",
+        "fzaninotto/faker": "^1.9.2",
+        "laravel/homestead": "^11.2.4",
+        "mockery/mockery": "^1.5.0",
+        "nunomaduro/collision": "^3.2.0",
+        "phpunit/phpunit": "^8.5.27"
     },
     "config": {
         "optimize-autoloader": true,
