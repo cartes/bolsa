@@ -4300,16 +4300,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "5.7.0",
+            "version": "5.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "729e1f713c3b6d526daa6cb8f7a3b3ad864c53e3"
+                "reference": "dbd8fefb0bbe96ed15f9af4518b078ae2c20e020"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/729e1f713c3b6d526daa6cb8f7a3b3ad864c53e3",
-                "reference": "729e1f713c3b6d526daa6cb8f7a3b3ad864c53e3",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/dbd8fefb0bbe96ed15f9af4518b078ae2c20e020",
+                "reference": "dbd8fefb0bbe96ed15f9af4518b078ae2c20e020",
                 "shasum": ""
             },
             "type": "component",
@@ -4335,16 +4335,25 @@
                 "LGPL-2.1-only"
             ],
             "description": "Web based JavaScript HTML WYSIWYG editor control.",
-            "homepage": "http://www.tinymce.com",
+            "homepage": "https://www.tiny.cloud/",
             "keywords": [
-                "editor",
+                "contenteditable",
+                "editing",
                 "html",
                 "javascript",
+                "rich editor",
+                "rich text",
+                "rich text editor",
                 "richtext",
+                "rte",
+                "text",
                 "tinymce",
                 "wysiwyg"
             ],
-            "time": "2021-02-10T03:44:04+00:00"
+            "support": {
+                "source": "https://github.com/tinymce/tinymce-dist/tree/5.10.0"
+            },
+            "time": "2021-10-11T03:18:15+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -7934,5 +7943,5 @@
         "php": "^7.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
