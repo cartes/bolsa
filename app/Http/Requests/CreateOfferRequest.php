@@ -26,7 +26,7 @@ class CreateOfferRequest extends FormRequest
         return [
             'title' => 'required',
             'position' => 'required',
-            'description' => 'required|min:15|max:3500',
+            'description' => 'required|min:15|max:3300',
             'area' => 'required',
             'salary' => 'integer|min:1'
         ];

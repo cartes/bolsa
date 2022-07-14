@@ -167,7 +167,7 @@
                 if (position > 143) {
                     a('.skyscrapper').find('div').css({
                         'position': 'fixed',
-                        'top': '10px'
+                        'top': '120px'
                     });
                 } else {
                     a('.skyscrapper').find('div').css({

@@ -36,9 +36,9 @@
     </div>
     <div class="row">
         <div class="col-md-4 form-group">
-            <label>Tipo de contrato</label>
-            <select class="form-control{{$errors->has('experience') ? ' is-invalid' : ''}}" name="experience">
-                {{ old('experience') ?? '' }}
+            <label>Tipo de contrato {{ old('experience') ?? '' }}
+            </label>
+            <select class="form-control{{$errors->has('experience') ? ' is-invalid' : ''}}" name="experience" id="experience">
                 <option value="">Seleccione un tipo de contrato</option>
                 <option value="0" {{old('experience') == 1 ? 'selected' : ''}}>Prestación Servicios</option>
                 <option value="1" {{old('experience') == 1 ? 'selected' : ''}}>Indefinido</option>
@@ -65,7 +65,7 @@
                 <option value="0" {{old('salary_opt') == "0" ? 'selected' : ''}}>A convenir</option>
                 <option value="1" {{old('salary_opt') == "1" ? 'selected' : ''}}>Exacto</option>
                 <option value="2" {{old('salary_opt') == "2" ? 'selected' : ''}}>Por Rango</option>
-            </select> 
+            </select>
             <!-- <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
                    type="text" name="salary" value="{{ old('salary') }}"/> -->
             @if($errors->has('salary_opt'))
@@ -76,7 +76,7 @@
                 <label>A convenir</label>
                 <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
                     type="hidden" name="salary" value="0" />
-                
+
             </div>
 
 
@@ -84,9 +84,9 @@
                 <label>Escriba la renta exacto ofrecida</label>
                 <input class="form-control{{ $errors->has('salary') ? ' is-invalid' : '' }}"
                     type="text" name="salary" value="{{ old('salary') }}" />
-                
+
             </div>
-            
+
             <div id="salary-2" class="salary-input row salary-rango form-group" style="display: none;">
                 <div class='col-12'>
                 <label>Escriba el rango de renta ofrecida</label>

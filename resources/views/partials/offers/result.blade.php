@@ -6,63 +6,18 @@
             </div>
         @endisset
         <div class="col-md-3 pr-md-0 mr-md-0">
-            @if (!is_null($featured))
-                @foreach($featured as $fOffer)
-                    @if (!isset($search))
-                        @php($search = '')
-                    @endif
-                    <div class="container-featured-offer id-{{$i}} container-offer mb-0 border">
-                        <div class="row py-2 px-2">
-                            <a href="{{ route('offer.show', ['slug' => $fOffer->slug, 'search' => $search] )}}">
-                                <div class="py-2 px-3">
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            <h5 class="text-capitalize text-left m-0 p-0">
-                                                {{$fOffer->title}}{{ $fOffer->salary ? ' | ' . $fOffer->salary : '' }}
-                                                <span class="small">
-                                                @if ( $fOffer->is_new )
-                                                        <span class="badge badge-success">
-                                                        {{'Nuevo'}}
-                                                    </span>
-                                                    @endif
-                                                    {{ $fOffer->featured }}
-                                                </span>
-                                            </h5>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p class="date text-right">
-                                                {{$fOffer->publication}}<br>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="py-2 px-3">
-                                    <p class="p-0 m-0">
-                                        {{\Illuminate\Support\Str::limit(strip_tags(html_entity_decode($fOffer->description)), 50)}}
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                        @if($i == 6)
-                            <div class="banner-result">
-                                <!-- /18588809/EACIZ_N -->
-                                <div id='div-gpt-ad-1633465159826-0' style='min-width: 490px; min-height: 150px;'>
-                                    <script>
-                                        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1633465159826-0'); });
-                                    </script>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                @endforeach
-            @endif
             @if (!isset($search))
                 @php($search = '')
             @endif
             @php( $i = 0)
             @forelse($offers as $offer)
                 <div class="container-offer mb-1{{ $offer->featured ? ' back-orange' : '' }}">
-                    <a href="{{ route('offer.show', ['slug' => $offer->slug, 'search' => $search] )}}">
+                    @if ($featured)
+                        @php ($array = ['slug' => $offer->slug, 'search' => $search, 'featured' => false])
+                    @else
+                        @php ($array = ['slug' => $offer->slug, 'search' => $search, 'featured' => true])
+                    @endif
+                    <a href="{{ route('offer.show', $array )}}">
                         <div class="py-2 px-3">
                             <div class="row">
                                 <div class="col-md-12">

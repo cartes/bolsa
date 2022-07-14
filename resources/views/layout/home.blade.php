@@ -6,6 +6,8 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="/images/Favicon-EmpleosAqua2.png" type="image/x-icon"/>
+
 
     <title>{{ config('app.name', 'Laravel') }} @yield('title')</title>
     <meta name="description"
@@ -20,11 +22,11 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-184220893-1"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-      gtag('config', 'UA-184220893-1');
+        gtag('config', 'UA-184220893-1');
     </script>
 
     <!-- Styles -->
@@ -35,17 +37,17 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
 
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8544975266159001"
-        crossorigin="anonymous"></script>
 
-    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8544975266159001"
+            crossorigin="anonymous"></script>
+
+
     <script type="text/javascript">
-      var onloadCallback = function() {
-        grecaptcha.render('html_element', {
-          'sitekey' : '6Lc5wGwcAAAAAMgqHGq8JHvZ-bZCLEnAFS1Ppxkf'
-        });
-      };
+        var onloadCallback = function() {
+            grecaptcha.render('html_element', {
+                'sitekey' : '6Lc5wGwcAAAAAMgqHGq8JHvZ-bZCLEnAFS1Ppxkf'
+            });
+        };
     </script>
 
 
@@ -57,7 +59,7 @@
 <body class="home">
 <div class="page-container">
     <div id="app" style="max-width: 100%;">
-        <nav id="nav-bolsa" class="navbar navbar-expand-md navbar-light">
+        <nav id="nav-bolsa" class="navbar-fixed-top navbar navbar-expand-md navbar-light">
             <div class="container">
                 <a class="navbar-brand" href="{{url('/')}}">
                     {{config('app.name', 'Bolsa de empleo')}}

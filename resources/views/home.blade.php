@@ -87,6 +87,7 @@
                             <div class="col-12">
                                 <a href="{{ route('offer.list') }}" class="btn btn-control d-inline-block">Todas las
                                     Ofertas</a>
+                                <a href="{{ route('offer.featured') }}" class="btn btn-control d-inline-block">Ofertas destacadas</a>
                             </div>
                         </div>
                         <div class="row mt-3">

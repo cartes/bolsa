@@ -112,6 +112,8 @@ class OfferController extends Controller
             $business = Business::whereId($id)->with('business_meta')->first();
             $benefits = Benefit::whereOfferId($offer->id)->get();
 
+            //dd($offer);
+
             return view('offers.detail')
                 ->with('business', $business)
                 ->with('benefits', $benefits)
@@ -123,9 +125,43 @@ class OfferController extends Controller
         }
     }
 
-    public function create(CreateOfferRequest $request)
+    public function create(Request $request)
     {
+        $validate = Validator::make($request->all(), [
+            'title' => 'required',
+            'position' => 'required',
+            'salary_opt' => 'required',
+            'description' => 'required|min:15|max:200',
+            'area' => 'required',
+            'experience' => 'required'
+        ], [
+            'salary_opt.required' => 'Debe ingresar una opcion de renta',
+            'salary.integer' => "Renta ofrecida no puede contener puntos ni comas",
+            'salary.numeric' => 'Renta ofrecida debe ser un valor numérico',
+            'salary.min' => 'Renta ofrecida debe tener un valor de al menos 1',
+            'position.required' => 'La Jornada es un campo obligatorio',
+            'description.required' => 'La descripción es un campo obligatorio',
+            'description.max' => 'El máximo es de 3000 caracteres'
 
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+        $opt = $request->input('salary_opt');
+
+        if ($opt == '0') {
+            $salary = 0;
+        } else if ($opt == '1') {
+            $salary = $request->input('salary');
+        } else {
+            $salary = $request->input('salaryMin') . ' - ' . $request->input('salaryMax');
+        };
+
+        $request->merge(['salary_array' => $opt]);
+        $request->request->remove('salary');
+        $request->merge(['salary' => $salary]);
         $last_id = \DB::table('aquabe_offers')->latest()->first();
         $business_id = session()->get('id');
         $slug = Str::slug($request->get('title') . '-' . $last_id->id);
@@ -183,6 +219,7 @@ class OfferController extends Controller
 
             }
 
+            //dd($request->input());
 //            if ($request->title !== $offer->title) {
 //                $newSlug = Str::slug($request->title . '-' . $offer_id);
 //                $request->merge(['slug' => $newSlug]);
@@ -204,45 +241,70 @@ class OfferController extends Controller
 
     }
 
-    public function show($slug, $search = null)
+    public function show(Request $request)
     {
+        $slug = $request->route('slug');
+        $search = $request->route('search');
+        $featured = request()->featured;
+
+        //dd($featured);
+
         $id = session()->get('id');
 
         $academics = UserEducation::whereIdUser($id)->count();
 
         if (is_null($search)) {
-            $query = Offers::whereDate('expirated_at', '>=', Carbon::now())
-                ->where('featured', '!=', '1')
-                ->orWhereNull('featured')
-                ->with(['businessMeta', 'business', 'Benefits', 'candidates'])
-                ->latest()->paginate(15);
+            if ($featured) {
+                $query = Offers::whereDate('expirated_at', '>=', Carbon::now())
+                    ->where('featured', '=', '1')
+                    ->with(['businessMeta', 'business', 'Benefits', 'candidates'])
+                    ->latest()->paginate(15);
+            } else {
+                $query = Offers::whereDate('expirated_at', '>=', Carbon::now())
+                    ->with(['businessMeta', 'business', 'Benefits', 'candidates'])
+                    ->latest()->paginate(15);
+            }
         } else {
-            $query = Offers::where('title', 'LIKE', "%{$search}%")
-                ->whereDate('expirated_at', '>=', Carbon::now())
-                ->with(['businessMeta', 'business', 'Benefits', 'candidates'])
-                ->latest()
-                ->paginate(15);
+            if ($featured) {
+                $query = Offers::where('title', 'LIKE', "%{$search}%")
+                    ->where('featured', '=', '1')
+                    ->whereDate('expirated_at', '>=', Carbon::now())
+                    ->with(['businessMeta', 'business', 'Benefits', 'candidates'])
+                    ->latest()
+                    ->paginate(15);
+
+            } else {
+                $query = Offers::where('title', 'LIKE', "%{$search}%")
+                    ->whereDate('expirated_at', '>=', Carbon::now())
+                    ->with(['businessMeta', 'business', 'Benefits', 'candidates'])
+                    ->latest()
+                    ->paginate(15);
+            }
         }
 
         $offer = Offers::whereSlug($slug)->with('candidates')->first();
 
-        if ($offer->id_business != $id) {
-            Offers::whereSlug($slug)->update([
-                'visit' => $offer->visit + 1
-            ]);
+        if(is_object($offer)) {
+            if ( $offer->id_business != $id ) {
+                Offers::whereSlug($slug)->update([
+                    'visit' => $offer->visit + 1
+                ]);
+            }
+            $offer_id = $offer->id;
+        } else {
+            $offer_id = null;
         }
 
-        $offer_id = $offer->id;
 
-        $allFeatured = Offers::whereDate('expirated_at', '>', Carbon::now())
-            ->where('featured', '=', '1')
-            ->with(['business', 'businessMeta', 'candidates'])
-            ->orderBy('created_at', 'DESC')
-            ->get();
-
-        $featured = $allFeatured->filter(function ($model) {
-            return $model->featured_end_date >= Carbon::now();
-        });
+//        $allFeatured = Offers::whereDate('expirated_at', '>', Carbon::now())
+//            ->where('featured', '=', '1')
+//            ->with(['business', 'businessMeta', 'candidates'])
+//            ->orderBy('created_at', 'DESC')
+//            ->get();
+//
+//        $featured = $allFeatured->filter(function ($model) {
+//            return $model->featured_end_date >= Carbon::now();
+//        });
 
         $candidate = Candidates::whereIdUser($id)->where('id_offer', '=', $offer_id)->first();
 
@@ -264,13 +326,15 @@ class OfferController extends Controller
     {
         $id = session()->get('id');
 
-        $candidate = new Candidates;
+        if (!is_null($id)) {
 
-        $candidate->id_user = $id;
-        $candidate->id_offer = $offer->id;
+            $candidate = new Candidates;
 
-        $candidate->save();
+            $candidate->id_user = $id;
+            $candidate->id_offer = $offer->id;
 
+            $candidate->save();
+        }
         return back()->with('message', ['success', 'Has postulado a esta oferta de trabajo']);
     }
 
@@ -291,8 +355,10 @@ class OfferController extends Controller
 
         if ($id) {
             $new_exp = Carbon::now()->addDays(30);
+            $new_creation = Carbon::now();
             Offers::whereSlug($slug)->update([
-                'expirated_at' => $new_exp
+                'expirated_at' => $new_exp,
+                'created_at' => $new_creation
             ]);
         }
 
@@ -331,6 +397,11 @@ class OfferController extends Controller
             $count--;
         }
 
+        $offer = Offers::select('created_at')->where('id', '=', $adId)->first();
+
+        $expiration = Carbon::parse($offer->created_at)->addDays(45);
+
+
         if (intval($ads) == 0 || $count >= intval($ads)) {
             Offers::where('id_business', '=', $id)
                 ->where('featured', '=', true)
@@ -348,7 +419,10 @@ class OfferController extends Controller
         } else {
             Offers::where('id_business', '=', $id)
                 ->where('id', '=', $adId)
-                ->update(['featured' => $action]);
+                ->update([
+                    'featured' => $action,
+                    'expirated_at' => $expiration,
+                ]);
             $message = ($action) ? "La oferta de trabajo $adId se ha destacado" : "La oferta de trabajo $adId se ha dejado normal";
 
             $count = $this->getCountFeatured($id);
@@ -378,26 +452,43 @@ class OfferController extends Controller
         });
 
         $offers = Offers::whereDate('expirated_at', '>', Carbon::now())
-            ->where('featured', '!=', '1')
-            ->orWhereNull('featured')
+//            ->where('featured', '!=', '1')
+//            ->orWhereNull('featured')
             ->orderBy('created_at', 'desc')
             ->with(['business', 'businessMeta', 'candidates'])
-            ->get();
+            ->paginate(15);
 
-        $offer_id = $featured->first()->id;
+        if (count($featured) > 0) {
+            $offer_id = $featured->first()->id;
 
-        $merged = $featured->union($offers)->sortByDesc('created_at')->get();
+            $merged = $featured->merge($offers)->sortBy('created_at');
 
-        dd($merged);
-
-        $candidate = Candidates::whereIdUser($id)->where('id_offer', '=', $offer_id)->first();
+            $candidate = Candidates::whereIdUser($id)->where('id_offer', '=', $offer_id)->first();
+        } else {
+            $candidate = null;
+        }
         $postuled = is_null($candidate) ? false : true;
 
         return view('offers.list')
             ->with([
-                'offers' => $collected,
+                'offers' => $offers,
                 'featured' => null,
                 'postuled' => $postuled
+            ]);
+    }
+
+    public function list_featured() {
+        $offers = Offers::whereDate('expirated_at', '>', Carbon::now())
+            ->where('featured', '=', '1')
+            ->with(['business', 'businessMeta', 'candidates'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        return view('offers.list')
+            ->with([
+                'offers' => $offers,
+                'featured' => true,
+                'postuled' => false
             ]);
     }
 

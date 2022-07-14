@@ -6,6 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="/images/Favicon-EmpleosAqua2.png" type="image/x-icon"/>
 
     <title>{{ config('app.name', 'Laravel') }} @yield('title')</title>
 
@@ -18,13 +19,13 @@
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-184220893-1"></script>
-    
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8544975266159001"
-         crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script>
     <script type="text/javascript">
         var onloadCallback = function() {
             grecaptcha.render('html_element', {
-            'sitekey' : '6Lc5wGwcAAAAAMgqHGq8JHvZ-bZCLEnAFS1Ppxkf'
+                'sitekey' : '6Lc5wGwcAAAAAMgqHGq8JHvZ-bZCLEnAFS1Ppxkf'
             });
         };
     </script>
@@ -47,21 +48,21 @@
     @stack('scripts')
 
     @stack('styles')
-    
+
     <style>
-    @media (min-width: 960px) {
-        .container-app {
-            width: 1300px;
-            max-width: 1300px !important;
+        @media (min-width: 960px) {
+            .container-app {
+                width: 1300px;
+                max-width: 1300px !important;
+            }
         }
-    }    
     </style>
 </head>
 
 <body class="app">
 <div class="page-container">
     <div id="app" style="max-width: 100%;">
-        <nav id="nav-bolsa" class="navbar navbar-expand-md navbar-light">
+        <nav id="nav-bolsa" class="navbar-fixed-top navbar navbar-expand-md navbar-light">
             <div class="container container-app">
                 <a class="navbar-brand" href="{{url('/')}}">
                     {{config('app.name', 'Bolsa de empleo')}}

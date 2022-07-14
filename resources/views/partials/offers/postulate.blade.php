@@ -14,7 +14,7 @@
                             @if (!isset($search))
                                 @php($search = '')
                             @endif
-                            <a href="{{ route('offer.show', ['slug' => $fOffer->slug, 'search' => $search] )}}">
+                            <a href="{{ route('offer.show', ['slug' => $fOffer->slug, 'search' => $search, 'featured' => $featured] )}}">
                                 <div class="py-2 px-3">
                                     <div class="row">
                                         <div class="col-md-9">

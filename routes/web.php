@@ -9,6 +9,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+use App\Http\Controllers\OfferController as OfferController;
+
 Route::get('/uncache', function () {
     $cache = Artisan::call('cache:clear');
 });
@@ -96,6 +99,7 @@ Route::prefix('offer')->group(function () {
     Route::get('/{offer}/postulate', 'OfferController@postulate')->name('offer.postulate');
     Route::get('/index', 'OfferController@index')->name('offer.admin')->middleware(['redhome']);
     Route::get('/list', 'OfferController@list')->name('offer.list');
+    Route::get( '/featured', [OfferController::class, 'list_featured'])->name('offer.featured');
     Route::get('/{offer}/edit', 'OfferController@detail')->name('offer.detail');
     Route::put('/create', 'OfferController@create')->name('offer.create');
     Route::put("/{offer}/store", "OfferController@store")->name("offer.store");
