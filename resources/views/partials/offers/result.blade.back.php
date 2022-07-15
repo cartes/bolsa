@@ -125,7 +125,7 @@
                         @else
                             <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#loginUserModal">Inicie
                                 sesión para postular</a>
-                        @endif
+                        @endif 
                     </div>
                 </div>
             </div>

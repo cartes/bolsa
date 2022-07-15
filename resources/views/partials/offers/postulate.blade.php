@@ -6,66 +6,25 @@
             </div>
         @endisset
         <div class="col-md-3 pr-md-0 mr-md-0 d-none d-md-block">
-            @if (!is_null($featured))
-                @foreach($featured as $fOffer)
-                    <div
-                        class="container-featured-offer container-offer mb-1{{ $slug == $fOffer->slug ? ' back-orange' : '' }}">
-                        <div class="row py-2 px-2">
-                            @if (!isset($search))
-                                @php($search = '')
-                            @endif
-                            <a href="{{ route('offer.show', ['slug' => $fOffer->slug, 'search' => $search, 'featured' => $featured] )}}">
-                                <div class="py-2 px-3">
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            <h5 class="text-capitalize text-left m-0 p-0">
-                                                {{$fOffer->title}}{{ $fOffer->salary ? ' | ' . $fOffer->salary : '' }}
-                                                <span class="small">
-                                    @if ( $fOffer->is_new )
-                                                        <span class="badge badge-success">
-                                            {{'Nuevo'}}
-                                        </span>
-                                                    @endif
-                                </span>
-                                            </h5>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p class="date text-right">
-                                                {{$fOffer->publication}}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="py-2 px-3">
-                                    <p class="p-0 m-0">
-                                        {{\Illuminate\Support\Str::limit(strip_tags(html_entity_decode($fOffer->description)), 50)}}
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                @endforeach
-            @endif
-
             @if (!isset($search))
                 @php($search = '')
             @endif
 
             @forelse($offers as $off)
                 <div class="container-offer mb-1{{ $off->featured  ? ' back-orange' : '' }}">
-                    <a href="{{ route("offer.show", ['slug' => $off->slug, 'search' => $search]) }}">
+                    <a href="{{ route("offer.show", ['slug' => $off->slug, 'search' => $search, 'featured' => $featured]) }}">
                         <div class="py-2 px-3">
                             <div class="row">
                                 <div class="col-md-9">
                                     <h5 class="text-capitalize text-left m-0 p-0">
                                         {{$off->title}}
                                         @if ($off->is_new)
-                                            <span class="badge badge-success">
+                                            <span class="badge bg-success">
                                             {{'Nuevo'}}
                                         </span>
                                         @endif
                                         @if ( $off->featured )
-                                            <span class="badge badge-success" style="background-color: #d88f32;">
+                                            <span class="badge bg-success" style="background-color: #d88f32;">
                                             {{'Destacada'}}
                                         </span>
                                         @endif
@@ -76,7 +35,6 @@
                             @if(!is_null($off->businessMeta))
                                 <div class="row">
                                     <div class="col-12">
-                                        <h6 class="font-weight-bold">{{$off->businessMeta->fantasy_name}}</h6>
                                         @if($off->businessMeta->comune != '')
                                             <h6>{{$off->businessMeta->comune}}</h6>
                                         @endif
@@ -131,7 +89,8 @@
                     </div>
                 @endif
 
-                @if ($offer->businessMeta)
+                @if (is_object($offer->businessMeta))
+                
                     <div class="col-12">
 
                         <p id="container-business-name" class="m-0 p-0">

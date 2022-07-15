@@ -1,6 +1,6 @@
-<form class="form-offer w-100 my-3 p-4" method="post" action="{{ route('offer.create') }}">
+
+<form class="form-offer w-100 my-3 p-4" method="post" action="{{ route('offer.create') }}" onsubmit="return validate()">
     @csrf
-    @method('PUT')
     <h4 class="text-left">Completa la información de la oferta que quieres publicar.</h4>
     <div class="row">
         <div class="col-md-6 form-group">
@@ -36,8 +36,7 @@
     </div>
     <div class="row">
         <div class="col-md-4 form-group">
-            <label>Tipo de contrato {{ old('experience') ?? '' }}
-            </label>
+            <label>Tipo de contrato</label>
             <select class="form-control{{$errors->has('experience') ? ' is-invalid' : ''}}" name="experience" id="experience">
                 <option value="">Seleccione un tipo de contrato</option>
                 <option value="0" {{old('experience') == 1 ? 'selected' : ''}}>Prestación Servicios</option>
@@ -125,15 +124,14 @@
     <div class="row">
         <div class="col-md-12 form-group">
             <label>Descripción (*)</label>
-            @if($errors->has('description'))
-                {{$errors}}
-            @endif
-            <textarea id="contents" type="text" class="form-control {{$errors->has('description') ? 'is-invalid' : ''}}"
-                      name="description">{{old('description')}}
+            <textarea maxlength="50" id="contents" type="text" class="form-control {{$errors->has('description') ? 'is-invalid' : ''}}"
+                      name="description">
             </textarea>
+            
             @if($errors->has('description'))
                 <span class="invalid-feedback">{{$errors->first('description')}}</span>
             @endif
+
         </div>
     </div>
     <div class="row">

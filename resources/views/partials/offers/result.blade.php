@@ -13,9 +13,9 @@
             @forelse($offers as $offer)
                 <div class="container-offer mb-1{{ $offer->featured ? ' back-orange' : '' }}">
                     @if ($featured)
-                        @php ($array = ['slug' => $offer->slug, 'search' => $search, 'featured' => false])
-                    @else
                         @php ($array = ['slug' => $offer->slug, 'search' => $search, 'featured' => true])
+                    @else
+                        @php ($array = ['slug' => $offer->slug, 'search' => $search, 'featured' => false])
                     @endif
                     <a href="{{ route('offer.show', $array )}}">
                         <div class="py-2 px-3">
@@ -25,12 +25,12 @@
                                         {{$offer->title}}
                                         <span class="small">
                                             @if ( $offer->is_new )
-                                                <span class="badge badge-success">
+                                                <span class="badge bg-success">
                                                 {{'Nuevo'}}
                                             </span>
                                             @endif
                                             @if ( $offer->featured )
-                                                <span class="badge badge-success" style="background-color: #d88f32;">
+                                                <span class="badge bg-success" style="background-color: #d88f32;">
                                                 {{'Destacada'}}
                                             </span>
                                             @endif
@@ -41,7 +41,6 @@
                             @if(!is_null($offer->businessMeta))
                                 <div class="row">
                                     <div class="col-12">
-                                        <h6 class="font-weight-bold">{{$offer->businessMeta->fantasy_name}}</h6>
                                         @if($offer->businessMeta->comune != '')
                                             <h6>{{$offer->businessMeta->comune}}</h6>
                                         @endif
@@ -164,7 +163,7 @@
                                 Acá</a>
                         @else
                             <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#loginUserModal">Inicie
-                                sesión para postular</a>
+                                sesión para postular</a> 
                         @endif
                     </div>
                 </div>

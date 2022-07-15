@@ -62,7 +62,7 @@
 <body class="app">
 <div class="page-container">
     <div id="app" style="max-width: 100%;">
-        <nav id="nav-bolsa" class="navbar-fixed-top navbar navbar-expand-md navbar-light">
+        <nav id="nav-bolsa" class="fixed-top navbar navbar-expand-md navbar-light">
             <div class="container container-app">
                 <a class="navbar-brand" href="{{url('/')}}">
                     {{config('app.name', 'Bolsa de empleo')}}

@@ -81,17 +81,29 @@
                     themes: 'modern',
                     language: 'es_ES',
                     menubar: false,
-                    plugins: "lists",
+                    plugins: "lists preview visualchars wordcount",
                     skin: 'oxide',
                     statusbar: false,
+                    setup: function(editor) {
+                        let max = 3000;
+                        editor.on('submit', function(evento) {
+                            let numChars = tinymce.activeEditor.plugins.wordcount.body.getCharacterCount();
+                            if (numChars > max) {
+                    			alert("La descripción no debe superar los " + max + " caracteres. Usted tiene " + numChars);
+                    			evento.preventDefault();
+                                return false;
+                            }
+                        })
+                    },
                     toolbar: [
-                        'bold italic underline numlist bullist',
+                        'undo redo | bold italic underline numlist bullist',
                         'code'
                     ],
                 });
             });
         });
     </script>
+
     <script>
         jQuery(document).ready(function ($) {
             $('#addBenefit').click(function (e) {

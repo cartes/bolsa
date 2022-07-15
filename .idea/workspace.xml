@@ -6,30 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="361c474f-16ac-406b-9358-978e304720a5" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Business.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Business.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/BusinessMeta.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/BusinessMeta.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Contact.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AcoountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AcoountController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Archivo.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BusinessController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BusinessController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ContactController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ContactController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OfferController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OfferController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateOfferRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateOfferRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/ExperienceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/ExperienceRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/PersonalDataRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/PersonalDataRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Message.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Message.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Offers.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Offers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Rules/nonEmptyFiltered.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/UserEducation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/UserEducation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/UserExperience.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/UserExperience.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/business/offer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/business/offer.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views_old/partials/offers/postulate.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views_old/partials/offers/postulate.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views_old/partials/offers/result.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views_old/partials/offers/result.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -391,7 +367,7 @@
       <workItem from="1657039572852" duration="3488000" />
       <workItem from="1657666581798" duration="14199000" />
       <workItem from="1657834218430" duration="5581000" />
-      <workItem from="1657919704859" duration="130000" />
+      <workItem from="1657919704859" duration="308000" />
     </task>
     <servers />
   </component>
