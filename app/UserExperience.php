@@ -51,7 +51,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserExperience whereBusinessCountry($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserExperience whereToPresent($value)
  * @property-read mixed $date_diff
- * @property-read mixed $level_experience
  */
 class UserExperience extends Model
 {

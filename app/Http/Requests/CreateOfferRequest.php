@@ -26,7 +26,7 @@ class CreateOfferRequest extends FormRequest
         return [
             'title' => 'required',
             'position' => 'required',
-            'description' => 'required|min:15|max:3300',
+            'description' => 'required|min:15|max:255',
             'area' => 'required',
             'salary' => 'integer|min:1'
         ];
@@ -37,7 +37,8 @@ class CreateOfferRequest extends FormRequest
         return [
             'salary.integer' => "Renta ofrecida no puede contener puntos ni comas",
             'salary.numeric' => 'Renta ofrecida debe ser un valor numérico',
-            'salary.min' => 'Renta ofrecida debe tener un valor de al menos 1'
+            'salary.min' => 'Renta ofrecida debe tener un valor de al menos 1',
+            'description' => 'Error en la descripcion, debe tener máximo 3000 caracteres'
         ];
     }
 }

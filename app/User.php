@@ -66,11 +66,6 @@ use Illuminate\Notifications\Notifiable;
  * @property-read int|null $messages_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Search[] $searches
  * @property-read int|null $searches_count
- * @property string|null $path
- * @property string|null $picture
- * @property-read mixed $experience
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePicture($value)
  */
 class User extends Authenticatable
 {

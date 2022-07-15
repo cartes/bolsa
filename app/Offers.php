@@ -87,11 +87,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $messages
  * @property-read int|null $messages_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereFeatured($value)
- * @property string|null $visit
- * @property int|null $vacancy
- * @property-read mixed $suma
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereVacancy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Offers whereVisit($value)
  */
 class Offers extends Model
 {
@@ -119,6 +114,7 @@ class Offers extends Model
         'state',
         'commune',
         'salary',
+        'salary_array',
         'position',
         'experience',
         'visit',
@@ -159,6 +155,12 @@ class Offers extends Model
     {
         return $this->hasMany(Message::class);
     }
+    
+    public function getFeaturedEndDateAttribute() {
+        $publication = $this->attributes['created_at'];
+        
+        return Carbon::parse($publication)->addDays(3);
+    }
 
     public function getPublicationAttribute()
     {
@@ -179,6 +181,30 @@ class Offers extends Model
 
     public function getSalaryAttribute()
     {
+        $minSalary = $this->attributes['salary'];
+        $opt = $this->attributes['salary_array'];
+        
+        if ($minSalary <= 10000 || $opt == '0') {
+            return 'A convenir';
+        }
+        
+        if ($opt == '2') {
+            $range = explode(' - ', $minSalary);
+            if (count($range) >= 2)
+            {
+                $min = $range[0];
+                $max = $range[1];
+            } else {
+                $min = $range[0];
+                $max = $range[0];
+
+            }
+            $salary = new \NumberFormatter("es_CL", \NumberFormatter::DECIMAL);
+            $salaryMin = $salary->format($min);
+            $salaryMax = $salary->format($max);
+            return $salaryMin . ' - ' . $salaryMax;
+        }
+
         $salary = new \NumberFormatter("es_CL", \NumberFormatter::DECIMAL);
         return $salary->format($this->attributes['salary']);
     }
@@ -237,10 +263,10 @@ class Offers extends Model
     public function getPositionAttribute()
     {
         $position = $this->attributes['position'];
-
+        
         switch ($position) {
 
-            case 0: $txt = ''; break;
+            case 0: $txt = 'A definir'; break;
             case 1: $txt = 'Full-time'; break;
             case 2: $txt = 'Part-time'; break;
             case 3: $txt = 'Turnos'; break;
@@ -248,16 +274,19 @@ class Offers extends Model
 
         return $txt;
     }
+    
+    
     public function getExperienceAttribute()
     {
         $experience = $this->attributes['experience'];
+        
+        $txt = 'Prestación Servicios';
 
         switch ($experience) {
-
-            case 0: $txt = ''; break;
-            case 1: $txt = 'Junior'; break;
-            case 2: $txt = 'Semi-senior'; break;
-            case 3: $txt = 'Senior'; break;
+            case '0': $txt = 'Prestación Servicios'; break;
+            case '1': $txt = 'Indefinido'; break;
+            case '2': $txt = 'Plazo Fijo'; break;
+            case '3': $txt = 'Honorarios'; break;
         }
 
         return $txt;

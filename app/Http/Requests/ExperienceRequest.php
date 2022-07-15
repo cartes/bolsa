@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class ExperienceRequest extends FormRequest
 {
@@ -23,12 +24,13 @@ class ExperienceRequest extends FormRequest
      */
     public function rules()
     {
+        $year = Carbon::now()->year;
         return [
             'business_name' => 'required|min:2',
             'business_position' => 'required|min:2',
             'experience_level' => 'required',
-            'year_from' => 'numeric|required|min:1950|max:2020',
-            'year_to' => 'numeric|required_without:to_present|max:2020|after_or_equal:year_from',
+            'year_from' => 'numeric|required|min:1950|max:' . $year,
+            'year_to' => 'numeric|required_without:to_present|max:'. $year .'|after_or_equal:year_from',
             'description' => 'required|min:2|max:1000',
         ];
     }

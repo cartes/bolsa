@@ -31,14 +31,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereUserId($value)
  * @mixin \Eloquent
- * @property int|null $sender_id
- * @property int|null $status
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $children
- * @property-read int|null $children_count
- * @property-read mixed $deleted_at
- * @property-read mixed $expirated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereSenderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereStatus($value)
  */
 class Message extends Model
 {

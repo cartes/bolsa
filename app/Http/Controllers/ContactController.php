@@ -44,14 +44,14 @@ class ContactController extends Controller
             $mail->isHTML(true);
             $mail->Host = "mail.editec.cl";
             $mail->SMTPAuth = true;
-            $mail->Username = "empleosaqua@editec.cl";
+            $mail->Username = "empleosaqua_envio@b2bmg.cl";
             $mail->Password = "4$.32MK()666";
             $mail->Port = 25;
 
             $mail->SMTPSecure = false;
             $mail->SMTPAutoTLS = false;
 
-            $to = "empleosaqua@editec.cl";
+            $to = "empleosaqua_envio@b2bmg.cl";
             $subject = $request->get('subject');
 
             $message = '<td class="esd-stripe" style="background-color: #ffa73b;" esd-custom-block-id="6340" bgcolor="#ffa73b" align="center">';

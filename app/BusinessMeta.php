@@ -60,10 +60,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\BusinessMeta withoutTrashed()
  * @property string|null $email
  * @method static \Illuminate\Database\Eloquent\Builder|\App\BusinessMeta whereEmail($value)
- * @property string|null $path
- * @property string|null $picture
- * @method static \Illuminate\Database\Eloquent\Builder|BusinessMeta wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BusinessMeta wherePicture($value)
  */
 class BusinessMeta extends Model
 {

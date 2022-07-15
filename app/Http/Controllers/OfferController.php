@@ -127,11 +127,11 @@ class OfferController extends Controller
 
     public function create(Request $request)
     {
-        $validate = Validator::make($request->all(), [
+       $request->validate([
             'title' => 'required',
             'position' => 'required',
             'salary_opt' => 'required',
-            'description' => 'required|min:15|max:200',
+            'description' => 'required',
             'area' => 'required',
             'experience' => 'required'
         ], [
@@ -141,13 +141,11 @@ class OfferController extends Controller
             'salary.min' => 'Renta ofrecida debe tener un valor de al menos 1',
             'position.required' => 'La Jornada es un campo obligatorio',
             'description.required' => 'La descripción es un campo obligatorio',
-            'description.max' => 'El máximo es de 3000 caracteres'
-
         ]);
 
-        if ($validate->fails()) {
-            return redirect()->back()->withErrors($validate)->withInput();
-        }
+        //if ($validate->fails()) {
+        //    return redirect()->back()->withErrors($validate)->withInput();
+        //}
 
         $opt = $request->input('salary_opt');
 

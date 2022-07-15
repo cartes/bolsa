@@ -48,4 +48,17 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $exception);
     }
+    
+    private function handleExceptions($e)
+    {
+       // Add anywhere in this method the following code
+       // It does what the FormValidator does.
+
+        if($e instanceof ValidationException) {
+
+            return redirect()->back()->withErrors($e->validator->getMessageBag()->toArray());
+        }
+
+        return response()->view('errors.500', [], 500);
+    }
 }

@@ -51,7 +51,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Business whereEmailUser($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Business whereMigrated($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Business wherePhoneUser($value)
- * @property-read \App\Role|null $roles
  */
 class Business extends Model
 {
@@ -60,6 +59,7 @@ class Business extends Model
     protected $fillable = ['rut_user', 'password', 'firstname', 'surname', 'email_user', 'position', 'phone_user'];
     protected $table = "aquabe_business";
     protected $hidden = "password";
+    protected $withCount = ['offers'];
 
     public function business_meta()
     {

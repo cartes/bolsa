@@ -42,7 +42,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserEducation whereYearTo($value)
  * @property int|null $to_present
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserEducation whereToPresent($value)
- * @property-read mixed $studies_level
  */
 class UserEducation extends Model
 {

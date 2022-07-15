@@ -125,8 +125,12 @@
     <div class="row">
         <div class="col-md-12 form-group">
             <label>Descripción (*)</label>
+            @if($errors->has('description'))
+                {{$errors}}
+            @endif
             <textarea id="contents" type="text" class="form-control {{$errors->has('description') ? 'is-invalid' : ''}}"
-                      name="description">{{old('description')}}</textarea>
+                      name="description">{{old('description')}}
+            </textarea>
             @if($errors->has('description'))
                 <span class="invalid-feedback">{{$errors->first('description')}}</span>
             @endif

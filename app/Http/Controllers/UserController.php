@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Business;
 use App\Candidates;
 use App\Http\Requests\PersonalDataRequest;
 use App\Http\Requests\UserRegisterRequest;
@@ -12,7 +11,6 @@ use App\Search;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Validator;
@@ -132,7 +130,7 @@ class UserController extends Controller
             ->where('expirated_at', '>=', Carbon::now());
 
         $messages = Message::whereUserId($id)->get();
-
+        
         return view('user.offers')->with([
             'user' => $user,
             'candidates' => $candidates,
@@ -148,8 +146,7 @@ class UserController extends Controller
                 ->update(['status' => Candidates::REVIEWED]);
         }
         $user = User::whereId($id->id)->with('userMeta', 'userExperience', 'userLanguage', 'userSkills', 'userEducation')->first();
-
+        
         return view('user.file')->with(['user' => $user]);
     }
-
 }

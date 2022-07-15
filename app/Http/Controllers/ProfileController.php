@@ -192,7 +192,7 @@ class ProfileController extends Controller
         }
 
         if ($success) {
-            return back()->with('message', ['success', 'Información académica']);
+            return back()->with('message', ['success', 'Experiencia Laboral Actualizada']);
         }
 
     }

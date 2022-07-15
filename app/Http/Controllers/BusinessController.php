@@ -26,11 +26,13 @@ class BusinessController extends Controller
 
     public function login(BusinessLoginRequest $request)
     {
+        $how_much = null;
         $business = Business::where('email_user', $request->email)
             ->with('business_meta', 'roles')
             ->withCount('offers')
             ->first();
 
+        
 
         if ($business) {
             if (Hash::check($request->password, $business->password)) {
@@ -38,27 +40,34 @@ class BusinessController extends Controller
                 if ($business->business_meta) {
                     if (!empty($business->roles)) {
                         $role_id = $business->roles->role;
+                        $exp_role = Carbon::now();
                         switch ($business->roles->role) {
                             case '0' :
                                 $role = 'administrador';
                                 break;
                             case '10' :
                                 $role = 'business';
+                                $exp_role = Carbon::parse($business->roles->updated_at)->addDays(31);
                                 break;
                             case '11' :
                                 $role = 'business';
+                                $exp_role = Carbon::parse($business->roles->updated_at)->addDays(31);
                                 break;
                             case '12' :
                                 $role = 'business';
+                                $exp_role = Carbon::parse($business->roles->updated_at)->addDays(90);
                                 break;
                             case '13' :
                                 $role = 'business';
+                                $exp_role = Carbon::parse($business->roles->updated_at)->addDays(180);
                                 break;
                             case '14' :
                                 $role = 'business';
+                                $exp_role = Carbon::parse($business->roles->updated_at)->addDays(270);
                                 break;
                             case '15' :
                                 $role = 'business';
+                                $exp_role = Carbon::parse($business->roles->updated_at)->addDays(365);
                                 break;
                             case '90' :
                                 $role = 'business';
@@ -67,17 +76,38 @@ class BusinessController extends Controller
                                 $role = 'business';
                                 break;
                         }
+                        if ($role_id != '0' && $role_id != '90') {
+                            $how_much = $exp_role->diffInDays(Carbon::now());
+                            $greater = $exp_role->gt(Carbon::now());
+                            if (!$greater) {
+                                $business_no_featured = Role::where('id_business', $business->id)->update(['role' => '90']);
+                                return redirect()->route('logout');
+                            }
+                        } else {
+                            $how_much = null;
+                        }
                     } else {
                         $role_id = '90';
                         $role = "business";
                     }
 
-                    session([
-                        'id' => $business->id,
-                        'name' => $business->business_meta->business_name,
-                        'role' => $role,
-                        'role_id' => $role_id,
-                    ]);
+                    if (is_null($how_much)) {
+                        session([
+                            'id' => $business->id,
+                            'name' => $business->business_meta->business_name,
+                            'role' => $role,
+                            'role_id' => $role_id,
+                        ]);
+
+                    } else {
+                        session([
+                            'id' => $business->id,
+                            'name' => $business->business_meta->business_name,
+                            'role' => $role,
+                            'role_id' => $role_id,
+                            'exp_role' => $how_much
+                        ]);
+                    }
 
                     if ($business->migrated) {
                         return redirect(route('business.passform'));
@@ -233,10 +263,47 @@ class BusinessController extends Controller
         $role = DB::table('aquabe_business')->where('aquabe_business.id', '!=', session()->get('id'))
             ->leftJoin('aquabe_business_meta', 'aquabe_business.id', '=', 'aquabe_business_meta.id_business')
             ->leftJoin('aquabe_roles', 'aquabe_business.id', '=', 'aquabe_roles.id_business')
-            ->select('aquabe_business.id', 'aquabe_business.rut_user', 'aquabe_business.firstname', 'aquabe_business.surname', 'aquabe_business_meta.business_name', 'aquabe_business.email_user', 'aquabe_roles.role')
+            ->select('aquabe_business.id', 'aquabe_business_meta.rut_business', 'aquabe_business.rut_user', 'aquabe_business.firstname', 'aquabe_business.surname', 'aquabe_business_meta.business_name', 'aquabe_business.email_user', 'aquabe_roles.role', 'aquabe_roles.updated_at')
             ->get();
-
+            
         return DataTables::of($role)
+            ->addColumn('updated_at', function($row) {
+                $expiracion = '';
+                $upd = Carbon::parse($row->updated_at);
+                $diff = Carbon::parse($row->updated_at)->diffInDays(Carbon::now());
+                $role_row = $row->role;
+                if (is_null($role_row) || $role_row == '90' || $role_row == '0') {
+                    $txt = '<div class="p-3 text-white bg-secondary">No aplica</div>';
+                } else {
+                    if ($role_row == '10') {
+                        $expiracion = Carbon::parse($row->updated_at)->addDays(31);
+                        $diff = $expiracion < Carbon::now() ? "Venció hace " : "Vencerá en ";
+                        $diff .= $expiracion->diffInDays(Carbon::now());
+                    } elseif ($role_row == '11') {
+                        $expiracion = Carbon::parse($row->updated_at)->addDays(31);
+                        $diff = $expiracion < Carbon::now() ? "Venció hace " : "Vencerá en ";
+                        $diff .= $expiracion->diffInDays(Carbon::now());
+                    } elseif ($role_row == '12') {
+                        $expiracion = Carbon::parse($row->updated_at)->addMonths(3);
+                        $diff = $expiracion < Carbon::now() ? "Venció hace " : "Vencerá en ";
+                        $diff .= $expiracion->diffInDays(Carbon::now());
+                    } elseif ($role_row == '13') {
+                        $expiracion = Carbon::parse($row->updated_at)->addMonths(6);
+                        $diff = $expiracion < Carbon::now() ? "Venció hace " : "Vencerá en ";
+                        $diff .= $expiracion->diffInDays(Carbon::now());
+                    } elseif ($role_row == '14') {
+                        $expiracion = Carbon::parse($row->updated_at)->addMonths(9);
+                        $diff = $expiracion < Carbon::now() ? "Venció hace " : "Vencerá en ";
+                        $diff .= $expiracion->diffInDays(Carbon::now());
+                    } elseif ($role_row == '15') {
+                        $expiracion = Carbon::parse($row->updated_at)->addMonths(12);
+                        $diff = $expiracion < Carbon::now() ? "Venció hace " : "Vencerá en ";
+                        $diff .= $expiracion->diffInDays(Carbon::now());
+                    }
+                    $txt = '<div class="p-3 rounded text-white bg-secondary">' . $diff  .' Días</div>';
+                }
+                return $txt;
+            })
             ->addColumn('action', function ($row) {
                 $action = '<form class="form-group" action="' . route('role.edit', ["id" => $row->id]) . '" method="post">';
                 $action .= '<input type="hidden" name="_token" value="' . csrf_token() .'" />';
@@ -268,7 +335,7 @@ class BusinessController extends Controller
                 $action .= '</form>';
 
                 return $action;
-            })->rawColumns(['action'])
+            })->rawColumns(['updated_at', 'action'])
             ->make(true);
     }
 }

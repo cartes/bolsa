@@ -153,7 +153,7 @@ class AcoountController extends Controller
             $mail->isHTML(true);
             $mail->Host = "mail.editec.cl";
             $mail->SMTPAuth = true;
-            $mail->Username = "empleosaqua@editec.cl";
+            $mail->Username = "empleosaqua_envio@b2bmg.cl";
             $mail->Password = "4$.32MK()666";
             $mail->Port = 25;
 
@@ -203,12 +203,12 @@ class AcoountController extends Controller
             $message .= '</td >';
 
 
-            $header = "From: empleosaqua@editec.cl \r\n";
+            $header = "From: empleosaqua_envio@b2bmg.cl \r\n";
             $header .= "MIME-Version: 1.0\r\n";
             $header .= "Content-type: text/html\r\n";
 
             $mail->addAddress($to);
-            $mail->From = "empleosaqua@editec.cl";
+            $mail->From = "empleosaqua_envio@b2bmg.cl";
             $mail->Subject = $subject;
             $mail->Body = $message;
 
@@ -230,7 +230,7 @@ class AcoountController extends Controller
             $mail->isHTML(true);
             $mail->Host = "mail.editec.cl";
             $mail->SMTPAuth = true;
-            $mail->Username = "empleosaqua@editec.cl";
+            $mail->Username = "empleosaqua_envio@b2bmg.cl";
             $mail->Password = "4$.32MK()666";
             $mail->Port = 25;
 
@@ -280,12 +280,12 @@ class AcoountController extends Controller
             $message .= '</td >';
 
 
-            $header = "From: empleosaqua@editec.cl \r\n";
+            $header = "From: empleosaqua_envio@b2bmg.cl \r\n";
             $header .= "MIME-Version: 1.0\r\n";
             $header .= "Content-type: text/html\r\n";
 
             $mail->addAddress($to);
-            $mail->From = "empleosaqua@editec.cl";
+            $mail->From = "empleosaqua_envio@b2bmg.cl";
             $mail->Subject = $subject;
             $mail->Body = $message;
 

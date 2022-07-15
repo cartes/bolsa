@@ -30,7 +30,6 @@ class PersonalDataRequest extends FormRequest
             'nacionality' => 'required',
             'pretentions' => 'required',
             'objectives' => 'required',
-            'marital_status' => 'required',
             'picture' => 'mimes:jpg,jpeg,png|max:2048',
         ];
     }
