@@ -14,7 +14,7 @@
         "cross-env": "^7.0.3",
         "exports-loader": "^4.0.0",
         "imports-loader": "^4.0.0",
-        "jquery-ui": "^1.13.1",
+        "jquery-ui": "^1.13.2",
         "laravel-mix": "^6.0.49",
         "lodash": "^4.17.21",
         "resolve-url-loader": "^5.0.0",
