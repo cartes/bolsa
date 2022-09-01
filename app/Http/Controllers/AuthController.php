@@ -15,7 +15,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
-            'rut_user' => 'required',
+            'rut_user' => 'required|unique:users',
             'nacionality' => 'required',
             'marital_status' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
@@ -46,6 +46,38 @@ class AuthController extends Controller
         ];
 
         return response($response, 201);
+    }
 
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $user = User::where('email', $request->email)->first();
+
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['error' => 'Unauthorised'], 401);
+        }
+
+        $token = $user->createToken('AppToken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete();
+        return response()->json(['message' => 'Successfully logged out'], 200);
     }
 }

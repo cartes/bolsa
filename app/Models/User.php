@@ -29,17 +29,8 @@ class User extends Authenticatable
         'birthday'
     ];
 
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
+    protected $hidden = ['password', 'remember_token'];
+    protected $table = 'users';
     /**
      * The attributes that should be cast.
      *
@@ -48,4 +39,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function businesses()
+    {
+        return $this->hasMany(Business::class);
+    }
+
+    public function userMeta()
+    {
+        return $this->hasOne(UserMeta::class);
+    }
+
+    public function EducationItems()
+    {
+        return $this->hasMany(UserEducation::class);
+    }
+
+    public function ExperienceItems()
+    {
+        return $this->hasMany(UserExperience::class);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->surname;
+    }
 }
