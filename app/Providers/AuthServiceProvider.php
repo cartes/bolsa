@@ -20,13 +20,22 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      *
+     * Tipos de usuarios:
+     * Admin (Tiene todas las capacidades)
+     * Business (Tiene permisos para ver solo su negocio)
+     * Editor (Usuario interno que puede ver administración de la plataforma)
+     * User (Rol de usuario como postulante, solo puede editar su CV y sus postulaciones)
+     *
      * @return void
      */
     public function boot()
     {
         $this->registerPolicies();
 
-        /** Define Gate admin role */
+        /** Define Gate admin role
+         *
+         * Gate que define si es administrador
+         */
         Gate::define('is-admin', function (User $user) {
             if ($user->role == 'admin') {
                 return true;
@@ -35,7 +44,10 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        /** Define Gate business role */
+        /** Define Gate business role
+         *
+         * Gate que define si el usuario es negocio
+         */
         Gate::define('is-business', function (User $user) {
             if ($user->role == 'business') {
                 return true;
@@ -44,7 +56,10 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        /** Define Gate editor role */
+        /** Define Gate editor role
+         *
+         * Gate que define si el usuario es editor interno
+         */
         Gate::define('is-editor', function (User $user) {
             if ($user->role == 'editor') {
                 return true;
@@ -53,7 +68,9 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        /** Define Gate user role */
+        /** Define Gate user role
+         * Gate que define si el usuario es postulante
+         */
         Gate::define('is-user', function (User $user) {
             if ($user->role == 'user') {
                 return true;
