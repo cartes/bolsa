@@ -75,6 +75,11 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
+    public function profile()
+    {
+        dd(auth()->id());
+    }
+
     public function logout(Request $request)
     {
         auth()->user()->tokens()->delete();

@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
@@ -22,8 +22,11 @@ use Illuminate\Support\Facades\Response;
 Route::group([
     'middleware' => ['auth:sanctum'],
 ], function () {
-    Route::get('/users', [UserController::class, 'index']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('me', [AuthController::class, 'profile']);
+    Route::prefix('offers')->group(function() {
+        Route::get('/', [OfferController::class, 'index'])->name('offers.all');
+    });
 });
 
 /** Public routes */
