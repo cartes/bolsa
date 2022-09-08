@@ -9,6 +9,11 @@ class Offer extends Model
 {
     use HasFactory;
 
+    public function business()
+    {
+        return $this->belongsTo(Business::class, 'id', 'id_business');
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_offer')
