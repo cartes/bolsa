@@ -38,15 +38,6 @@ class Offers extends Migration
             $table->timestamp('expirated_at')->nullable();
             $table->timestamps();
         });
-
-        Schema::create('aquabe_offers_candidates', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('id_offer');
-            $table->unsignedInteger('id_candidate');
-            $table->tinyInteger('status');
-            $table->timestamps();
-        });
-
     }
 
     /**
@@ -57,6 +48,5 @@ class Offers extends Migration
     public function down()
     {
         Schema::dropIfExists('aquabe_offers');
-        Schema::dropIfExists('aquabe_offers_candidates');
     }
 }

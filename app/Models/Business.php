@@ -30,4 +30,9 @@ class Business extends Model
     {
         return $this->hasMany(Offer::class, 'id_business');
     }
+
+    public function businessMeta()
+    {
+        return $this->hasOne(BusinnesMeta::class);
+    }
 }
