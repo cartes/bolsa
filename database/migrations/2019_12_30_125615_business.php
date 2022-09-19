@@ -42,6 +42,6 @@ class Business extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aquabe_business');
+        Schema::dropIfExists('business');
     }
 }

@@ -20,13 +20,8 @@ class Offer extends Model
             ->as('users');
     }
 
-    public function getPostuledAttribute()
+    public function benefits()
     {
-        $id_user = auth()->id();
-        $id_offer = $this->id;
-        if (is_null($id_user)) {
-            return false;
-        }
-        return false;
+        return $this->hasMany(Benefit::class);
     }
 }

@@ -28,6 +28,6 @@ class OfferBenefits extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aquabe_offer_benefit');
+        Schema::dropIfExists('offers_benefit');
     }
 }

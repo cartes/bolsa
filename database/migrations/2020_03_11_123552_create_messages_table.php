@@ -21,7 +21,7 @@ class CreateMessagesTable extends Migration
             $table->integer('sender_id');
             $table->text('content');
             $table->text('message_id')->nullable();
-            $table->tinyInteger('staus');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aquabe_messages');
+        Schema::dropIfExists('messages');
     }
 }
